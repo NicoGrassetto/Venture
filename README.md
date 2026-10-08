@@ -1,5 +1,7 @@
 # Venture
 
+Your bridge from idea to reality.
+
 Actionable [Agent Skills](https://agentskills.io/) inspired by the 24-step
 *Disciplined Entrepreneurship* framework by Bill Aulet. These skills teach an
 agent how to execute each step, gather evidence, create a decision artifact,
