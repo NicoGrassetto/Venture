@@ -75,8 +75,6 @@ the workflow's checks and review; it is not proof that the business will succeed
 - **Bill Aulet**, for [*Disciplined Entrepreneurship: 24 Steps to a Successful Startup*](https://www.d-eship.com/), which inspired the entrepreneurship workflows.
 - **WalkingLabs**, for the [Learn Harness Engineering course](https://walkinglabs.github.io/learn-harness-engineering/en/), which informed the harness design.
 - **edgar**, for [A Tour of the Harness](https://vespassassina.github.io/edgar/), a guided exploration of agent harness design.
-- [Agent Skills specification](https://agentskills.io/specification)
-- [GitHub Copilot Agent Skills documentation](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills)
 
 ## License
 
