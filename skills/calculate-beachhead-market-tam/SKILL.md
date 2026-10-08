@@ -5,7 +5,6 @@ license: MIT
 metadata:
   author: entrepreneurship-skills
   version: "1.0.0"
-  framework: disciplined-entrepreneurship
 ---
 
 # Calculate Beachhead Market TAM
@@ -14,7 +13,7 @@ metadata:
 
 A transparent annual revenue TAM range for the beachhead, with reproducible assumptions, sources, sensitivity analysis, and reconciliation.
 
-This skill is a decision workflow, not a chapter summary. Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
+Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
 
 ## Required context
 

@@ -5,7 +5,6 @@ license: MIT
 metadata:
   author: entrepreneurship-skills
   version: "1.0.0"
-  framework: disciplined-entrepreneurship
 ---
 
 # Profile the Persona
@@ -14,7 +13,7 @@ metadata:
 
 A fact-based primary persona tied to a real person, with observable goals, context, behavior, and prioritized purchasing criteria.
 
-This skill is a decision workflow, not a chapter summary. Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
+Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
 
 ## Required context
 

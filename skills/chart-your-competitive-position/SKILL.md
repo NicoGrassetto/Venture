@@ -5,7 +5,6 @@ license: MIT
 metadata:
   author: entrepreneurship-skills
   version: "1.0.0"
-  framework: disciplined-entrepreneurship
 ---
 
 # Chart Your Competitive Position
@@ -14,7 +13,7 @@ metadata:
 
 An evidence-backed competitive position chart and positioning narrative centered on customer priorities rather than vendor-selected features.
 
-This skill is a decision workflow, not a chapter summary. Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
+Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
 
 ## Required context
 

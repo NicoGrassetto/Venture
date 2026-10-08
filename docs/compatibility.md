@@ -20,7 +20,7 @@ resources and commands resolve from that canonical directory, not the adapter.
 This works without symlinks or special filesystem privileges.
 
 Do not install an adapter directory on its own: it depends on the full
-checkout. Install a canonical chapter directory for standalone skill use.
+checkout. Install a canonical skill directory for standalone use.
 The business-plan orchestration skill always requires the full harness.
 Do not also register the canonical collection as a custom skill location in
 a client already discovering the adapters; remove obsolete registrations if

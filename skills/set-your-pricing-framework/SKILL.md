@@ -5,7 +5,6 @@ license: MIT
 metadata:
   author: entrepreneurship-skills
   version: "1.0.0"
-  framework: disciplined-entrepreneurship
 ---
 
 # Set Your Pricing Framework
@@ -14,7 +13,7 @@ metadata:
 
 A testable pricing architecture tied to customer value, segment differences, purchase friction, and the chosen business model.
 
-This skill is a decision workflow, not a chapter summary. Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
+Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
 
 ## Required context
 

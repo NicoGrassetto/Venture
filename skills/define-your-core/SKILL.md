@@ -5,7 +5,6 @@ license: MIT
 metadata:
   author: entrepreneurship-skills
   version: "1.0.0"
-  framework: disciplined-entrepreneurship
 ---
 
 # Define Your Core
@@ -14,7 +13,7 @@ metadata:
 
 A concise core statement supported by customer relevance, capability evidence, defensibility mechanisms, and a plan to compound it.
 
-This skill is a decision workflow, not a chapter summary. Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
+Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
 
 ## Required context
 

@@ -1,7 +1,7 @@
 # Venture agent instructions
 
 Venture is a harness for entrepreneurship and evidence-backed business plans.
-The chapter skills supply decision methods; the harness supplies routing,
+The skills supply decision methods; the harness supplies routing,
 persistent venture state, and verification. It does not prove that a business
 will succeed or replace qualified legal, tax, or financial advice.
 
@@ -63,7 +63,7 @@ python3 scripts/venture.py validate ventures/example
 # Check completion after the evidence and plan review.
 python3 scripts/venture.py validate ventures/example --final
 
-# Check the harness and the existing chapter workflows.
+# Check the harness and the existing skill workflows.
 python3 -m unittest discover -s tests -v
 ```
 
@@ -82,7 +82,7 @@ viability. Apply the review rubric as well.
   This is not permission to skip clarifying the founder's intent.
   Forecasts are assumptions, not observed results. Keep currencies, periods,
   customer units, cohorts, and scenarios consistent.
-- Use the existing chapter templates and validators. Save working copies under
+- Use the existing skill templates and validators. Save working copies under
   the venture workspace, not over the bundled templates.
 - Do not mark a task `passing` without its artifacts, evidence references,
   dated review, and recorded verification. Do not remove or weaken its
@@ -117,4 +117,4 @@ viability. Apply the review rubric as well.
 - [Business-plan workflow](skills/create-business-plan/SKILL.md)
 - [Plan template](skills/create-business-plan/assets/workbook.md)
 - [Plan review and financial consistency rules](skills/create-business-plan/references/method.md)
-- [Chapter skill catalog](README.md#skills)
+- [Skill catalog](README.md#skills)

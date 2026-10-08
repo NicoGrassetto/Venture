@@ -5,7 +5,6 @@ license: MIT
 metadata:
   author: entrepreneurship-skills
   version: "1.0.0"
-  framework: disciplined-entrepreneurship
 ---
 
 # Calculate Customer Acquisition Cost
@@ -14,7 +13,7 @@ metadata:
 
 A period- and cohort-aligned COCA model including all acquisition costs, with channel views, payback analysis, and reduction priorities.
 
-This skill is a decision workflow, not a chapter summary. Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
+Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
 
 ## Required context
 

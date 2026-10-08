@@ -340,11 +340,11 @@ def validate_workbooks(workspace: Path, final: bool) -> None:
         workspace_path(workspace, workbook.relative_to(workspace).as_posix())
         suffix = "-workbook.md"
         if not workbook.name.endswith(suffix):
-            raise ValueError(f"Use <skill-name>-workbook.md for chapter workbooks: {workbook.name}")
+            raise ValueError(f"Use <skill-name>-workbook.md for skill workbooks: {workbook.name}")
         skill = workbook.name[:-len(suffix)]
         validator = SKILLS / skill / "scripts" / "validate_workbook.py"
         if not validator.is_file():
-            raise ValueError(f"No chapter validator for {workbook.name}")
+            raise ValueError(f"No skill validator for {workbook.name}")
         command = [sys.executable, str(validator), str(workbook)]
         if not final:
             command.append("--allow-todo")
@@ -354,9 +354,9 @@ def validate_workbooks(workspace: Path, final: bool) -> None:
         if result.stderr:
             print(result.stderr.rstrip(), file=sys.stderr)
         if result.returncode:
-            raise ValueError(f"Chapter validation failed: {workbook.name}")
+            raise ValueError(f"Skill validation failed: {workbook.name}")
         if final and UNFINISHED.search(workbook.read_text(encoding="utf-8")):
-            raise ValueError(f"Chapter validation failed: {workbook.name} has unfinished placeholders")
+            raise ValueError(f"Skill validation failed: {workbook.name} has unfinished placeholders")
 
 
 def validate_workspace(workspace: Path, final: bool = False) -> None:

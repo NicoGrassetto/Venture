@@ -529,7 +529,7 @@ class VentureTests(unittest.TestCase):
         self.save("tasks.json", data)
         self.assertIn("Unfinished tasks", self.run_cli("validate", self.workspace, "--final", expected=1).stderr)
 
-    def test_chapter_validator_is_reused_in_draft_and_final_modes(self) -> None:
+    def test_skill_validator_is_reused_in_draft_and_final_modes(self) -> None:
         self.finish_fixture()
         workbook = self.workspace / "workbooks" / "market-segmentation-workbook.md"
         result = subprocess.run(
@@ -540,7 +540,7 @@ class VentureTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.run_cli("validate", self.workspace)
         result = self.run_cli("validate", self.workspace, "--final", expected=1)
-        self.assertIn("Chapter validation failed", result.stderr)
+        self.assertIn("Skill validation failed", result.stderr)
         workbook.write_text(
             workbook.read_text(encoding="utf-8").replace("TODO", "Synthetic test fixture only"),
             encoding="utf-8",
@@ -550,7 +550,7 @@ class VentureTests(unittest.TestCase):
     def test_unknown_workbooks_are_not_silently_ignored(self) -> None:
         path = self.workspace / "workbooks" / "unknown-workbook.md"
         path.write_text("# Unknown workbook\n", encoding="utf-8")
-        self.assertIn("No chapter validator", self.run_cli("validate", self.workspace, expected=1).stderr)
+        self.assertIn("No skill validator", self.run_cli("validate", self.workspace, expected=1).stderr)
 
     def test_nested_workbooks_are_validated(self) -> None:
         self.finish_fixture()
@@ -562,7 +562,7 @@ class VentureTests(unittest.TestCase):
             encoding="utf-8",
         )
         self.run_cli("validate", self.workspace)
-        self.assertIn("Chapter validation failed", self.run_cli("validate", self.workspace, "--final", expected=1).stderr)
+        self.assertIn("Skill validation failed", self.run_cli("validate", self.workspace, "--final", expected=1).stderr)
 
     def test_final_rejects_other_workbook_placeholders(self) -> None:
         self.finish_fixture()
@@ -617,10 +617,10 @@ class RepositoryTests(unittest.TestCase):
                         }
                         self.assertIn(parsed.fragment, anchors)
 
-    def test_all_existing_chapter_workflows_still_work(self) -> None:
+    def test_all_existing_skill_workflows_still_work(self) -> None:
         creators = sorted(SKILLS.glob("*/scripts/create_workbook.py"))
         self.assertEqual(len(creators), 25)
-        with tempfile.TemporaryDirectory(prefix="venture-chapter-test-") as temporary:
+        with tempfile.TemporaryDirectory(prefix="venture-skill-test-") as temporary:
             for creator in creators:
                 with self.subTest(skill=creator.parent.parent.name):
                     workbook = Path(temporary) / f"{creator.parent.parent.name}.md"

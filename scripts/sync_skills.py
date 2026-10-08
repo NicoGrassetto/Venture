@@ -100,7 +100,7 @@ def render_adapters(root: Path) -> tuple[dict[str, str], int]:
             "commands there, not in this adapter directory. Follow any explicit\n"
             "repository-root command instructions in the canonical skill.\n\n"
             "Use the full Venture checkout. Do not install this adapter on its own;\n"
-            "install the canonical skill directory for standalone chapter use.\n"
+            "install the canonical skill directory for standalone use.\n"
         )
         for location in LOCATIONS:
             rendered[f"{location}/{name}/SKILL.md"] = body

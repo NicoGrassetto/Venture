@@ -5,7 +5,6 @@ license: MIT
 metadata:
   author: entrepreneurship-skills
   version: "1.0.0"
-  framework: disciplined-entrepreneurship
 ---
 
 # Show That the Dogs Will Eat the Dog Food
@@ -14,7 +13,7 @@ metadata:
 
 An evidence-based product-consumption assessment with cohort trends, payment proof, customer outcomes, root causes, and a scale/iterate/pivot decision.
 
-This skill is a decision workflow, not a chapter summary. Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
+Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
 
 ## Required context
 

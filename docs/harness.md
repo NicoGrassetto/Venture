@@ -12,17 +12,13 @@ versions, and the opt-in completion guard.
 
 ## Architecture
 
-The design adapts the five-subsystem model in
-[Learn Harness Engineering](https://walkinglabs.github.io/learn-harness-engineering/en/).
-The files here use original, entrepreneurship-specific instructions.
-
 | Subsystem | Venture implementation |
 |---|---|
 | Instructions | Root [AGENTS.md](../AGENTS.md), a Claude Code import, a Copilot entry point, and generated native skill adapters |
-| Tools | Existing chapter scripts, [workspace checks](../scripts/venture.py), [adapter checks](../scripts/sync_skills.py), and [offline client checks](../scripts/check_clients.py) |
+| Tools | Existing skill scripts, [workspace checks](../scripts/venture.py), [adapter checks](../scripts/sync_skills.py), and [offline client checks](../scripts/check_clients.py) |
 | Environment | Python 3.9+, standard library only, no installation or network access during startup |
 | State | A separate brief, task ledger, evidence register, plan, and progress log for each venture |
-| Feedback | Draft and final checks, chapter validators, a qualitative review rubric, and regression tests |
+| Feedback | Draft and final checks, skill validators, a qualitative review rubric, and regression tests |
 
 The instruction entry points share one canonical contract instead of maintaining
 three independent copies. Other agents can be explicitly told to read it.
@@ -127,7 +123,7 @@ dependents to unfinished; do not reinitialize or overwrite the workspace.
 The starter task ledger groups related decisions, not mandatory research
 ceremonies. Revisit earlier decisions when evidence changes. A review-ready
 plan can describe untested assumptions and future experiments; it must not
-claim that those experiments or the associated chapter skills were completed.
+claim that those experiments or the associated skills were completed.
 
 | Task | Skills to select as needed |
 |---|---|
@@ -138,7 +134,7 @@ claim that those experiments or the associated chapter skills were completed.
 | Validation and growth | [Follow-on markets](../skills/calculate-follow-on-markets-tam/SKILL.md), [key assumptions](../skills/identify-key-assumptions/SKILL.md), [experiments](../skills/test-key-assumptions/SKILL.md), [MVBP](../skills/define-the-minimum-viable-business-product/SKILL.md), [consumption evidence](../skills/show-that-the-dogs-will-eat-the-dog-food/SKILL.md), [product plan](../skills/develop-a-product-plan/SKILL.md) |
 | Business-plan synthesis | [Create a business plan](../skills/create-business-plan/SKILL.md) |
 
-To use a chapter without changing its bundled template:
+To use a skill without changing its bundled template:
 
 ```bash
 python3 skills/market-segmentation/scripts/create_workbook.py \
@@ -150,14 +146,14 @@ python3 skills/market-segmentation/scripts/validate_workbook.py \
 ```
 
 Use `<skill-name>-workbook.md` filenames in `workbooks/`; nested folders are
-also checked. The workspace checker reuses the matching chapter validators
+also checked. The workspace checker reuses the matching skill validators
 and rejects remaining `TODO`, `TBD`, or `FIXME` placeholders in final mode.
 Store other research under `raw/`. Remove `--allow-todo` when declaring an
 individual workbook complete.
 
 ## Task state
 
-`tasks.json` is the venture equivalent of the guide's feature tracker.
+`tasks.json` tracks venture decisions and their verification.
 Retain the starter tasks and their acceptance criteria, dependencies, skills,
 and required artifact paths. Additional tasks may be added for the venture.
 
@@ -232,11 +228,11 @@ python3 scripts/venture.py validate ventures/example --final
 ```
 
 Both modes check required files and headings, the task graph, allowed states,
-evidence records, local source paths, and chapter workbook structure.
+evidence records, local source paths, and skill workbook structure.
 Passing tasks need artifacts, recorded review, and valid evidence IDs.
 
 Final mode additionally requires every task to be passing, no unfinished
-placeholders in the workspace documents or evidence, completed chapter
+placeholders in the workspace documents or evidence, completed skill
 workbooks, and an explicit `review-ready` plan status. Unknowns may remain
 only as clear, scoped uncertainties with owners and next tests, not as empty
 fields or disguised facts.
@@ -260,7 +256,7 @@ python3 -m unittest discover -s tests -v
 ```
 
 The suite exercises startup and finalization, malformed state, founder
-confirmation, evidence and dependency gates, and all existing chapter
+confirmation, evidence and dependency gates, and all existing skill
 create/validate workflows under `skills/`. It also covers adapter ownership
 and drift, client discovery response checks, and the completion-hook contract.
 GitHub Actions runs the same suite. Add a regression case when a real agent

@@ -7,7 +7,7 @@ research, run a pilot, allocate resources, seek financing, or expand. Do not
 assume every plan is a fundraising document. Match the horizon, detail, and
 evidence threshold to that decision.
 
-Use the chapter skills to produce inputs, not to fill a predetermined number
+Use the skills to produce inputs, not to fill a predetermined number
 of pages. Record an explicit rationale when a method is not applicable.
 An early-stage plan can be complete as a decision document while the venture's
 critical assumptions remain untested.

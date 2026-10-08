@@ -1,12 +1,11 @@
 ---
 name: create-business-plan
-description: "Orchestrates the entrepreneurship skills into an evidence-backed business plan, with a persistent venture workspace, explicit assumptions, financial scenarios, review gates, and a resumable handoff. Use to create, revise, or assess a business plan rather than execute one chapter in isolation."
+description: "Orchestrates the entrepreneurship skills into an evidence-backed business plan, with a persistent venture workspace, explicit assumptions, financial scenarios, review gates, and a resumable handoff. Use to create, revise, or assess a business plan rather than execute one skill in isolation."
 license: MIT
 compatibility: "Requires the full Venture repository and Python 3.9 or newer for workspace creation and validation."
 metadata:
   author: entrepreneurship-skills
   version: "1.0.0"
-  framework: disciplined-entrepreneurship
 ---
 
 # Create a Business Plan
@@ -41,8 +40,8 @@ founder discovery or substitute an invented venture for an unclear request.
    a completed brief. Confirm the audience and decision before selecting the
    plan's depth and time horizon; keep unconfirmed work provisional.
 3. Pick one dependency-ready task. Use the routing map to select the relevant
-   chapter skills; do not run every chapter mechanically.
-4. Gather authorized evidence, register material claims, and create chapter
+   skills; do not run every skill mechanically.
+4. Gather authorized evidence, register material claims, and create skill
    workbooks only when they improve the decision. Distinguish work already
    performed from proposed interviews, experiments, or commitments.
 5. Draft the plan from [assets/workbook.md](assets/workbook.md). Explain the
@@ -68,7 +67,7 @@ python3 scripts/venture.py validate ventures/example --final
 
 Resume an existing workspace with `validate`; initialization never overwrites
 one. This orchestration skill needs its sibling skills and the root harness.
-Individual chapter skills remain usable independently.
+Individual skills remain usable independently.
 
 ## Completion contract
 
