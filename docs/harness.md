@@ -6,7 +6,9 @@ piece of work, verify it, and leave durable state for the next session.
 
 This is a repository-based harness for an agent you already use, not a hosted
 agent service or an unattended research bot. Open the whole repository in
-your agent so it can read the instructions and run the local tools.
+your agent so it can read the instructions and run the local tools. See
+[client compatibility](compatibility.md) for native discovery, verified client
+versions, and the opt-in completion guard.
 
 ## Architecture
 
@@ -16,8 +18,8 @@ The files here use original, entrepreneurship-specific instructions.
 
 | Subsystem | Venture implementation |
 |---|---|
-| Instructions | Root [AGENTS.md](../AGENTS.md), a Claude Code import, and a Copilot entry point |
-| Tools | Existing chapter scripts plus [scripts/venture.py](../scripts/venture.py) |
+| Instructions | Root [AGENTS.md](../AGENTS.md), a Claude Code import, a Copilot entry point, and generated native skill adapters |
+| Tools | Existing chapter scripts, [workspace checks](../scripts/venture.py), [adapter checks](../scripts/sync_skills.py), and [offline client checks](../scripts/check_clients.py) |
 | Environment | Python 3.9+, standard library only, no installation or network access during startup |
 | State | A separate brief, task ledger, evidence register, plan, and progress log for each venture |
 | Feedback | Draft and final checks, chapter validators, a qualitative review rubric, and regression tests |
@@ -253,12 +255,14 @@ handoff is a valid outcome when evidence is missing.
 ## Maintaining the harness
 
 ```bash
+python3 scripts/sync_skills.py --check
 python3 -m unittest discover -s tests -v
 ```
 
 The suite exercises startup and finalization, malformed state, founder
 confirmation, evidence and dependency gates, and all existing chapter
-create/validate workflows under `skills/`.
+create/validate workflows under `skills/`. It also covers adapter ownership
+and drift, client discovery response checks, and the completion-hook contract.
 GitHub Actions runs the same suite. Add a regression case when a real agent
 failure exposes a missing guardrail; avoid adding instructions without an
 observed need.

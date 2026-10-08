@@ -42,6 +42,20 @@ class VentureTests(unittest.TestCase):
     def load(self, filename: str) -> dict:
         return json.loads((self.workspace / filename).read_text(encoding="utf-8"))
 
+    def run_completion_hook(
+        self, event: str = '{"stop_hook_active": false}', selected: bool = True, expected: int = 0
+    ) -> subprocess.CompletedProcess[str]:
+        env = dict(ENV)
+        env.pop("VENTURE_WORKSPACE", None)
+        if selected:
+            env["VENTURE_WORKSPACE"] = str(self.workspace)
+        result = subprocess.run(
+            [sys.executable, str(ROOT / "scripts" / "completion_hook.py")],
+            cwd=self.directory, env=env, input=event, capture_output=True, text=True, check=False,
+        )
+        self.assertEqual(result.returncode, expected, result.stdout + result.stderr)
+        return result
+
     def save(self, filename: str, data: dict) -> None:
         (self.workspace / filename).write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 
@@ -148,6 +162,66 @@ class VentureTests(unittest.TestCase):
         result = self.run_cli("validate", self.workspace, "--final")
         self.assertIn("Review-ready structure valid: 6/6", result.stdout)
         self.assertIn("do not establish evidence truth", result.stdout)
+
+    def test_completion_hook_without_selected_venture_is_explicitly_inactive(self) -> None:
+        result = self.run_completion_hook(selected=False)
+        self.assertEqual(json.loads(result.stdout), {})
+        self.assertIn("SKIP", result.stderr)
+
+    def test_completion_hook_allows_questions_on_an_unfinished_draft(self) -> None:
+        result = self.run_completion_hook()
+        self.assertEqual(json.loads(result.stdout), {})
+        self.assertIn("Draft structure valid", result.stderr)
+
+    def test_completion_hook_checks_a_review_ready_plan(self) -> None:
+        self.finish_fixture()
+        result = self.run_completion_hook()
+        self.assertEqual(json.loads(result.stdout), {})
+        self.assertIn("Review-ready structure valid", result.stderr)
+
+    def test_completion_hook_blocks_premature_completion(self) -> None:
+        path = self.workspace / "business-plan.md"
+        path.write_text(path.read_text(encoding="utf-8").replace("**Status:** draft", "**Status:** review-ready"), encoding="utf-8")
+        result = self.run_completion_hook()
+        self.assertEqual(json.loads(result.stdout)["decision"], "block")
+        self.assertIn("unfinished", json.loads(result.stdout)["reason"])
+
+    def test_completion_hook_cannot_skip_confirmation_via_task_status(self) -> None:
+        self.finish_fixture()
+        data = self.load("tasks.json")
+        data["tasks"][0]["discovery"]["confirmed_by"] = ""
+        self.save("tasks.json", data)
+        result = self.run_completion_hook()
+        self.assertEqual(json.loads(result.stdout)["decision"], "block")
+        self.assertIn("confirmed_by", json.loads(result.stdout)["reason"])
+
+    def test_completion_hook_reports_failure_instead_of_looping_forever(self) -> None:
+        self.finish_fixture()
+        (self.workspace / "brief.md").write_text("Invalid brief.\n", encoding="utf-8")
+        first = self.run_completion_hook()
+        self.assertEqual(json.loads(first.stdout)["decision"], "block")
+        second = self.run_completion_hook('{"stop_hook_active": true}', expected=1)
+        self.assertEqual(json.loads(second.stdout), {})
+        self.assertIn("not approving completion", second.stderr)
+
+    def test_completion_hook_rejects_malformed_events(self) -> None:
+        for event in ("not JSON", "[]", '{"stop_hook_active": "false"}'):
+            with self.subTest(event=event):
+                result = self.run_completion_hook(event, expected=1)
+                self.assertIn("invalid completion-hook input", result.stderr)
+
+    def test_shared_completion_hook_runs_from_nested_repository_directory(self) -> None:
+        settings = json.loads((ROOT / ".claude" / "settings.json").read_text(encoding="utf-8"))
+        command = settings["hooks"]["Stop"][0]["hooks"][0]["command"]
+        result = subprocess.run(
+            ["bash", "-c", command],
+            cwd=SKILLS / "getting-started",
+            env=dict(ENV, VENTURE_WORKSPACE=str(self.workspace)),
+            input='{"stop_hook_active": false}', capture_output=True, text=True, check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Draft structure valid", result.stderr)
+        self.assertEqual(json.loads(result.stdout), {})
 
     def test_discovery_confirmation_is_required_before_brief_passes(self) -> None:
         self.finish_fixture()
@@ -519,8 +593,10 @@ class RepositoryTests(unittest.TestCase):
         documents = [
             ROOT / "README.md", ROOT / "AGENTS.md", ROOT / "CLAUDE.md",
             ROOT / ".github" / "copilot-instructions.md",
-            ROOT / "docs" / "harness.md",
+            *sorted((ROOT / "docs").glob("*.md")),
             *sorted(SKILLS.rglob("*.md")),
+            *sorted((ROOT / ".agents" / "skills").glob("*/SKILL.md")),
+            *sorted((ROOT / ".claude" / "skills").glob("*/SKILL.md")),
         ]
         for document in documents:
             content = document.read_text(encoding="utf-8")

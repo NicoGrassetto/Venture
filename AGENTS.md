@@ -13,7 +13,8 @@ For venture work:
    Never mix evidence or state from different ventures.
 2. Read its `brief.md`, `tasks.json`, and `progress.md`. Read `evidence.json`
    and the relevant sections of `business-plan.md` as needed.
-3. Run the draft check below. Fix structural errors before proceeding.
+3. Run the adapter check and draft check below. Fix structural errors before
+   proceeding; never repair generated adapters by changing their checksums.
 4. Complete founder discovery before treating the venture brief as passing.
    Then select one dependency-ready task. Mark it `in_progress`; keep at most
    one task active. Load only the relevant skill and its references.
@@ -50,6 +51,9 @@ confirmation in the brief task before marking it `passing`.
 Run from the repository root. Python 3.9 or newer is the only dependency.
 
 ```bash
+# Verify native discovery metadata and canonical skill links.
+python3 scripts/sync_skills.py --check
+
 # Create a new workspace; never overwrites an existing directory.
 bash init.sh --venture "Example Venture" --output ventures/example
 
@@ -109,6 +113,7 @@ viability. Apply the review rubric as well.
 ## Reference map
 
 - [Harness lifecycle, state format, and skill routing](docs/harness.md)
+- [Client discovery, tested versions, and optional completion guard](docs/compatibility.md)
 - [Business-plan workflow](skills/create-business-plan/SKILL.md)
 - [Plan template](skills/create-business-plan/assets/workbook.md)
 - [Plan review and financial consistency rules](skills/create-business-plan/references/method.md)

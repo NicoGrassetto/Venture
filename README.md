@@ -40,9 +40,14 @@ The harness surrounds the chapter skills without replacing them:
 AGENTS.md                       Shared agent instructions
 CLAUDE.md                       Claude Code entry point
 .github/copilot-instructions.md GitHub Copilot entry point
+.agents/skills/                Generated discovery adapters for shared clients
+.claude/skills/                Generated Claude-compatible discovery adapters
+.claude/settings.json          Opt-in, workspace-scoped completion hook
 init.sh                         Workspace initialization
 docs/harness.md                 Lifecycle, routing, and state contracts
 scripts/venture.py              Initialization and completion checks
+scripts/sync_skills.py          Adapter generation and consistency checks
+scripts/check_clients.py        Offline native client discovery checks
 templates/                      Venture brief, task, evidence, and progress templates
 skills/                         Chapter skills and business-plan orchestration
 tests/                          Harness and chapter regression checks
@@ -98,6 +103,18 @@ do not establish source truth, financial correctness, or business viability.
 
 ## Use
 
+### Agent compatibility
+
+Native discovery adapters are included for OpenCode, GitHub Copilot, Claude
+Code, and Codex while [skills/](skills/) remains the source of truth. Use the
+full checkout; no global skill registration is needed for those documented
+discovery locations.
+
+Copilot CLI and Codex have passed local, offline discovery checks. OpenCode,
+Claude Code, and live conversation behavior remain unverified in this
+environment. See [client compatibility](docs/compatibility.md) for exact
+versions, checks, and the optional completion guard.
+
 ### Run the harness
 
 Open the whole repository in your agent. Python 3.9 or newer is required;
@@ -138,16 +155,17 @@ review scores. A review-ready plan is not the same as a validated business.
 
 ### Use individual skills
 
-Add [skills/](skills/) as a skills location in a compatible agent, or install
-an individual chapter directory from it. In GitHub Copilot CLI, use
-`/skills add ./skills` in an interactive session or `copilot skill add ./skills`
-from the repository root, then reload skills. Update any previously registered
-paths that pointed at the old top-level skill directories.
+The full checkout exposes the bundled skills through its native adapters.
+For standalone chapter use, install the canonical chapter directory from
+[skills/](skills/), not a generated adapter. In GitHub Copilot CLI, for example,
+use `copilot skill add ./skills/market-segmentation` from the repository root,
+then reload skills. Remove obsolete custom registrations if they duplicate
+or shadow skills already discovered through the adapters.
 
 You can explicitly invoke a skill by name:
 
 ```text
-Use /market-segmentation to identify and research possible markets for this idea.
+Use the market-segmentation skill to identify and research possible markets for this idea.
 ```
 
 Within a skill directory, create and validate a workbook:
