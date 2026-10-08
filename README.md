@@ -13,6 +13,7 @@
 <p align="center">
   <a href="#overview">Overview</a> &middot;
   <a href="#structure">Structure</a> &middot;
+  <a href="#how-it-works">How it works</a> &middot;
   <a href="#use">Use</a> &middot;
   <a href="#skills">Skills</a> &middot;
   <a href="#sources-and-attribution">Sources and attribution</a> &middot;
@@ -21,6 +22,10 @@
 
 ## Overview
 
+Venture is an agent harness for entrepreneurship and evidence-backed business
+plan creation. It connects focused skills with a repeatable workflow, persistent
+venture state, and checks that distinguish a draft from a reviewed deliverable.
+
 Actionable [Agent Skills](https://agentskills.io/) inspired by the 24-step
 *Disciplined Entrepreneurship* framework by Bill Aulet. These skills teach an
 agent how to execute each step, gather evidence, create a decision artifact,
@@ -28,6 +33,21 @@ and validate the result. They are not chapter summaries or substitutes for the
 book.
 
 ## Structure
+
+The harness surrounds the chapter skills without replacing them:
+
+```text
+AGENTS.md                       Shared agent instructions
+CLAUDE.md                       Claude Code entry point
+.github/copilot-instructions.md GitHub Copilot entry point
+init.sh                         Workspace initialization
+docs/harness.md                 Lifecycle, routing, and state contracts
+scripts/venture.py              Initialization and completion checks
+templates/                      Venture brief, task, evidence, and progress templates
+create-business-plan/           Business-plan orchestration skill and template
+tests/                          Harness and chapter regression checks
+ventures/                       Private working copies (ignored by Git)
+```
 
 Each chapter is a top-level, unnumbered skill directory:
 
@@ -57,7 +77,60 @@ This follows the Agent Skills progressive-disclosure model: metadata is used
 for discovery, the concise skill instructions load when activated, and detailed
 resources load only when needed.
 
+## How it works
+
+1. **Frame the decision.** Record the venture, audience, constraints, and
+   planning horizon in a dedicated workspace.
+2. **Select one task.** Read persistent state and load only the chapter skills
+   needed for the current decision.
+3. **Gather evidence.** Distinguish facts, inferences, and assumptions; retain
+   sources, dates, contradictions, and the next useful tests.
+4. **Build and review.** Synthesize the business plan, reconcile financial
+   scenarios, and check it against explicit completion and review criteria.
+5. **Hand off.** Save verified progress, remaining uncertainty, and one next
+   action so another session can continue without reconstructing the chat.
+
+Read the [agent instructions](AGENTS.md) and
+[harness guide](docs/harness.md) for the operating rules. The harness works
+with an agent you already use; it is not a hosted service. Structural checks
+do not establish source truth, financial correctness, or business viability.
+
 ## Use
+
+### Run the harness
+
+Open the whole repository in your agent. Python 3.9 or newer is required;
+there are no third-party dependencies.
+
+```bash
+bash init.sh --venture "Example Venture" --output ventures/example
+python3 scripts/venture.py validate ventures/example
+```
+
+Then give the agent a bounded request:
+
+```text
+Read AGENTS.md and use ventures/example as the workspace.
+Help me develop this venture into a business plan for an internal go/no-go
+decision. Start with the brief, label unknowns, and work on one task at a time.
+```
+
+Resume by reading the workspace's brief, tasks, evidence, and progress rather
+than initializing it again. Startup never overwrites an existing directory.
+Keep sensitive research in the ignored workspace and arrange private backups;
+Git ignore rules are not access controls.
+
+After the work and separate review are complete, run:
+
+```bash
+python3 scripts/venture.py validate ventures/example --final
+```
+
+This stricter check intentionally fails for a new or unfinished workspace.
+It requires recorded evidence, reviewed tasks, complete artifacts, and passing
+review scores. A review-ready plan is not the same as a validated business.
+
+### Use individual skills
 
 Add the repository as a skills location in a compatible agent, or install an
 individual chapter directory. In GitHub Copilot CLI, use `/skills add` in an
@@ -84,6 +157,10 @@ The validator intentionally fails while `TODO` placeholders remain. Use
 `--allow-todo` only for an in-progress structural check.
 
 ## Skills
+
+Use [create-business-plan](create-business-plan/) to orchestrate the full
+business-plan workflow. It requires the full repository; the chapter skills
+below remain independently usable.
 
 | Step | Skill |
 |---:|---|
@@ -124,6 +201,7 @@ books, courses, and official tools, see:
 - [Disciplined Entrepreneurship Toolbox](https://www.detoolbox.com/)
 - [Agent Skills specification](https://agentskills.io/specification)
 - [GitHub Copilot Agent Skills documentation](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills)
+- [Learn Harness Engineering](https://walkinglabs.github.io/learn-harness-engineering/en/) - inspiration for the harness lifecycle, persistent state, and verification gates.
 
 ## License
 
