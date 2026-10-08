@@ -1,150 +1,69 @@
-# Calculate Customer Lifetime Value Workbook
-
-**Venture:** {VENTURE_NAME}
-**Owner:** TODO
-**Date:** {DATE}
-**Version:** 0.1
-
-## Decision to make
-
-A cohort-aware, sensitivity-tested LTV model using contribution economics and explicit retention assumptions.
-
-**Current decision:** TODO
-**Decision deadline:** TODO
-**Reversal evidence:** TODO
-
-## Customer and cohort definition
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Revenue and contribution schedule
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Retention and horizon
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Discounted LTV
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Sensitivity analysis
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Improvement priorities
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Final decision
-
-**Decision:** TODO
-
-**Strongest supporting evidence:**
-
-- TODO
-
-**Strongest contradicting evidence:**
-
-- TODO
-
-**Critical unknowns:**
-
-- TODO
-
-## Next actions
-
-| Action | Owner | Due date | Evidence expected | Decision affected |
-|---|---|---|---|---|
-| TODO | TODO | TODO | TODO | TODO |
-
-## Change log
-
-| Date | Change | Reason/evidence | Author |
-|---|---|---|---|
-| {DATE} | Initial draft | Created from skill template | TODO |
+# Calculate Customer Lifetime Value
+
+The structured record is the source for the decision below. Do not replace missing research with invented results.
+
+<!-- venture-record:start -->
+```json
+{
+  "schema_version": 2,
+  "skill": "calculate-customer-lifetime-value",
+  "stage": "draft",
+  "synthetic": false,
+  "venture": "{VENTURE_NAME}",
+  "owner": "TODO",
+  "date": "{DATE}",
+  "scope": {
+    "customer_unit": "TODO",
+    "currency": "TODO",
+    "period_unit": "TODO",
+    "horizon_periods": "TODO",
+    "discount_rate_per_period": "TODO"
+  },
+  "evidence": [],
+  "data": {
+    "cashflows": [],
+    "summary": []
+  },
+  "research_plan": [],
+  "decision": "TODO",
+  "limitations": "TODO",
+  "next_actions": []
+}
+```
+<!-- venture-record:end -->
+
+## Output fields
+
+Each data table is an array of row objects. Every analysis row cites evidence IDs.
+
+### cashflows
+
+| Field | Type |
+|---|---|
+| `scenario` | choice:conservative,base,upside |
+| `period` | positive_integer |
+| `retention` | probability |
+| `revenue_per_active_customer` | nonnegative |
+| `gross_margin` | probability |
+| `service_cost` | nonnegative |
+| `expected_contribution` | number |
+| `discounted_contribution` | number |
+| `evidence` | evidence |
+
+### summary
+
+| Field | Type |
+|---|---|
+| `scenario` | choice:conservative,base,upside |
+| `ltv` | number |
+| `evidence` | evidence |
+
+## Stage rules
+
+- `draft`: unfinished work; validate with `--allow-todo`.
+- `research-plan`: leave result tables empty; complete the research protocol and next actions.
+- `completed-analysis`: fill every result table with evidence-linked rows and check calculations.
+
+A research-plan row needs question, population, method, metric, threshold, owner, and due_date.
+A next-action row needs action, owner, due_date, and evidence_expected.
+Read the bundled record-format reference for evidence fields and a complete worked example.

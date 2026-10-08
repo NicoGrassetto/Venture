@@ -4,14 +4,20 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
+import os
 import re
 import subprocess
 import sys
-from datetime import date
+import tempfile
+from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit
 
+from skill_names import canonical_name
+from sync_skills import local_path
+from workbook_runtime import empty_record, extract_record, render_record
 
 ROOT = Path(__file__).resolve().parent.parent
 SKILLS = ROOT / "skills"
@@ -46,15 +52,15 @@ def as_object(value: object, label: str) -> dict[str, object]:
     return result
 
 
-def read_json(path: Path) -> dict[str, object]:
+def read_json(path: Path, versions: tuple[int, ...] = (1,)) -> dict[str, object]:
     try:
         value: object = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as error:
         raise ValueError(f"{path}: invalid JSON at line {error.lineno}: {error.msg}") from error
     data = as_object(value, str(path))
     version = data.get("schema_version")
-    if type(version) is not int or version != 1:
-        raise ValueError(f"{path}: schema_version must be 1")
+    if type(version) is not int or version not in versions:
+        raise ValueError(f"{path}: schema_version must be one of {versions}")
     return data
 
 
@@ -271,14 +277,16 @@ def validate_graph(dependencies: dict[str, list[str]]) -> None:
 
 
 def validate_tasks(workspace: Path, evidence: set[str], final: bool) -> tuple[int, int]:
-    data = read_json(workspace_path(workspace, "tasks.json"))
+    data = read_json(workspace_path(workspace, "tasks.json"), (1, 2))
+    if data["schema_version"] == 1:
+        raise ValueError("Workspace uses task schema v1; run python3 scripts/venture.py migrate WORKSPACE before continuing")
     venture = text(data, "venture", "tasks")
     if UNFINISHED.search(venture):
         raise ValueError("tasks.venture: replace the venture name placeholder")
     tasks = records(data, "tasks", "tasks")
     seed = {
         text(task, "id", "template"): task
-        for task in records(read_json(TEMPLATES / "tasks.json"), "tasks", "template")
+        for task in records(read_json(TEMPLATES / "tasks.json", (2,)), "tasks", "template")
     }
     states: dict[str, str] = {}
     dependencies: dict[str, list[str]] = {}
@@ -336,18 +344,27 @@ def validate_tasks(workspace: Path, evidence: set[str], final: bool) -> tuple[in
 
 
 def validate_workbooks(workspace: Path, final: bool) -> None:
+    tasks = records(read_json(workspace_path(workspace, "tasks.json"), (2,)), "tasks", "tasks")
+    claimed = {
+        workspace_path(workspace, artifact)
+        for task in tasks if task["status"] == "passing"
+        for artifact in strings(task, "artifacts", "task")
+        if artifact.startswith("workbooks/")
+    }
     for workbook in sorted((workspace / "workbooks").rglob("*.md")):
         workspace_path(workspace, workbook.relative_to(workspace).as_posix())
         suffix = "-workbook.md"
         if not workbook.name.endswith(suffix):
             raise ValueError(f"Use <skill-name>-workbook.md for skill workbooks: {workbook.name}")
-        skill = workbook.name[:-len(suffix)]
+        skill = canonical_name(workbook.name[:-len(suffix)])
         validator = SKILLS / skill / "scripts" / "validate_workbook.py"
         if not validator.is_file():
             raise ValueError(f"No skill validator for {workbook.name}")
-        command = [sys.executable, str(validator), str(workbook)]
-        if not final:
+        command = [sys.executable, str(validator), str(workbook), "--workspace", str(workspace)]
+        if not final and workbook.resolve() not in claimed:
             command.append("--allow-todo")
+        elif skill in {"identify-key-assumptions", "plan-operations", "build-financial-plan"}:
+            command.append("--require-analysis")
         result = subprocess.run(command, capture_output=True, text=True, check=False)
         if result.stdout:
             print(result.stdout.rstrip())
@@ -355,8 +372,6 @@ def validate_workbooks(workspace: Path, final: bool) -> None:
             print(result.stderr.rstrip(), file=sys.stderr)
         if result.returncode:
             raise ValueError(f"Skill validation failed: {workbook.name}")
-        if final and UNFINISHED.search(workbook.read_text(encoding="utf-8")):
-            raise ValueError(f"Skill validation failed: {workbook.name} has unfinished placeholders")
 
 
 def validate_workspace(workspace: Path, final: bool = False) -> None:
@@ -388,7 +403,7 @@ def initialize(venture: str, output: Path) -> None:
         for filename, template in DOCUMENTS.items()
     }
     for filename in ("tasks.json", "evidence.json"):
-        data = read_json(TEMPLATES / filename)
+        data = read_json(TEMPLATES / filename, (2,) if filename == "tasks.json" else (1,))
         if filename == "tasks.json":
             data["venture"] = venture
         rendered[filename] = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
@@ -402,6 +417,114 @@ def initialize(venture: str, output: Path) -> None:
     validate_workspace(output)
 
 
+def migrate_workspace(workspace: Path, dry_run: bool = False) -> None:
+    workspace = workspace.resolve()
+    task_path = local_path(workspace, "tasks.json")
+    data = read_json(task_path, (1, 2))
+    if data["schema_version"] == 2:
+        print("Workspace already uses v2; no files changed.")
+        return
+    legacy = {text(task, "id", "legacy"): task for task in records(read_json(TEMPLATES / "tasks-v1.json"), "tasks", "legacy")}
+    current = records(read_json(TEMPLATES / "tasks.json", (2,)), "tasks", "template")
+    for directory in ("raw", "workbooks"):
+        if not local_path(workspace, directory).is_dir():
+            raise ValueError(f"Missing workspace directory: {directory}")
+    by_id: dict[str, dict[str, object]] = {}
+    for task in records(data, "tasks", "tasks"):
+        task_id = text(task, "id", "task")
+        if task_id in by_id:
+            raise ValueError(f"Duplicate task ID: {task_id}")
+        if task_id in legacy:
+            for key in SEED_FIELDS:
+                if task.get(key) != legacy[task_id].get(key):
+                    raise ValueError(f"{task_id}: legacy {key} was customized; reconcile it before migration")
+        copied = copy.deepcopy(task)
+        copied["skills"] = [canonical_name(name) for name in strings(task, "skills", task_id)]
+        copied["status"] = "not_started"
+        by_id[task_id] = copied
+    if set(legacy) - set(by_id):
+        raise ValueError("Legacy starter tasks are missing; refusing to replace an incomplete ledger")
+    conflicts = (set(by_id) - set(legacy)) & {text(task, "id", "template") for task in current}
+    if conflicts:
+        raise ValueError(f"Custom task IDs conflict with new starter tasks: {', '.join(sorted(conflicts))}")
+    migrated: list[dict[str, object]] = []
+    for seed in current:
+        task_id = text(seed, "id", "template")
+        task = by_id.pop(task_id, copy.deepcopy(seed))
+        for key, value in seed.items():
+            task.setdefault(key, copy.deepcopy(value))
+        for key in SEED_FIELDS:
+            task[key] = copy.deepcopy(seed[key])
+        migrated.append(task)
+    migrated.extend(by_id.values())
+    new_data = dict(data, schema_version=2, tasks=migrated)
+    changes = {task_path: json.dumps(new_data, indent=2, ensure_ascii=False) + "\n"}
+    venture = text(data, "venture", "tasks")
+    for workbook in sorted((workspace / "workbooks").rglob("*.md")):
+        local_path(workspace, workbook.relative_to(workspace).as_posix())
+        content = workbook.read_text(encoding="utf-8")
+        if "<!-- venture-record:start -->" in content:
+            extract_record(content)
+            continue
+        suffix = "-workbook.md"
+        if not workbook.name.endswith(suffix):
+            raise ValueError(f"Unknown workbook filename: {workbook.name}")
+        skill = canonical_name(workbook.name[:-len(suffix)])
+        contract_path = SKILLS / skill / "assets" / "contract.json"
+        if not contract_path.is_file():
+            raise ValueError(f"No current contract for legacy workbook: {workbook.name}")
+        contract = as_object(json.loads(contract_path.read_text(encoding="utf-8")), "contract")
+        changes[workbook] = render_record(empty_record(contract, venture), str(contract["title"]), contract) + "\n## Preserved legacy notes\n\n" + content
+    plan_path = local_path(workspace, "business-plan.md")
+    plan = plan_path.read_text(encoding="utf-8")
+    if "**Status:** review-ready" in plan:
+        changes[plan_path] = plan.replace("**Status:** review-ready", "**Status:** draft")
+    progress_path = local_path(workspace, "progress.md")
+    changes[progress_path] = progress_path.read_text(encoding="utf-8").rstrip() + (
+        f"\n\nMigration on {date.today().isoformat()}: task schema v2 and renamed skill aliases applied. "
+        "Previous decisions and notes are preserved; task completion must be re-reviewed. "
+        "Legacy workbook filenames remain valid. Fill structured records from actual evidence, "
+        "starting with risk triage; do not infer data from empty fields.\n"
+    )
+    for path in changes:
+        print(f"{'Would update' if dry_run else 'Updating'} {path.relative_to(workspace)}")
+    if dry_run:
+        return
+    originals = {path: path.read_bytes() for path in changes}
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+    backup = local_path(workspace, f".migration-backups/{stamp}")
+    backup.mkdir(parents=True)
+    for path, content in originals.items():
+        destination = backup / path.relative_to(workspace)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(content)
+    written: list[Path] = []
+    try:
+        for path, content in changes.items():
+            if path.read_bytes() != originals[path]:
+                raise OSError(f"File changed during migration: {path}; refusing to overwrite concurrent edits")
+            atomic_write(path, content.encode("utf-8"))
+            written.append(path)
+    except OSError:
+        for path in reversed(written):
+            if path.read_text(encoding="utf-8") == changes[path]:
+                atomic_write(path, originals[path])
+        raise
+    print(f"Migrated to v2. Original files are preserved in {backup}. Re-review unfinished tasks before finalization.")
+
+
+def atomic_write(path: Path, content: bytes) -> None:
+    temporary: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(dir=path.parent, prefix=".venture-migrate-", delete=False) as destination:
+            temporary = Path(destination.name)
+            destination.write(content)
+        os.replace(temporary, path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
@@ -411,10 +534,15 @@ def main() -> int:
     validate = commands.add_parser("validate", help="Check a venture workspace and its recorded state")
     validate.add_argument("workspace", type=Path)
     validate.add_argument("--final", action="store_true", help="Require review-ready completion, not just draft structure")
+    migrate = commands.add_parser("migrate", help="Upgrade a v1 workspace with backups; preserve notes and legacy workbook paths")
+    migrate.add_argument("workspace", type=Path)
+    migrate.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     try:
         if args.command == "init":
             initialize(args.venture, args.output)
+        elif args.command == "migrate":
+            migrate_workspace(args.workspace, args.dry_run)
         else:
             validate_workspace(args.workspace, final=args.final)
     except (OSError, UnicodeError, ValueError) as error:

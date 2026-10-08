@@ -1,0 +1,78 @@
+{
+  "skill": "map-the-sales-process",
+  "title": "Map the Sales Process",
+  "not_for": "The customer's internal approval process or counting leads as paying customers.",
+  "input_gate": "Separate founder-led exceptions from the repeatable sales motion. Conversion rates must have a defined stage denominator.",
+  "next_skills": [
+    "calculate-customer-acquisition-cost",
+    "build-financial-plan"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "sales_stages": {
+      "stage": "text",
+      "customer_exit": "text",
+      "seller_action": "text",
+      "owner": "text",
+      "channel": "text",
+      "entered": "nonnegative_integer",
+      "converted": "nonnegative_integer",
+      "conversion_rate": "probability",
+      "elapsed_days": "nonnegative",
+      "cost": "nonnegative",
+      "evidence": "evidence"
+    },
+    "bottlenecks": {
+      "stage": "text",
+      "hypothesis": "text",
+      "experiment": "text",
+      "metric": "text",
+      "owner": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "sales_stages": [
+      {
+        "stage": "Paid pilot proposal",
+        "customer_exit": "Owner signs the proposal",
+        "seller_action": "Show a comparison using consented sample data",
+        "owner": "Founder",
+        "channel": "Qualified referral",
+        "entered": 10,
+        "converted": 2,
+        "conversion_rate": 0.2,
+        "elapsed_days": 7,
+        "cost": 600,
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "bottlenecks": [
+      {
+        "stage": "Paid pilot proposal",
+        "hypothesis": "Setup uncertainty delays decisions",
+        "experiment": "Offer a bounded export-format review",
+        "metric": "Proposal-to-paid-pilot conversion",
+        "owner": "Founder",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "Two conversions out of ten entries is 20%, not evidence of scalable channel economics. Include founder time in acquisition costing.",
+  "failure_case": "Converted counts above entries, or rates that disagree with counts, are rejected."
+}

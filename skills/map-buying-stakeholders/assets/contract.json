@@ -1,0 +1,69 @@
+{
+  "skill": "map-buying-stakeholders",
+  "title": "Map Buying Stakeholders",
+  "not_for": "The sequence of purchase steps or assuming that the user controls the budget.",
+  "input_gate": "Adapt to the buying context: one person may hold several roles in a simple purchase; complex purchases need separately evidenced authority and veto power.",
+  "next_skills": [
+    "map-customer-buying-process"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "stakeholders": {
+      "role": "text",
+      "person_or_title": "text",
+      "authority": "text",
+      "success_criterion": "text",
+      "proof_needed": "text",
+      "objection": "text",
+      "evidence": "evidence"
+    },
+    "relationships": {
+      "from_role": "text",
+      "to_role": "text",
+      "influence": "text",
+      "access_action": "text",
+      "owner": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "stakeholders": [
+      {
+        "role": "User and economic buyer",
+        "person_or_title": "Practice owner",
+        "authority": "Approves the small software budget",
+        "success_criterion": "Accurate invoices with less preparation",
+        "proof_needed": "Comparison against a recent invoice",
+        "objection": "Will not permit automatic sending",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "from_role": "Practice owner",
+        "to_role": "External accountant",
+        "influence": "Accountant checks export compatibility",
+        "access_action": "Request permission for a format review",
+        "owner": "Founder",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "Do not invent extra stakeholders for a simple purchase or force household buyers into organizational titles.",
+  "failure_case": "A title without buying authority or required proof is insufficient."
+}

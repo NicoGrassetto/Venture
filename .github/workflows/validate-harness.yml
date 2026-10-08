@@ -24,5 +24,7 @@ jobs:
         run: python3 -m unittest discover -s tests -v
       - name: Check native skill adapters
         run: python3 scripts/sync_skills.py --check
+      - name: Check standalone skill packages
+        run: python3 scripts/build_workbooks.py --check
       - name: Check whitespace
         run: git diff --check

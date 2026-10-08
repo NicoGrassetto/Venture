@@ -1,0 +1,84 @@
+{
+  "skill": "map-customer-journey",
+  "title": "Map the Customer Journey",
+  "not_for": "Only the product's screens or only the seller's sales funnel.",
+  "input_gate": "Map the current journey before the proposed one; include purchase, use, support, and renewal where relevant.",
+  "next_skills": [
+    "define-product-concept",
+    "map-customer-buying-process"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "journey": {
+      "stage": "text",
+      "state": "choice:current,proposed",
+      "actor": "text",
+      "action": "text",
+      "artifact": "text",
+      "time_cost": "text",
+      "failure_mode": "text",
+      "evidence": "evidence"
+    },
+    "barriers": {
+      "barrier": "text",
+      "handoff": "text",
+      "mitigation": "text",
+      "owner": "text",
+      "validation": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "journey": [
+      {
+        "stage": "Prepare invoices",
+        "state": "current",
+        "actor": "Practice owner",
+        "action": "Copy approved hours",
+        "artifact": "Draft invoice",
+        "time_cost": "Two hours each month",
+        "failure_mode": "Hours omitted",
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "stage": "Prepare invoices",
+        "state": "proposed",
+        "actor": "Practice owner",
+        "action": "Review imported hours",
+        "artifact": "Review queue",
+        "time_cost": "Thirty-minute hypothesis",
+        "failure_mode": "Incorrect import mapping",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "barriers": [
+      {
+        "barrier": "Accounting export format",
+        "handoff": "Time records to billing",
+        "mitigation": "Test an export with the owner",
+        "owner": "Founder",
+        "validation": "Compare totals against an approved invoice",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "Current-state observations and proposed-state hypotheses must stay visibly distinct. Customer-side handoffs matter even when no screen is involved.",
+  "failure_case": "A map with only a proposed journey or no accountable barrier owner cannot complete the analysis."
+}

@@ -1,0 +1,70 @@
+{
+  "skill": "discover-venture",
+  "title": "Discover a Venture",
+  "not_for": "Product design, market sizing, or inventing a venture from a one-line pitch.",
+  "input_gate": "Clarify intent with the founder. A completed analysis needs an actual reflected summary and explicit founder confirmation; silence is not confirmation.",
+  "next_skills": [
+    "identify-key-assumptions",
+    "market-segmentation"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "venture": {
+      "problem": "text",
+      "current_workaround": "text",
+      "proposed_solution": "text",
+      "difference": "text",
+      "payer_and_model": "text",
+      "founder_confirmation": "text",
+      "evidence": "evidence"
+    },
+    "constraints": {
+      "resource": "text",
+      "availability": "text",
+      "boundary": "text",
+      "owner": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": true,
+  "observed_tables": [
+    "venture"
+  ],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "venture": [
+      {
+        "problem": "Consultants lose billable work when invoices are late.",
+        "current_workaround": "A shared spreadsheet and manual reminders.",
+        "proposed_solution": "Prepare draft invoices for the owner to approve.",
+        "difference": "Reuse project records instead of retyping them.",
+        "payer_and_model": "The practice owner; monthly subscription is an untested hypothesis.",
+        "founder_confirmation": "Synthetic founder confirms this scope, with no automatic sending.",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "constraints": [
+      {
+        "resource": "Founder time",
+        "availability": "Eight hours per week",
+        "boundary": "No external contact or invoice sending without approval",
+        "owner": "Founder",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "The confirmation concerns intended scope, not evidence that customers want the product. A solo founder needs no invented cofounder agreement.",
+  "failure_case": "A thesis alone, an empty constraints table, or an assumption substituted for the founder's confirmation cannot complete discovery."
+}

@@ -1,0 +1,72 @@
+{
+  "skill": "design-a-business-model",
+  "title": "Design a Business Model",
+  "not_for": "Selecting exact prices or constructing a financial forecast before identifying who pays.",
+  "input_gate": "Compare coherent value and money flows; free participants need an explicit payer or funding mechanism.",
+  "next_skills": [
+    "set-your-pricing-framework",
+    "plan-operations"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "models": {
+      "model": "text",
+      "payer": "text",
+      "value_recipient": "text",
+      "charging_unit": "text",
+      "payment_timing": "text",
+      "cost_driver": "text",
+      "incentive_risk": "text",
+      "evidence": "evidence"
+    },
+    "selection": {
+      "chosen_model": "text",
+      "reason": "text",
+      "rejected_alternative": "text",
+      "critical_assumption": "text",
+      "next_test": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "models": [
+      {
+        "model": "Monthly subscription",
+        "payer": "Practice owner",
+        "value_recipient": "Owner and billing assistant",
+        "charging_unit": "Practice per month",
+        "payment_timing": "Monthly in advance",
+        "cost_driver": "Import support and hosting",
+        "incentive_risk": "Heavy users may consume disproportionate support",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "selection": [
+      {
+        "chosen_model": "Monthly subscription",
+        "reason": "Predictable charge matches a monthly workflow",
+        "rejected_alternative": "Per-invoice commission",
+        "critical_assumption": "Recurring value exceeds the subscription",
+        "next_test": "Offer a bounded paid pilot without claiming prior demand",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "The model can be chosen provisionally before a precise price is known. Make its payment timing usable in the cash forecast.",
+  "failure_case": "A selected model absent from the alternatives or an unnamed payer is incomplete."
+}

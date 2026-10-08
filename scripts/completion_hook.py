@@ -35,7 +35,7 @@ def main() -> int:
     final = False
     try:
         plan = workspace_path(workspace, "business-plan.md").read_text(encoding="utf-8")
-        tasks = records(read_json(workspace_path(workspace, "tasks.json")), "tasks", "tasks")
+        tasks = records(read_json(workspace_path(workspace, "tasks.json"), (1, 2)), "tasks", "tasks")
         final = bool(re.search(r"^\*\*Status:\*\* review-ready\s*$", plan, re.MULTILINE)) or any(
             task.get("id") == "business-plan" and task.get("status") == "passing" for task in tasks
         )

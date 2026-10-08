@@ -13,6 +13,7 @@
 
 <p align="center">
   <a href="#overview">Overview</a> &middot;
+  <a href="#architecture">Architecture</a> &middot;
   <a href="#special-thanks">Special thanks</a> &middot;
   <a href="LICENSE">License</a>
 </p>
@@ -36,6 +37,35 @@ venture decisions, gather evidence, create decision artifacts, and validate
 the results.
 
 For setup and detailed operating guidance, see the [harness guide](docs/harness.md).
+
+The catalog includes 28 skills with task-specific workbooks, explicit research
+stages, worked examples, and financial and operational checks. Existing venture
+workspaces can be upgraded with the [v2 migration](docs/harness.md#upgrading-an-existing-workspace).
+
+## Architecture
+
+Venture develops a plan through a repeating cycle, not a single prompt. The
+founder confirms the direction, and the agent works on one decision at a time,
+revisiting it when evidence or review exposes gaps.
+
+```mermaid
+flowchart TD
+    Brief["Understand the venture<br/>Confirm the brief with the founder"] --> Risk["Identify the highest-risk assumptions<br/>and the next useful tests"]
+    Risk --> Task["Choose one next decision<br/>and the relevant skill"]
+    Task --> Evidence["Gather evidence<br/>Separate facts from assumptions"]
+    Evidence --> Build["Build or revise<br/>one part of the business plan"]
+    Build --> Review["Check the work<br/>and run a separate review"]
+    Review --> Save["Save progress<br/>Evidence, decisions, gaps, and next action"]
+    Save -->|Needs evidence or revision| Evidence
+    Save -->|Work passes review| Complete{"Plan complete<br/>and final checks pass?"}
+    Complete -->|More work needed| Task
+    Complete -->|Yes| Plan["Review-ready<br/>business plan"]
+    Plan -. New evidence or changed goals .-> Brief
+```
+
+Saved progress lets work pause and resume, including when a task is blocked.
+New evidence can reopen earlier decisions. A **review-ready** plan has passed
+the workflow's checks and review; it is not proof that the business will succeed.
 
 ## Special thanks:
 

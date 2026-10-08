@@ -1,150 +1,66 @@
-# Chart Your Competitive Position Workbook
-
-**Venture:** {VENTURE_NAME}
-**Owner:** TODO
-**Date:** {DATE}
-**Version:** 0.1
-
-## Decision to make
-
-An evidence-backed competitive position chart and positioning narrative centered on customer priorities rather than vendor-selected features.
-
-**Current decision:** TODO
-**Decision deadline:** TODO
-**Reversal evidence:** TODO
-
-## Persona priorities
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Axis definitions
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Alternatives and status quo
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Position chart
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Evidence and uncertainty
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Positioning decision
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Final decision
-
-**Decision:** TODO
-
-**Strongest supporting evidence:**
-
-- TODO
-
-**Strongest contradicting evidence:**
-
-- TODO
-
-**Critical unknowns:**
-
-- TODO
-
-## Next actions
-
-| Action | Owner | Due date | Evidence expected | Decision affected |
-|---|---|---|---|---|
-| TODO | TODO | TODO | TODO | TODO |
-
-## Change log
-
-| Date | Change | Reason/evidence | Author |
-|---|---|---|---|
-| {DATE} | Initial draft | Created from skill template | TODO |
+# Chart Your Competitive Position
+
+The structured record is the source for the decision below. Do not replace missing research with invented results.
+
+<!-- venture-record:start -->
+```json
+{
+  "schema_version": 2,
+  "skill": "chart-your-competitive-position",
+  "stage": "draft",
+  "synthetic": false,
+  "venture": "{VENTURE_NAME}",
+  "owner": "TODO",
+  "date": "{DATE}",
+  "scope": {
+    "customer": "TODO",
+    "geography": "TODO",
+    "decision_horizon": "TODO"
+  },
+  "evidence": [],
+  "data": {
+    "axes": [],
+    "alternatives": []
+  },
+  "research_plan": [],
+  "decision": "TODO",
+  "limitations": "TODO",
+  "next_actions": []
+}
+```
+<!-- venture-record:end -->
+
+## Output fields
+
+Each data table is an array of row objects. Every analysis row cites evidence IDs.
+
+### axes
+
+| Field | Type |
+|---|---|
+| `axis` | choice:x,y |
+| `customer_priority` | text |
+| `low_anchor` | text |
+| `high_anchor` | text |
+| `evidence` | evidence |
+
+### alternatives
+
+| Field | Type |
+|---|---|
+| `alternative` | text |
+| `kind` | choice:product,competitor,status-quo |
+| `x_score` | probability |
+| `y_score` | probability |
+| `uncertainty` | text |
+| `evidence` | evidence |
+
+## Stage rules
+
+- `draft`: unfinished work; validate with `--allow-todo`.
+- `research-plan`: leave result tables empty; complete the research protocol and next actions.
+- `completed-analysis`: fill every result table with evidence-linked rows and check calculations.
+
+A research-plan row needs question, population, method, metric, threshold, owner, and due_date.
+A next-action row needs action, owner, due_date, and evidence_expected.
+Read the bundled record-format reference for evidence fields and a complete worked example.

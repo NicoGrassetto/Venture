@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "venture": "{VENTURE_NAME}",
+  "tasks": [
+    {
+      "id": "venture-brief",
+      "title": "Establish the venture thesis, constraints, and plan audience",
+      "skills": ["getting-started"],
+      "discovery": {
+        "confirmed_by": "",
+        "confirmed_on": "",
+        "confirmation_source": ""
+      },
+      "depends_on": [],
+      "artifacts": ["brief.md"],
+      "acceptance": [
+        "The audience, decision, customer hypothesis, founder constraints, and planning horizon are explicit.",
+        "Missing inputs are named uncertainties with owners and next tests; authorized external actions are bounded."
+      ],
+      "status": "not_started",
+      "evidence": [],
+      "owner": "",
+      "reviewer": "",
+      "reviewed_on": "",
+      "verification": ""
+    },
+    {
+      "id": "market-and-customer",
+      "title": "Define the customer problem and market opportunity",
+      "skills": ["market-segmentation", "select-a-beachhead-market", "build-an-end-user-profile", "calculate-beachhead-market-tam", "profile-the-persona", "identify-your-next-10-customers"],
+      "depends_on": ["venture-brief"],
+      "artifacts": ["business-plan.md"],
+      "acceptance": [
+        "The beachhead, end user, payer, problem, alternatives, geography, and sizing units are consistent.",
+        "Material market claims cite registered evidence or explicit assumptions; unperformed customer research is not presented as completed."
+      ],
+      "status": "not_started",
+      "evidence": [],
+      "owner": "",
+      "reviewer": "",
+      "reviewed_on": "",
+      "verification": ""
+    },
+    {
+      "id": "value-and-competition",
+      "title": "Explain the offering, customer value, and competitive position",
+      "skills": ["full-life-cycle-use-case", "high-level-product-specification", "quantify-the-value-proposition", "define-your-core", "chart-your-competitive-position"],
+      "depends_on": ["market-and-customer"],
+      "artifacts": ["business-plan.md"],
+      "acceptance": [
+        "The offering and customer experience address the selected problem with a measurable value hypothesis.",
+        "Alternatives, purchasing priorities, differentiation, and defensibility are supported or explicitly provisional."
+      ],
+      "status": "not_started",
+      "evidence": [],
+      "owner": "",
+      "reviewer": "",
+      "reviewed_on": "",
+      "verification": ""
+    },
+    {
+      "id": "business-model-and-sales",
+      "title": "Reconcile the business model, sales process, operations, and finances",
+      "skills": ["map-the-customer-acquisition-process", "determine-the-customer-dmu", "design-a-business-model", "set-your-pricing-framework", "calculate-customer-lifetime-value", "map-the-sales-process", "calculate-customer-acquisition-cost"],
+      "depends_on": ["value-and-competition"],
+      "artifacts": ["business-plan.md"],
+      "acceptance": [
+        "The payer, charging unit, channels, buying process, delivery capacity, team gaps, and ownership agree.",
+        "Financial scenarios expose inputs and reproducible calculations, separate forecasts from observations, and reconcile units, periods, contribution, acquisition costs, and cash needs."
+      ],
+      "status": "not_started",
+      "evidence": [],
+      "owner": "",
+      "reviewer": "",
+      "reviewed_on": "",
+      "verification": ""
+    },
+    {
+      "id": "validation-and-growth",
+      "title": "Prioritize risks, experiments, milestones, and conditional growth",
+      "skills": ["calculate-follow-on-markets-tam", "identify-key-assumptions", "test-key-assumptions", "define-the-minimum-viable-business-product", "show-that-the-dogs-will-eat-the-dog-food", "develop-a-product-plan"],
+      "depends_on": ["business-model-and-sales"],
+      "artifacts": ["business-plan.md"],
+      "acceptance": [
+        "Critical risks and contradictions have owners, next tests, thresholds, and dates, with explicit stop or pivot conditions.",
+        "Completed validation is distinguished from proposed work; growth and resource commitments depend on named evidence gates."
+      ],
+      "status": "not_started",
+      "evidence": [],
+      "owner": "",
+      "reviewer": "",
+      "reviewed_on": "",
+      "verification": ""
+    },
+    {
+      "id": "business-plan",
+      "title": "Synthesize and review the business plan",
+      "skills": ["create-business-plan"],
+      "review_scores": {
+        "decision_fit": null,
+        "evidence_integrity": null,
+        "coherence": null,
+        "financial_reasoning": null,
+        "actionability": null,
+        "handoff_quality": null
+      },
+      "depends_on": ["venture-brief", "market-and-customer", "value-and-competition", "business-model-and-sales", "validation-and-growth"],
+      "artifacts": ["brief.md", "business-plan.md", "progress.md"],
+      "acceptance": [
+        "The plan supports its intended decision, traces material claims to evidence, and has no unresolved material factual or arithmetic errors.",
+        "A separate review records every rubric dimension, reaches at least 10/12 with no zero and evidence integrity at 2, and states its limitations.",
+        "Progress, evidence, task state, and the next action are current; review-ready status is not described as proof of business viability."
+      ],
+      "status": "not_started",
+      "evidence": [],
+      "owner": "",
+      "reviewer": "",
+      "reviewed_on": "",
+      "verification": ""
+    }
+  ]
+}

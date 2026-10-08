@@ -4,7 +4,7 @@ description: "Develops an evidence-driven product roadmap from the validated bea
 license: MIT
 metadata:
   author: entrepreneurship-skills
-  version: "1.0.0"
+  version: "2.0.0"
 ---
 
 # Develop a Product Plan
@@ -15,7 +15,12 @@ A product and market evolution plan with horizons, dependencies, learning gates,
 
 Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
 
-## Required context
+## Use when / not for
+
+Use this skill for the decision described in the goal.
+Not for: A build specification or promising expansion without evidence gates.
+
+## Inputs and missing data
 
 Collect what is available before starting:
 
@@ -25,7 +30,11 @@ Collect what is available before starting:
 - Core capability and architecture implications
 - Resource, hiring, partner, and capital constraints
 
-Do not block on missing inputs. Mark unknowns, state their decision impact, and turn the most consequential unknowns into research actions.
+<!-- input-policy:start -->
+Sequence customer outcomes and dependencies. If consumption evidence is missing, keep expansion conditional rather than claiming readiness.
+
+Use `draft` for unfinished work, `research-plan` for a completed protocol, and `completed-analysis` only for an analysis actually performed. Never invent observations, founder approval, or external actions.
+<!-- input-policy:end -->
 
 ## Workflow
 
@@ -54,15 +63,21 @@ python3 scripts/validate_workbook.py "./develop-a-product-plan-workbook.md"
 
 Fix every validation error. Warnings may remain only when the workbook explicitly explains the missing evidence and next action.
 
+## Output contract
+
+Use [the task-specific workbook](assets/workbook.md). Its structured record contains these result tables: `roadmap`, `deferred`.
+
+Read [the record format](references/record-format.md) for stages, evidence, and units, and [the synthetic worked example](references/example.md) for a complete result and failure case.
+A research plan leaves result tables empty and supplies a testable protocol instead.
+
 ## Evidence rules
 
-- Prefer observed behavior, customer artifacts, transactions, and direct interviews over opinion or generic reports.
-- Label each material statement as fact, inference, or assumption.
-- Record source, date, customer/segment relevance, and confidence for decisive evidence.
-- Preserve contradictory evidence and explain how it changes the conclusion.
-- Use ranges and scenarios when inputs are uncertain; never hide uncertainty behind precise formatting.
+Separate facts, inferences, and assumptions. Cite stable evidence IDs with sources, dates, confidence, and contradictions. Forecasts are not observations.
+Preserve negative results and define the next useful test. Obtain authorization before outreach, spending, publication, or commitments; protect identifying data.
 
-## Completion contract
+## Deliverable and completion checks
+
+Apply the outcome criteria below to `completed-analysis`. A `research-plan` can be complete as a protocol but does not satisfy observed-result criteria.
 
 Produce:
 
@@ -88,10 +103,6 @@ The work is complete only when:
 
 ## Handoff
 
-End with:
+Record the decision, declared stage, supporting and contradicting evidence, remaining uncertainty, and one next action with owner and date. Name any upstream artifact invalidated by the result.
 
-1. **Decision:** the current conclusion in one sentence.
-2. **Evidence:** the strongest supporting and contradicting evidence.
-3. **Unknowns:** the assumptions most likely to change the decision.
-4. **Next actions:** owners and dates for the smallest useful follow-up work.
-5. **Downstream updates:** which prior or later venture artifacts must change.
+Next skills, when their inputs are ready: [plan-operations](../plan-operations/SKILL.md), [build-financial-plan](../build-financial-plan/SKILL.md). Standalone users may need to install these optional follow-ups.

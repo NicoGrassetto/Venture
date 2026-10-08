@@ -1,0 +1,69 @@
+{
+  "skill": "profile-the-persona",
+  "title": "Profile the Persona",
+  "not_for": "A market-wide profile, a fictional composite presented as real, or a buyer map.",
+  "input_gate": "Use a real representative user's sourced observations and a privacy-safe identifier; do not invent a biography.",
+  "next_skills": [
+    "map-customer-journey",
+    "quantify-the-value-proposition"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "persona": {
+      "participant_id": "text",
+      "representativeness": "text",
+      "goal": "text",
+      "workaround": "text",
+      "motivation": "text",
+      "evidence": "evidence"
+    },
+    "purchasing_criteria": {
+      "rank": "positive_integer",
+      "criterion": "text",
+      "tradeoff": "text",
+      "product_implication": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": true,
+  "observed_tables": [
+    "persona",
+    "purchasing_criteria"
+  ],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "persona": [
+      {
+        "participant_id": "P-01",
+        "representativeness": "Owner also prepares monthly invoices",
+        "goal": "Send accurate invoices without losing a billable afternoon",
+        "workaround": "Reconcile time sheets manually",
+        "motivation": "Avoid embarrassing billing corrections",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "purchasing_criteria": [
+      {
+        "rank": 1,
+        "criterion": "Accuracy before speed",
+        "tradeoff": "Will accept an extra approval step to prevent wrong invoices",
+        "product_implication": "Require review before sending",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "A persona is a decision anchor, not statistical evidence about the whole market. Revisit it when other qualified users contradict the pattern.",
+  "failure_case": "Duplicate priority ranks or a fictional assumption presented as an observed participant fail completion."
+}

@@ -1,0 +1,75 @@
+{
+  "skill": "market-segmentation",
+  "title": "Market Segmentation",
+  "not_for": "Choosing a winner before comparing distinct customer contexts.",
+  "input_gate": "Use a research plan when no qualified customer observations exist. Keep end user, payer, application, and access distinct.",
+  "next_skills": [
+    "select-a-beachhead-market"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "segments": {
+      "segment": "text",
+      "end_user": "text",
+      "application": "text",
+      "problem": "text",
+      "payer": "text",
+      "current_solution": "text",
+      "access": "text",
+      "evidence": "evidence"
+    },
+    "comparison": {
+      "segment": "text",
+      "urgency": "text",
+      "buying_process": "text",
+      "product_requirements": "text",
+      "decision": "choice:shortlist,defer,reject",
+      "reason": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": true,
+  "observed_tables": [
+    "segments"
+  ],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "segments": [
+      {
+        "segment": "Owner-managed consultancies",
+        "end_user": "Practice owner",
+        "application": "Monthly client invoicing",
+        "problem": "Re-entering approved project hours",
+        "payer": "Practice owner",
+        "current_solution": "Spreadsheet and accounting package",
+        "access": "Local professional network",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "comparison": [
+      {
+        "segment": "Owner-managed consultancies",
+        "urgency": "Repeated at month end",
+        "buying_process": "Owner approves within a monthly software budget",
+        "product_requirements": "Import approved time records",
+        "decision": "shortlist",
+        "reason": "Reachable users and one bounded workflow",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "This single-row illustration shows the record shape; real segmentation should compare plausible alternatives and retain rejected candidates.",
+  "failure_case": "Industry labels without an end user or buying process, or unknown evidence IDs, fail the contract."
+}

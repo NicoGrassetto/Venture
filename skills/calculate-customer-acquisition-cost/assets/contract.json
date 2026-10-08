@@ -1,0 +1,94 @@
+{
+  "skill": "calculate-customer-acquisition-cost",
+  "title": "Calculate Customer Acquisition Cost",
+  "not_for": "Cost per lead or attributing all acquisition to the final sales call.",
+  "input_gate": "Use paying-customer cohorts and fully loaded spend. With zero acquisitions, CAC is undefined: report the limitation rather than divide by zero.",
+  "next_skills": [
+    "calculate-customer-lifetime-value",
+    "build-financial-plan"
+  ],
+  "scope": {
+    "currency": "currency",
+    "contribution_period": "choice:month,year",
+    "spend_window": "text",
+    "sales_lag_periods": "nonnegative_integer"
+  },
+  "tables": {
+    "acquisition": {
+      "scenario": "choice:conservative,base,upside",
+      "cohort": "text",
+      "acquisition_spend": "nonnegative",
+      "new_paying_customers": "positive_integer",
+      "cac": "nonnegative",
+      "contribution_per_period": "positive",
+      "simple_payback_periods": "nonnegative",
+      "evidence": "evidence"
+    },
+    "cost_coverage": {
+      "cost": "text",
+      "treatment": "text",
+      "allocation_basis": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "currency": "EUR",
+    "contribution_period": "month",
+    "spend_window": "January acquisition cohort",
+    "sales_lag_periods": 1
+  },
+  "example_data": {
+    "acquisition": [
+      {
+        "scenario": "conservative",
+        "cohort": "January pilots",
+        "acquisition_spend": 1200,
+        "new_paying_customers": 2,
+        "cac": 600.0,
+        "contribution_per_period": 40,
+        "simple_payback_periods": 15.0,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "base",
+        "cohort": "January pilots",
+        "acquisition_spend": 1200,
+        "new_paying_customers": 4,
+        "cac": 300.0,
+        "contribution_per_period": 40,
+        "simple_payback_periods": 7.5,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "upside",
+        "cohort": "January pilots",
+        "acquisition_spend": 1200,
+        "new_paying_customers": 6,
+        "cac": 200.0,
+        "contribution_per_period": 40,
+        "simple_payback_periods": 5.0,
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "cost_coverage": [
+      {
+        "cost": "Founder outreach time and acquisition tools",
+        "treatment": "Included in fully loaded spend",
+        "allocation_basis": "Recorded hours and invoices attributable to this cohort",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "Base CAC is EUR 1,200 / 4 = EUR 300. Simple payback is 7.5 months at a constant EUR 40 monthly contribution; use a cash schedule if contribution or retention varies.",
+  "failure_case": "Zero paying customers, omitted cost treatment, or inconsistent CAC/payback arithmetic fail the checks."
+}

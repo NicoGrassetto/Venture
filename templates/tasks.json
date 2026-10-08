@@ -1,11 +1,11 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "venture": "{VENTURE_NAME}",
   "tasks": [
     {
       "id": "venture-brief",
       "title": "Establish the venture thesis, constraints, and plan audience",
-      "skills": ["getting-started"],
+      "skills": ["discover-venture"],
       "discovery": {
         "confirmed_by": "",
         "confirmed_on": "",
@@ -25,10 +25,27 @@
       "verification": ""
     },
     {
+      "id": "risk-triage",
+      "title": "Identify venture-killing assumptions and the first useful tests",
+      "skills": ["identify-key-assumptions", "test-key-assumptions"],
+      "depends_on": ["venture-brief"],
+      "artifacts": ["workbooks/identify-key-assumptions-workbook.md"],
+      "acceptance": [
+        "The founder brief has been examined for high-impact desirability, viability, feasibility, operations, team, and regulatory uncertainties.",
+        "Assumptions are ranked with explicit evidence, reversal thresholds, dependencies, and owners; proposed tests are not described as completed experiments."
+      ],
+      "status": "not_started",
+      "evidence": [],
+      "owner": "",
+      "reviewer": "",
+      "reviewed_on": "",
+      "verification": ""
+    },
+    {
       "id": "market-and-customer",
       "title": "Define the customer problem and market opportunity",
-      "skills": ["market-segmentation", "select-a-beachhead-market", "build-an-end-user-profile", "calculate-beachhead-market-tam", "profile-the-persona", "identify-your-next-10-customers"],
-      "depends_on": ["venture-brief"],
+      "skills": ["market-segmentation", "select-a-beachhead-market", "build-an-end-user-profile", "calculate-beachhead-market-tam", "profile-the-persona", "validate-with-customers"],
+      "depends_on": ["risk-triage"],
       "artifacts": ["business-plan.md"],
       "acceptance": [
         "The beachhead, end user, payer, problem, alternatives, geography, and sizing units are consistent.",
@@ -44,7 +61,7 @@
     {
       "id": "value-and-competition",
       "title": "Explain the offering, customer value, and competitive position",
-      "skills": ["full-life-cycle-use-case", "high-level-product-specification", "quantify-the-value-proposition", "define-your-core", "chart-your-competitive-position"],
+      "skills": ["map-customer-journey", "define-product-concept", "quantify-the-value-proposition", "define-competitive-advantage", "chart-your-competitive-position"],
       "depends_on": ["market-and-customer"],
       "artifacts": ["business-plan.md"],
       "acceptance": [
@@ -60,13 +77,47 @@
     },
     {
       "id": "business-model-and-sales",
-      "title": "Reconcile the business model, sales process, operations, and finances",
-      "skills": ["map-the-customer-acquisition-process", "determine-the-customer-dmu", "design-a-business-model", "set-your-pricing-framework", "calculate-customer-lifetime-value", "map-the-sales-process", "calculate-customer-acquisition-cost"],
+      "title": "Reconcile the business model, sales process, and unit economics",
+      "skills": ["map-customer-buying-process", "map-buying-stakeholders", "design-a-business-model", "set-your-pricing-framework", "calculate-customer-lifetime-value", "map-the-sales-process", "calculate-customer-acquisition-cost"],
       "depends_on": ["value-and-competition"],
       "artifacts": ["business-plan.md"],
       "acceptance": [
-        "The payer, charging unit, channels, buying process, delivery capacity, team gaps, and ownership agree.",
-        "Financial scenarios expose inputs and reproducible calculations, separate forecasts from observations, and reconcile units, periods, contribution, acquisition costs, and cash needs."
+        "The payer, charging unit, channels, buying process, and sales ownership agree.",
+        "Unit-economics assumptions expose inputs, separate forecasts from observations, and reconcile units, periods, contribution, acquisition costs, and payback."
+      ],
+      "status": "not_started",
+      "evidence": [],
+      "owner": "",
+      "reviewer": "",
+      "reviewed_on": "",
+      "verification": ""
+    },
+    {
+      "id": "operations-plan",
+      "title": "Plan delivery capacity, costs, ownership, and contingencies",
+      "skills": ["plan-operations"],
+      "depends_on": ["business-model-and-sales"],
+      "artifacts": ["workbooks/plan-operations-workbook.md"],
+      "acceptance": [
+        "Delivery units, demand, required and available hours, capacity gaps, and labor costs reconcile.",
+        "Material dependencies have owners, lead times, failure triggers, and fallbacks; resource constraints change commitments rather than being ignored."
+      ],
+      "status": "not_started",
+      "evidence": [],
+      "owner": "",
+      "reviewer": "",
+      "reviewed_on": "",
+      "verification": ""
+    },
+    {
+      "id": "financial-plan",
+      "title": "Reconcile an integrated scenario-based cash forecast",
+      "skills": ["build-financial-plan"],
+      "depends_on": ["operations-plan"],
+      "artifacts": ["workbooks/build-financial-plan-workbook.md"],
+      "acceptance": [
+        "Conservative, base, and upside monthly forecasts recompute revenue, operating cash flow, cash continuity, minimum cash, and funding needs from explicit inputs.",
+        "Demand and costs reconcile with sales and operations; working-capital, capex, tax, and financing assumptions are explicit, with shortfall actions and qualified review where needed."
       ],
       "status": "not_started",
       "evidence": [],
@@ -78,8 +129,8 @@
     {
       "id": "validation-and-growth",
       "title": "Prioritize risks, experiments, milestones, and conditional growth",
-      "skills": ["calculate-follow-on-markets-tam", "identify-key-assumptions", "test-key-assumptions", "define-the-minimum-viable-business-product", "show-that-the-dogs-will-eat-the-dog-food", "develop-a-product-plan"],
-      "depends_on": ["business-model-and-sales"],
+      "skills": ["calculate-follow-on-markets-tam", "test-key-assumptions", "define-the-minimum-viable-business-product", "validate-customer-traction", "develop-a-product-plan"],
+      "depends_on": ["risk-triage", "value-and-competition"],
       "artifacts": ["business-plan.md"],
       "acceptance": [
         "Critical risks and contradictions have owners, next tests, thresholds, and dates, with explicit stop or pivot conditions.",
@@ -104,7 +155,7 @@
         "actionability": null,
         "handoff_quality": null
       },
-      "depends_on": ["venture-brief", "market-and-customer", "value-and-competition", "business-model-and-sales", "validation-and-growth"],
+      "depends_on": ["venture-brief", "risk-triage", "market-and-customer", "value-and-competition", "business-model-and-sales", "operations-plan", "financial-plan", "validation-and-growth"],
       "artifacts": ["brief.md", "business-plan.md", "progress.md"],
       "acceptance": [
         "The plan supports its intended decision, traces material claims to evidence, and has no unresolved material factual or arithmetic errors.",

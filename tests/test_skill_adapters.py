@@ -204,7 +204,7 @@ class RepositoryAdapterTests(unittest.TestCase):
             env=ENV, capture_output=True, text=True, check=False,
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn("52 adapters for 26 canonical skills", result.stdout)
+        self.assertIn("56 adapters for 28 canonical skills", result.stdout)
 
 
 if __name__ == "__main__":

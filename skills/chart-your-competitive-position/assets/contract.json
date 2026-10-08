@@ -1,0 +1,85 @@
+{
+  "skill": "chart-your-competitive-position",
+  "title": "Chart Your Competitive Position",
+  "not_for": "Internal capability analysis or choosing axes to guarantee a favorable chart.",
+  "input_gate": "Use the customer's priorities and include the current workaround. A proposed product's position can be a labeled hypothesis.",
+  "next_skills": [
+    "define-competitive-advantage",
+    "define-product-concept"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "axes": {
+      "axis": "choice:x,y",
+      "customer_priority": "text",
+      "low_anchor": "text",
+      "high_anchor": "text",
+      "evidence": "evidence"
+    },
+    "alternatives": {
+      "alternative": "text",
+      "kind": "choice:product,competitor,status-quo",
+      "x_score": "probability",
+      "y_score": "probability",
+      "uncertainty": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "axes": [
+      {
+        "axis": "x",
+        "customer_priority": "Invoice accuracy",
+        "low_anchor": "Corrections after sending",
+        "high_anchor": "Accurate before approval",
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "axis": "y",
+        "customer_priority": "Preparation effort",
+        "low_anchor": "Retype every line",
+        "high_anchor": "Review prefilled draft",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "alternatives": [
+      {
+        "alternative": "Shared spreadsheet",
+        "kind": "status-quo",
+        "x_score": 0.6,
+        "y_score": 0.2,
+        "uncertainty": "Single observed workflow",
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "alternative": "Proposed invoice assistant",
+        "kind": "product",
+        "x_score": 0.7,
+        "y_score": 0.8,
+        "uncertainty": "Untested hypothesis, not superiority evidence",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "Scores need anchored meanings and sources. The example does not establish that the proposed product wins.",
+  "failure_case": "Missing x/y definitions, out-of-range scores, or omitting the status quo are rejected."
+}

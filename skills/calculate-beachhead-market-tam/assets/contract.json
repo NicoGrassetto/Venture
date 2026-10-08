@@ -1,0 +1,109 @@
+{
+  "skill": "calculate-beachhead-market-tam",
+  "title": "Calculate Beachhead Market TAM",
+  "not_for": "A revenue forecast, valuation, or summing overlapping markets.",
+  "input_gate": "Specify economic units, annual revenue per unit, exclusions, and source assumptions. Missing inputs belong in a research plan, not made-up totals.",
+  "next_skills": [
+    "design-a-business-model"
+  ],
+  "scope": {
+    "customer_unit": "text",
+    "geography": "text",
+    "currency": "currency",
+    "revenue_period": "choice:year"
+  },
+  "tables": {
+    "markets": {
+      "scenario": "choice:conservative,base,upside",
+      "market": "text",
+      "units": "nonnegative",
+      "annual_revenue_per_unit": "nonnegative",
+      "annual_tam": "nonnegative",
+      "exclusions": "text",
+      "evidence": "evidence"
+    },
+    "triangulation": {
+      "scenario": "choice:conservative,base,upside",
+      "top_down_annual_tam": "nonnegative",
+      "difference_explanation": "text",
+      "next_source": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer_unit": "Practice",
+    "geography": "Ireland",
+    "currency": "EUR",
+    "revenue_period": "year"
+  },
+  "example_data": {
+    "markets": [
+      {
+        "scenario": "conservative",
+        "market": "Owner-managed consultancies",
+        "units": 100,
+        "annual_revenue_per_unit": 960,
+        "annual_tam": 96000,
+        "exclusions": "Large firms with procurement-heavy workflows",
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "base",
+        "market": "Owner-managed consultancies",
+        "units": 200,
+        "annual_revenue_per_unit": 960,
+        "annual_tam": 192000,
+        "exclusions": "Large firms with procurement-heavy workflows",
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "upside",
+        "market": "Owner-managed consultancies",
+        "units": 300,
+        "annual_revenue_per_unit": 960,
+        "annual_tam": 288000,
+        "exclusions": "Large firms with procurement-heavy workflows",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "triangulation": [
+      {
+        "scenario": "conservative",
+        "top_down_annual_tam": 100000,
+        "difference_explanation": "Illustrative independent estimate uses a slightly different price assumption",
+        "next_source": "Reconcile eligible-practice count against recent registry data",
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "base",
+        "top_down_annual_tam": 200000,
+        "difference_explanation": "Illustrative independent estimate uses a slightly different price assumption",
+        "next_source": "Reconcile eligible-practice count against recent registry data",
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "upside",
+        "top_down_annual_tam": 300000,
+        "difference_explanation": "Illustrative independent estimate uses a slightly different price assumption",
+        "next_source": "Reconcile eligible-practice count against recent registry data",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "For the base case, 200 practices times EUR 960 per year gives EUR 192,000 annual TAM. This is 100% market potential, not forecast sales.",
+  "failure_case": "Mixing monthly prices with annual revenue, missing scenarios, or a total that differs from units times annual revenue is rejected."
+}

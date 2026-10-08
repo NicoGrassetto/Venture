@@ -31,6 +31,9 @@ they create duplicates or shadow repository skills.
 From the repository root:
 
 ```bash
+# After changing shared workbook contracts, runtime, or examples.
+python3 scripts/build_workbooks.py
+
 # After adding, renaming, removing, or changing a skill's discovery metadata.
 python3 scripts/sync_skills.py
 
@@ -58,14 +61,18 @@ Body-only changes need no adapter refresh because the body is read from the
 canonical file. Adapter checks run during [initialization](../init.sh) and in
 [CI](../.github/workflows/validate-harness.yml).
 
+The eight renamed skills are native under their current names only; old names
+are not duplicate discovery entries. Existing workspace filenames are resolved
+through aliases after the [v2 migration](harness.md#upgrading-an-existing-workspace).
+
 ## What has actually been verified
 
 Recorded on 2026-10-08 on macOS:
 
 | Client | Version | Verified result |
 |---|---|---|
-| GitHub Copilot CLI | 1.0.93 | Offline native listing finds all 26 bundled skills enabled and exactly once; the shared and Copilot-specific instruction entry points are discovered |
-| Codex CLI | 0.155.1 | Local app-server `skills/list` finds all 26 bundled skills enabled and exactly once |
+| GitHub Copilot CLI | 1.0.93 | Offline native listing finds all 28 bundled skills enabled and exactly once; the shared and Copilot-specific instruction entry points are discovered |
+| Codex CLI | 0.155.1 | Local app-server `skills/list` finds all 28 bundled skills enabled and exactly once |
 | OpenCode | Not installed | Adapter structure and links checked; native discovery and conversation behavior not verified |
 | Claude Code | Not installed | Adapter structure, instruction import, and hook contract checked; native discovery and conversation behavior not verified |
 
@@ -139,7 +146,7 @@ Do not run this against a real venture or grant permission to contact people,
 publish content, or spend money.
 
 1. Start the client at the repository root. Inspect its active instructions
-   and native skill list. Confirm the 26 canonical names resolve exactly once.
+   and native skill list. Confirm the 28 canonical names resolve exactly once.
 2. Ask it to read the shared instructions, initialize a test workspace, and
    help with the deliberately vague pitch: "I want to build an AI app."
 3. Verify the first useful response asks a focused clarification rather than

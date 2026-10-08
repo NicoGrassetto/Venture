@@ -1,150 +1,66 @@
-# Profile the Persona Workbook
-
-**Venture:** {VENTURE_NAME}
-**Owner:** TODO
-**Date:** {DATE}
-**Version:** 0.1
-
-## Decision to make
-
-A fact-based primary persona tied to a real person, with observable goals, context, behavior, and prioritized purchasing criteria.
-
-**Current decision:** TODO
-**Decision deadline:** TODO
-**Reversal evidence:** TODO
-
-## Persona identity and fit
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Context and day in the life
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Goals, pains, and motivations
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Prioritized purchasing criteria
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Evidence and assumptions
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Decision implications
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Final decision
-
-**Decision:** TODO
-
-**Strongest supporting evidence:**
-
-- TODO
-
-**Strongest contradicting evidence:**
-
-- TODO
-
-**Critical unknowns:**
-
-- TODO
-
-## Next actions
-
-| Action | Owner | Due date | Evidence expected | Decision affected |
-|---|---|---|---|---|
-| TODO | TODO | TODO | TODO | TODO |
-
-## Change log
-
-| Date | Change | Reason/evidence | Author |
-|---|---|---|---|
-| {DATE} | Initial draft | Created from skill template | TODO |
+# Profile the Persona
+
+The structured record is the source for the decision below. Do not replace missing research with invented results.
+
+<!-- venture-record:start -->
+```json
+{
+  "schema_version": 2,
+  "skill": "profile-the-persona",
+  "stage": "draft",
+  "synthetic": false,
+  "venture": "{VENTURE_NAME}",
+  "owner": "TODO",
+  "date": "{DATE}",
+  "scope": {
+    "customer": "TODO",
+    "geography": "TODO",
+    "decision_horizon": "TODO"
+  },
+  "evidence": [],
+  "data": {
+    "persona": [],
+    "purchasing_criteria": []
+  },
+  "research_plan": [],
+  "decision": "TODO",
+  "limitations": "TODO",
+  "next_actions": []
+}
+```
+<!-- venture-record:end -->
+
+## Output fields
+
+Each data table is an array of row objects. Every analysis row cites evidence IDs.
+
+### persona
+
+| Field | Type |
+|---|---|
+| `participant_id` | text |
+| `representativeness` | text |
+| `goal` | text |
+| `workaround` | text |
+| `motivation` | text |
+| `evidence` | evidence |
+
+### purchasing_criteria
+
+| Field | Type |
+|---|---|
+| `rank` | positive_integer |
+| `criterion` | text |
+| `tradeoff` | text |
+| `product_implication` | text |
+| `evidence` | evidence |
+
+## Stage rules
+
+- `draft`: unfinished work; validate with `--allow-todo`.
+- `research-plan`: leave result tables empty; complete the research protocol and next actions.
+- `completed-analysis`: fill every result table with evidence-linked rows and check calculations.
+
+A research-plan row needs question, population, method, metric, threshold, owner, and due_date.
+A next-action row needs action, owner, due_date, and evidence_expected.
+Read the bundled record-format reference for evidence fields and a complete worked example.

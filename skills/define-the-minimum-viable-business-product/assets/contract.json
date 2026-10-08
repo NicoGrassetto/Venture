@@ -1,0 +1,68 @@
+{
+  "skill": "define-the-minimum-viable-business-product",
+  "title": "Define the Minimum Viable Business Product",
+  "not_for": "A disconnected prototype or a long-term feature roadmap.",
+  "input_gate": "Scope one complete, safe value-delivery and payment path. Proposed usage or payment is not observed traction.",
+  "next_skills": [
+    "validate-customer-traction",
+    "plan-operations"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "scope": {
+      "capability": "text",
+      "customer_value": "text",
+      "delivery": "choice:product,manual,partner",
+      "boundary": "text",
+      "owner": "text",
+      "evidence": "evidence"
+    },
+    "launch_gates": {
+      "gate": "text",
+      "metric": "text",
+      "threshold": "text",
+      "payment_path": "text",
+      "stop_condition": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "scope": [
+      {
+        "capability": "Create a reviewable invoice draft",
+        "customer_value": "Avoid retyping while retaining control",
+        "delivery": "manual",
+        "boundary": "One approved export format; no automatic sending",
+        "owner": "Founder",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "launch_gates": [
+      {
+        "gate": "Bounded paid pilot",
+        "metric": "Accurate drafts reviewed by the owner",
+        "threshold": "Every draft reconciles to approved hours",
+        "payment_path": "Explicit paid-pilot agreement before service",
+        "stop_condition": "Stop if incorrect invoices could be sent",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "Manual work is acceptable when capacity, responsibility, and cost are explicit. A payment path is not proof that payment occurred.",
+  "failure_case": "No accountable delivery owner, no payment path, or absent stop conditions makes the scope incomplete."
+}

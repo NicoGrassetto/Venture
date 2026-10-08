@@ -12,6 +12,7 @@ from datetime import date, timedelta
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
+from scripts.workbook_runtime import extract_record, render_record
 
 ROOT = Path(__file__).resolve().parent.parent
 SKILLS = ROOT / "skills"
@@ -59,6 +60,25 @@ class VentureTests(unittest.TestCase):
     def save(self, filename: str, data: dict) -> None:
         (self.workspace / filename).write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 
+    def finish_workbook(self, skill: str, path: Path | None = None) -> None:
+        evidence = self.load("evidence.json")
+        if not any(entry["id"] == "E-002" for entry in evidence["claims"]):
+            evidence["claims"].append({
+                "id": "E-002", "type": "fact", "statement": "Synthetic test fixture, not actual venture evidence.",
+                "source": "https://example.com/synthetic-fixture", "date": date.today().isoformat(),
+                "confidence": "low", "contradictions": "Constructed for automated tests only.", "next_test": "",
+            })
+            self.save("evidence.json", evidence)
+        record = extract_record((SKILLS / skill / "references" / "example.md").read_text(encoding="utf-8"))
+        record["synthetic"] = False
+        record["evidence"] = [entry for entry in evidence["claims"] if entry["id"] == "E-002"]
+        for table in record["data"].values():
+            for row in table:
+                row["evidence"] = ["E-002"]
+        destination = path or self.workspace / "workbooks" / f"{skill}-workbook.md"
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_text(render_record(record, "Synthetic automated fixture"), encoding="utf-8")
+
     def add_assumption(self) -> None:
         self.save("evidence.json", {
             "schema_version": 1,
@@ -76,6 +96,8 @@ class VentureTests(unittest.TestCase):
 
     def finish_fixture(self) -> None:
         self.add_assumption()
+        for skill in ("identify-key-assumptions", "plan-operations", "build-financial-plan"):
+            self.finish_workbook(skill)
         (self.workspace / "raw" / "founder-discovery.md").write_text(
             "Synthetic founder confirmation for automated tests only.\n"
             "The test founder confirms the brief describes their intended venture.\n",
@@ -121,7 +143,7 @@ class VentureTests(unittest.TestCase):
 
     def test_draft_pass_is_not_completion(self) -> None:
         result = self.run_cli("validate", self.workspace)
-        self.assertIn("Draft structure valid: 0/6", result.stdout)
+        self.assertIn("Draft structure valid: 0/9", result.stdout)
         result = self.run_cli("validate", self.workspace, "--final", expected=1)
         self.assertIn("unfinished", result.stderr)
 
@@ -160,7 +182,7 @@ class VentureTests(unittest.TestCase):
     def test_reviewed_fixture_passes_final(self) -> None:
         self.finish_fixture()
         result = self.run_cli("validate", self.workspace, "--final")
-        self.assertIn("Review-ready structure valid: 6/6", result.stdout)
+        self.assertIn("Review-ready structure valid: 9/9", result.stdout)
         self.assertIn("do not establish evidence truth", result.stdout)
 
     def test_completion_hook_without_selected_venture_is_explicitly_inactive(self) -> None:
@@ -215,7 +237,7 @@ class VentureTests(unittest.TestCase):
         command = settings["hooks"]["Stop"][0]["hooks"][0]["command"]
         result = subprocess.run(
             ["bash", "-c", command],
-            cwd=SKILLS / "getting-started",
+            cwd=SKILLS / "discover-venture",
             env=dict(ENV, VENTURE_WORKSPACE=str(self.workspace)),
             input='{"stop_hook_active": false}', capture_output=True, text=True, check=False,
         )
@@ -297,9 +319,9 @@ class VentureTests(unittest.TestCase):
         data["tasks"][0]["status"] = "in_progress"
         self.save("tasks.json", data)
         result = self.run_cli("validate", self.workspace)
-        self.assertIn("0/6 tasks passing", result.stdout)
+        self.assertIn("0/9 tasks passing", result.stdout)
 
-    def test_discovery_unlocks_market_work_without_requiring_a_finished_plan(self) -> None:
+    def test_discovery_unlocks_risk_triage_without_requiring_a_finished_plan(self) -> None:
         self.finish_fixture()
         data = self.load("tasks.json")
         data["tasks"][1]["status"] = "in_progress"
@@ -310,7 +332,31 @@ class VentureTests(unittest.TestCase):
             (SKILLS / "create-business-plan" / "assets" / "workbook.md").read_text(encoding="utf-8"),
             encoding="utf-8",
         )
-        self.assertIn("1/6 tasks passing", self.run_cli("validate", self.workspace).stdout)
+        self.assertIn("1/9 tasks passing", self.run_cli("validate", self.workspace).stdout)
+
+    def test_required_risk_operations_and_finance_artifacts_need_analysis(self) -> None:
+        self.finish_fixture()
+        for skill in ("identify-key-assumptions", "plan-operations", "build-financial-plan"):
+            with self.subTest(skill=skill):
+                path = self.workspace / "workbooks" / f"{skill}-workbook.md"
+                original = path.read_text(encoding="utf-8")
+                record = extract_record(original)
+                record["stage"] = "research-plan"
+                record["data"] = {key: [] for key in record["data"]}
+                record["research_plan"] = [{
+                    "question": "What evidence is needed to complete this analysis?",
+                    "population": "The selected venture's operating records",
+                    "method": "Reconcile authorized source records",
+                    "metric": "Coverage of required model inputs",
+                    "threshold": "All material inputs sourced or explicitly assumed",
+                    "owner": "Founder", "due_date": "2026-12-01",
+                }]
+                path.write_text(render_record(record, "Plan only"), encoding="utf-8")
+                try:
+                    result = self.run_cli("validate", self.workspace, expected=1)
+                    self.assertIn("Completed analysis is required", result.stderr)
+                finally:
+                    path.write_text(original, encoding="utf-8")
 
     def test_missing_document_and_heading_fail(self) -> None:
         path = self.workspace / "brief.md"
@@ -324,7 +370,7 @@ class VentureTests(unittest.TestCase):
         original = self.load("tasks.json")
         (self.workspace / "tasks.json").write_text("{broken", encoding="utf-8")
         self.assertIn("invalid JSON", self.run_cli("validate", self.workspace, expected=1).stderr)
-        for version in (True, 2, "1"):
+        for version in (True, 3, "1"):
             with self.subTest(version=version):
                 changed = copy.deepcopy(original)
                 changed["schema_version"] = version
@@ -541,10 +587,7 @@ class VentureTests(unittest.TestCase):
         self.run_cli("validate", self.workspace)
         result = self.run_cli("validate", self.workspace, "--final", expected=1)
         self.assertIn("Skill validation failed", result.stderr)
-        workbook.write_text(
-            workbook.read_text(encoding="utf-8").replace("TODO", "Synthetic test fixture only"),
-            encoding="utf-8",
-        )
+        self.finish_workbook("market-segmentation", workbook)
         self.run_cli("validate", self.workspace, "--final")
 
     def test_unknown_workbooks_are_not_silently_ignored(self) -> None:
@@ -554,9 +597,9 @@ class VentureTests(unittest.TestCase):
 
     def test_nested_workbooks_are_validated(self) -> None:
         self.finish_fixture()
-        path = self.workspace / "workbooks" / "research" / "getting-started-workbook.md"
+        path = self.workspace / "workbooks" / "research" / "discover-venture-workbook.md"
         path.parent.mkdir()
-        template = (SKILLS / "getting-started" / "assets" / "workbook.md").read_text(encoding="utf-8")
+        template = (SKILLS / "discover-venture" / "assets" / "workbook.md").read_text(encoding="utf-8")
         path.write_text(
             template.replace("{VENTURE_NAME}", "Synthetic fixture").replace("{DATE}", date.today().isoformat()),
             encoding="utf-8",
@@ -566,8 +609,8 @@ class VentureTests(unittest.TestCase):
 
     def test_final_rejects_other_workbook_placeholders(self) -> None:
         self.finish_fixture()
-        path = self.workspace / "workbooks" / "getting-started-workbook.md"
-        template = (SKILLS / "getting-started" / "assets" / "workbook.md").read_text(encoding="utf-8")
+        path = self.workspace / "workbooks" / "discover-venture-workbook.md"
+        template = (SKILLS / "discover-venture" / "assets" / "workbook.md").read_text(encoding="utf-8")
         template = template.replace("{VENTURE_NAME}", "Synthetic fixture").replace("{DATE}", date.today().isoformat())
         for placeholder in ("TBD", "FIXME"):
             with self.subTest(placeholder=placeholder):
@@ -580,7 +623,7 @@ class RepositoryTests(unittest.TestCase):
         data = json.loads((ROOT / "templates" / "tasks.json").read_text(encoding="utf-8"))
         routed = {skill for task in data["tasks"] for skill in task["skills"]}
         available = {path.parent.name for path in SKILLS.glob("*/SKILL.md")}
-        self.assertEqual(len(available), 26)
+        self.assertEqual(len(available), 28)
         self.assertEqual(list(ROOT.glob("*/SKILL.md")), [])
         self.assertEqual(routed, available)
 
@@ -619,7 +662,7 @@ class RepositoryTests(unittest.TestCase):
 
     def test_all_existing_skill_workflows_still_work(self) -> None:
         creators = sorted(SKILLS.glob("*/scripts/create_workbook.py"))
-        self.assertEqual(len(creators), 25)
+        self.assertEqual(len(creators), 27)
         with tempfile.TemporaryDirectory(prefix="venture-skill-test-") as temporary:
             for creator in creators:
                 with self.subTest(skill=creator.parent.parent.name):

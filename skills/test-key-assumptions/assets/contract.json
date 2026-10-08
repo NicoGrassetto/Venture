@@ -1,0 +1,79 @@
+{
+  "skill": "test-key-assumptions",
+  "title": "Test Key Assumptions",
+  "not_for": "Claiming an experiment ran when only its protocol exists or changing thresholds after seeing results.",
+  "input_gate": "Use research-plan mode before authorized execution. Completed analysis requires dated observations, the precommitted threshold, and an evidence-following decision.",
+  "next_skills": [
+    "identify-key-assumptions",
+    "define-the-minimum-viable-business-product"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "experiments": {
+      "id": "text",
+      "hypothesis": "text",
+      "population": "text",
+      "metric": "text",
+      "sample_size": "positive_integer",
+      "threshold": "number",
+      "comparison": "choice:at-least,at-most",
+      "precommitted_on": "date",
+      "observed_on": "date",
+      "evidence": "evidence"
+    },
+    "results": {
+      "experiment_id": "text",
+      "observed_value": "number",
+      "outcome": "choice:pass,fail",
+      "decision": "text",
+      "confounds": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": true,
+  "observed_tables": [
+    "experiments",
+    "results"
+  ],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "experiments": [
+      {
+        "id": "X-001",
+        "hypothesis": "Qualified owners accept a bounded paid pilot",
+        "population": "Five owner-managed practices",
+        "metric": "Number accepting without permanent discount",
+        "sample_size": 5,
+        "threshold": 2,
+        "comparison": "at-least",
+        "precommitted_on": "2026-01-01",
+        "observed_on": "2026-01-08",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "results": [
+      {
+        "experiment_id": "X-001",
+        "observed_value": 1,
+        "outcome": "fail",
+        "decision": "Revise the offer and investigate setup objections before expanding",
+        "confounds": "Small referral-based synthetic sample",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "One acceptance misses a threshold of two. The correct output is a failed test and an evidence-led next action, not a lower threshold.",
+  "failure_case": "A pass verdict that contradicts the threshold, or a precommitment dated after observations, is rejected."
+}

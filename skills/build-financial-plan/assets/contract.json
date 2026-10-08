@@ -1,0 +1,256 @@
+{
+  "skill": "build-financial-plan",
+  "title": "Build a Financial Plan",
+  "not_for": "Only TAM or unit economics, investment advice, or a guarantee that financing will be available.",
+  "input_gate": "Tie demand and price to the business model and costs to the operations plan. State timing, working capital, taxes, capital expenditure, and financing assumptions.",
+  "next_skills": [
+    "identify-key-assumptions",
+    "create-business-plan"
+  ],
+  "scope": {
+    "currency": "currency",
+    "horizon_months": "positive_integer",
+    "opening_cash": "nonnegative",
+    "customer_unit": "text"
+  },
+  "tables": {
+    "cashflow": {
+      "scenario": "choice:conservative,base,upside",
+      "month": "positive_integer",
+      "opening_cash": "number",
+      "units": "nonnegative",
+      "price": "nonnegative",
+      "revenue": "nonnegative",
+      "cogs": "nonnegative",
+      "opex": "nonnegative",
+      "taxes": "nonnegative",
+      "change_working_capital": "number",
+      "capex": "nonnegative",
+      "net_financing": "number",
+      "operating_cash_flow": "number",
+      "closing_cash": "number",
+      "evidence": "evidence"
+    },
+    "summary": {
+      "scenario": "choice:conservative,base,upside",
+      "minimum_cash": "number",
+      "additional_funding_needed": "nonnegative",
+      "first_negative_month": "nonnegative_integer",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "currency": "EUR",
+    "horizon_months": 3,
+    "opening_cash": 1000,
+    "customer_unit": "Paying practice"
+  },
+  "example_data": {
+    "cashflow": [
+      {
+        "scenario": "conservative",
+        "month": 1,
+        "opening_cash": 1000.0,
+        "units": 2,
+        "price": 100,
+        "revenue": 200,
+        "cogs": 40,
+        "opex": 400,
+        "taxes": 0,
+        "change_working_capital": 0,
+        "capex": 0,
+        "net_financing": 0,
+        "operating_cash_flow": -240,
+        "closing_cash": 760.0,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "conservative",
+        "month": 2,
+        "opening_cash": 760.0,
+        "units": 2,
+        "price": 100,
+        "revenue": 200,
+        "cogs": 40,
+        "opex": 400,
+        "taxes": 0,
+        "change_working_capital": 0,
+        "capex": 0,
+        "net_financing": 0,
+        "operating_cash_flow": -240,
+        "closing_cash": 520.0,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "conservative",
+        "month": 3,
+        "opening_cash": 520.0,
+        "units": 2,
+        "price": 100,
+        "revenue": 200,
+        "cogs": 40,
+        "opex": 400,
+        "taxes": 0,
+        "change_working_capital": 0,
+        "capex": 0,
+        "net_financing": 0,
+        "operating_cash_flow": -240,
+        "closing_cash": 280.0,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "base",
+        "month": 1,
+        "opening_cash": 1000.0,
+        "units": 5,
+        "price": 100,
+        "revenue": 500,
+        "cogs": 100,
+        "opex": 400,
+        "taxes": 0,
+        "change_working_capital": 0,
+        "capex": 0,
+        "net_financing": 0,
+        "operating_cash_flow": 0,
+        "closing_cash": 1000.0,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "base",
+        "month": 2,
+        "opening_cash": 1000.0,
+        "units": 5,
+        "price": 100,
+        "revenue": 500,
+        "cogs": 100,
+        "opex": 400,
+        "taxes": 0,
+        "change_working_capital": 0,
+        "capex": 0,
+        "net_financing": 0,
+        "operating_cash_flow": 0,
+        "closing_cash": 1000.0,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "base",
+        "month": 3,
+        "opening_cash": 1000.0,
+        "units": 5,
+        "price": 100,
+        "revenue": 500,
+        "cogs": 100,
+        "opex": 400,
+        "taxes": 0,
+        "change_working_capital": 0,
+        "capex": 0,
+        "net_financing": 0,
+        "operating_cash_flow": 0,
+        "closing_cash": 1000.0,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "upside",
+        "month": 1,
+        "opening_cash": 1000.0,
+        "units": 10,
+        "price": 100,
+        "revenue": 1000,
+        "cogs": 200,
+        "opex": 400,
+        "taxes": 0,
+        "change_working_capital": 0,
+        "capex": 0,
+        "net_financing": 0,
+        "operating_cash_flow": 400,
+        "closing_cash": 1400.0,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "upside",
+        "month": 2,
+        "opening_cash": 1400.0,
+        "units": 10,
+        "price": 100,
+        "revenue": 1000,
+        "cogs": 200,
+        "opex": 400,
+        "taxes": 0,
+        "change_working_capital": 0,
+        "capex": 0,
+        "net_financing": 0,
+        "operating_cash_flow": 400,
+        "closing_cash": 1800.0,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "upside",
+        "month": 3,
+        "opening_cash": 1800.0,
+        "units": 10,
+        "price": 100,
+        "revenue": 1000,
+        "cogs": 200,
+        "opex": 400,
+        "taxes": 0,
+        "change_working_capital": 0,
+        "capex": 0,
+        "net_financing": 0,
+        "operating_cash_flow": 400,
+        "closing_cash": 2200.0,
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "summary": [
+      {
+        "scenario": "conservative",
+        "minimum_cash": 280.0,
+        "additional_funding_needed": 0,
+        "first_negative_month": 0,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "base",
+        "minimum_cash": 1000.0,
+        "additional_funding_needed": 0,
+        "first_negative_month": 0,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "upside",
+        "minimum_cash": 1000.0,
+        "additional_funding_needed": 0,
+        "first_negative_month": 0,
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "Revenue is units times price. Operating cash subtracts COGS, operating expenses, taxes, and increased working capital. Closing cash adds net financing and subtracts capex. first_negative_month=0 means no shortfall within the modeled horizon, not infinite runway.",
+  "failure_case": "Missing months, mixed currencies, incorrect cash continuity, unsupported funding, or arithmetic inconsistencies require correction. Evidence review still checks cost classification and financing credibility."
+}

@@ -1,150 +1,68 @@
-# Set Your Pricing Framework Workbook
-
-**Venture:** {VENTURE_NAME}
-**Owner:** TODO
-**Date:** {DATE}
-**Version:** 0.1
-
-## Decision to make
-
-A testable pricing architecture tied to customer value, segment differences, purchase friction, and the chosen business model.
-
-**Current decision:** TODO
-**Decision deadline:** TODO
-**Reversal evidence:** TODO
-
-## Value anchors
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Pricing metric
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Packaging and fences
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Price ranges
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Discount policy
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Research and review plan
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Final decision
-
-**Decision:** TODO
-
-**Strongest supporting evidence:**
-
-- TODO
-
-**Strongest contradicting evidence:**
-
-- TODO
-
-**Critical unknowns:**
-
-- TODO
-
-## Next actions
-
-| Action | Owner | Due date | Evidence expected | Decision affected |
-|---|---|---|---|---|
-| TODO | TODO | TODO | TODO | TODO |
-
-## Change log
-
-| Date | Change | Reason/evidence | Author |
-|---|---|---|---|
-| {DATE} | Initial draft | Created from skill template | TODO |
+# Set Your Pricing Framework
+
+The structured record is the source for the decision below. Do not replace missing research with invented results.
+
+<!-- venture-record:start -->
+```json
+{
+  "schema_version": 2,
+  "skill": "set-your-pricing-framework",
+  "stage": "draft",
+  "synthetic": false,
+  "venture": "{VENTURE_NAME}",
+  "owner": "TODO",
+  "date": "{DATE}",
+  "scope": {
+    "customer": "TODO",
+    "currency": "TODO",
+    "billing_period": "TODO"
+  },
+  "evidence": [],
+  "data": {
+    "packages": [],
+    "price_tests": []
+  },
+  "research_plan": [],
+  "decision": "TODO",
+  "limitations": "TODO",
+  "next_actions": []
+}
+```
+<!-- venture-record:end -->
+
+## Output fields
+
+Each data table is an array of row objects. Every analysis row cites evidence IDs.
+
+### packages
+
+| Field | Type |
+|---|---|
+| `package` | text |
+| `metric` | text |
+| `price` | nonnegative |
+| `included_value` | text |
+| `fence` | text |
+| `value_anchor` | text |
+| `evidence` | evidence |
+
+### price_tests
+
+| Field | Type |
+|---|---|
+| `package` | text |
+| `method` | text |
+| `threshold` | text |
+| `discount_rule` | text |
+| `owner` | text |
+| `evidence` | evidence |
+
+## Stage rules
+
+- `draft`: unfinished work; validate with `--allow-todo`.
+- `research-plan`: leave result tables empty; complete the research protocol and next actions.
+- `completed-analysis`: fill every result table with evidence-linked rows and check calculations.
+
+A research-plan row needs question, population, method, metric, threshold, owner, and due_date.
+A next-action row needs action, owner, due_date, and evidence_expected.
+Read the bundled record-format reference for evidence fields and a complete worked example.

@@ -4,7 +4,7 @@ description: "Designs and runs low-cost, ethical experiments for prioritized ven
 license: MIT
 metadata:
   author: entrepreneurship-skills
-  version: "1.0.0"
+  version: "2.0.0"
 ---
 
 # Test Key Assumptions
@@ -15,7 +15,12 @@ Decision-grade experiment results that update confidence and trigger a clear pro
 
 Produce an evidence-backed artifact, expose uncertainty, and end with a clear decision or next test.
 
-## Required context
+## Use when / not for
+
+Use this skill for the decision described in the goal.
+Not for: Claiming an experiment ran when only its protocol exists or changing thresholds after seeing results.
+
+## Inputs and missing data
 
 Collect what is available before starting:
 
@@ -25,7 +30,11 @@ Collect what is available before starting:
 - Resource, time, legal, and ethical constraints
 - Decision thresholds and available participants
 
-Do not block on missing inputs. Mark unknowns, state their decision impact, and turn the most consequential unknowns into research actions.
+<!-- input-policy:start -->
+Use research-plan mode before authorized execution. Completed analysis requires dated observations, the precommitted threshold, and an evidence-following decision.
+
+Use `draft` for unfinished work, `research-plan` for a completed protocol, and `completed-analysis` only for an analysis actually performed. Never invent observations, founder approval, or external actions.
+<!-- input-policy:end -->
 
 ## Workflow
 
@@ -54,15 +63,21 @@ python3 scripts/validate_workbook.py "./test-key-assumptions-workbook.md"
 
 Fix every validation error. Warnings may remain only when the workbook explicitly explains the missing evidence and next action.
 
+## Output contract
+
+Use [the task-specific workbook](assets/workbook.md). Its structured record contains these result tables: `experiments`, `results`.
+
+Read [the record format](references/record-format.md) for stages, evidence, and units, and [the synthetic worked example](references/example.md) for a complete result and failure case.
+A research plan leaves result tables empty and supplies a testable protocol instead.
+
 ## Evidence rules
 
-- Prefer observed behavior, customer artifacts, transactions, and direct interviews over opinion or generic reports.
-- Label each material statement as fact, inference, or assumption.
-- Record source, date, customer/segment relevance, and confidence for decisive evidence.
-- Preserve contradictory evidence and explain how it changes the conclusion.
-- Use ranges and scenarios when inputs are uncertain; never hide uncertainty behind precise formatting.
+Separate facts, inferences, and assumptions. Cite stable evidence IDs with sources, dates, confidence, and contradictions. Forecasts are not observations.
+Preserve negative results and define the next useful test. Obtain authorization before outreach, spending, publication, or commitments; protect identifying data.
 
-## Completion contract
+## Deliverable and completion checks
+
+Apply the outcome criteria below to `completed-analysis`. A `research-plan` can be complete as a protocol but does not satisfy observed-result criteria.
 
 Produce:
 
@@ -88,10 +103,6 @@ The work is complete only when:
 
 ## Handoff
 
-End with:
+Record the decision, declared stage, supporting and contradicting evidence, remaining uncertainty, and one next action with owner and date. Name any upstream artifact invalidated by the result.
 
-1. **Decision:** the current conclusion in one sentence.
-2. **Evidence:** the strongest supporting and contradicting evidence.
-3. **Unknowns:** the assumptions most likely to change the decision.
-4. **Next actions:** owners and dates for the smallest useful follow-up work.
-5. **Downstream updates:** which prior or later venture artifacts must change.
+Next skills, when their inputs are ready: [identify-key-assumptions](../identify-key-assumptions/SKILL.md), [define-the-minimum-viable-business-product](../define-the-minimum-viable-business-product/SKILL.md). Standalone users may need to install these optional follow-ups.

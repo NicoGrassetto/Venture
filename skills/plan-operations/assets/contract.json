@@ -1,0 +1,78 @@
+{
+  "skill": "plan-operations",
+  "title": "Plan Operations",
+  "not_for": "A feature roadmap or replacing jurisdiction-specific professional advice.",
+  "input_gate": "Define delivery units, a planning period, available capacity, owners, costs, suppliers, and failure contingencies before promising service levels.",
+  "next_skills": [
+    "build-financial-plan",
+    "develop-a-product-plan"
+  ],
+  "scope": {
+    "customer": "text",
+    "delivery_unit": "text",
+    "planning_period": "text",
+    "currency": "currency"
+  },
+  "tables": {
+    "capacity": {
+      "activity": "text",
+      "demand_units": "nonnegative",
+      "hours_per_unit": "positive",
+      "available_hours": "nonnegative",
+      "required_hours": "nonnegative",
+      "gap_hours": "nonnegative",
+      "cost_per_hour": "nonnegative",
+      "labor_cost": "nonnegative",
+      "owner": "text",
+      "evidence": "evidence"
+    },
+    "dependencies": {
+      "supplier_or_dependency": "text",
+      "lead_days": "nonnegative_integer",
+      "failure_trigger": "text",
+      "fallback": "text",
+      "owner": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer": "Pilot practices",
+    "delivery_unit": "Approved invoice batch",
+    "planning_period": "One month",
+    "currency": "EUR"
+  },
+  "example_data": {
+    "capacity": [
+      {
+        "activity": "Review invoice imports",
+        "demand_units": 20,
+        "hours_per_unit": 0.5,
+        "available_hours": 8,
+        "required_hours": 10,
+        "gap_hours": 2,
+        "cost_per_hour": 30,
+        "labor_cost": 300,
+        "owner": "Operations owner",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "dependencies": [
+      {
+        "supplier_or_dependency": "Accounting export access",
+        "lead_days": 3,
+        "failure_trigger": "Approved export cannot be obtained before the billing cycle",
+        "fallback": "Reduce pilot scope; do not send unverified invoices",
+        "owner": "Founder",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "Twenty batches at half an hour require ten hours; eight available hours leave a two-hour gap. The plan must reduce demand, add capacity, or change the promise before launch.",
+  "failure_case": "Incorrect capacity or labor-cost arithmetic, unowned dependencies, or a missing fallback fails completion."
+}

@@ -1,0 +1,68 @@
+{
+  "skill": "define-competitive-advantage",
+  "title": "Define Competitive Advantage",
+  "not_for": "A feature list or a customer-facing positioning chart.",
+  "input_gate": "Trace a durable capability to customer value; when durability is unproven, keep it a hypothesis with a test and investment plan.",
+  "next_skills": [
+    "chart-your-competitive-position",
+    "develop-a-product-plan"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "advantages": {
+      "capability": "text",
+      "customer_value": "text",
+      "imitation_barrier": "text",
+      "compounding_mechanism": "text",
+      "weakness": "text",
+      "evidence": "evidence"
+    },
+    "investments": {
+      "capability": "text",
+      "investment": "text",
+      "metric": "text",
+      "owner": "text",
+      "tradeoff": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "advantages": [
+      {
+        "capability": "Reliable mapping of consulting project records",
+        "customer_value": "Fewer invoice corrections",
+        "imitation_barrier": "Verified edge-case dataset, still small",
+        "compounding_mechanism": "Each approved correction improves mapping tests",
+        "weakness": "Competitors may gain similar data",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "investments": [
+      {
+        "capability": "Reliable mapping",
+        "investment": "Maintain consented, anonymized edge-case tests",
+        "metric": "Correction rate per imported invoice",
+        "owner": "Product lead",
+        "tradeoff": "Defer unrelated integrations",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "Durability is a claim to test, not something a new venture can declare into existence. Include a credible imitation scenario.",
+  "failure_case": "A slogan without a compounding mechanism or an investment without a measure fails the output contract."
+}

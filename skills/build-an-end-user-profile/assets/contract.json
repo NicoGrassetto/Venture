@@ -1,0 +1,66 @@
+{
+  "skill": "build-an-end-user-profile",
+  "title": "Build an End-user Profile",
+  "not_for": "Profiling the paying organization or replacing customer research with decorative demographics.",
+  "input_gate": "Separate users from buyers and beneficiaries. With no observations, create a recruiting plan rather than claim a validated profile.",
+  "next_skills": [
+    "profile-the-persona",
+    "validate-with-customers"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "attributes": {
+      "attribute": "text",
+      "observed_range": "text",
+      "decision_consequence": "text",
+      "inclusion": "text",
+      "exclusion": "text",
+      "evidence": "evidence"
+    },
+    "screener": {
+      "question": "text",
+      "qualifying_answer": "text",
+      "reason": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": true,
+  "observed_tables": [
+    "attributes"
+  ],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "attributes": [
+      {
+        "attribute": "Invoice ownership",
+        "observed_range": "Owner prepares and approves invoices",
+        "decision_consequence": "Design for one accountable approver",
+        "inclusion": "Personally handles monthly billing",
+        "exclusion": "Never sees billing workflow",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "screener": [
+      {
+        "question": "Walk through your last invoice preparation.",
+        "qualifying_answer": "Can describe the actual steps they performed",
+        "reason": "Confirms first-hand workflow knowledge",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "Keep an attribute only when it changes recruiting, product, or adoption decisions. Organization size is not a substitute for an end-user profile.",
+  "failure_case": "A profile based only on assumptions must remain a research plan, and an attribute without a decision consequence is incomplete."
+}

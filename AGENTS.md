@@ -13,7 +13,7 @@ For venture work:
    Never mix evidence or state from different ventures.
 2. Read its `brief.md`, `tasks.json`, and `progress.md`. Read `evidence.json`
    and the relevant sections of `business-plan.md` as needed.
-3. Run the adapter check and draft check below. Fix structural errors before
+3. Run the package, adapter, and draft checks below. Fix errors before
    proceeding; never repair generated adapters by changing their checksums.
 4. Complete founder discovery before treating the venture brief as passing.
    Then select one dependency-ready task. Mark it `in_progress`; keep at most
@@ -22,6 +22,11 @@ For venture work:
    [skills/create-business-plan/SKILL.md](skills/create-business-plan/SKILL.md).
    For a narrower decision, use the routing map in
    [docs/harness.md](docs/harness.md).
+
+After founder confirmation, triage high-impact assumptions before expanding
+the plan. Match research depth to the venture stage and business type.
+Use the dedicated operations and financial-plan skills before committing
+resources or finalizing a full plan.
 
 For harness maintenance rather than a real venture: inspect the working tree,
 preserve existing work, run the repository tests, and update directly related
@@ -52,6 +57,7 @@ Run from the repository root. Python 3.9 or newer is the only dependency.
 
 ```bash
 # Verify native discovery metadata and canonical skill links.
+python3 scripts/build_workbooks.py --check
 python3 scripts/sync_skills.py --check
 
 # Create a new workspace; never overwrites an existing directory.
@@ -59,6 +65,10 @@ bash init.sh --venture "Example Venture" --output ventures/example
 
 # Resume or check an in-progress workspace.
 python3 scripts/venture.py validate ventures/example
+
+# Upgrade an existing v1 workspace without losing its original files.
+python3 scripts/venture.py migrate ventures/example --dry-run
+python3 scripts/venture.py migrate ventures/example
 
 # Check completion after the evidence and plan review.
 python3 scripts/venture.py validate ventures/example --final
@@ -68,8 +78,11 @@ python3 -m unittest discover -s tests -v
 ```
 
 The default check permits unfinished work and is not a completion gate.
-`--final` checks recorded completion, not the truth of claims or business
-viability. Apply the review rubric as well.
+Workbook stages are `draft`, `research-plan`, and `completed-analysis`. Never
+report a plan for research as research already performed. Final checks require
+the risk, operations, and financial analyses and recompute supported model
+arithmetic, but do not establish source truth or business viability.
+Apply the review rubric as well; never use synthetic examples as evidence.
 
 ## Working rules
 

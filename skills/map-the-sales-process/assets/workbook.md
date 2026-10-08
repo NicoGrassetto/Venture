@@ -1,150 +1,72 @@
-# Map the Sales Process Workbook
-
-**Venture:** {VENTURE_NAME}
-**Owner:** TODO
-**Date:** {DATE}
-**Version:** 0.1
-
-## Decision to make
-
-A staged seller-side process with channels, activities, conversion assumptions, costs, ownership, evidence, and evolution from early founder sales to scale.
-
-**Current decision:** TODO
-**Decision deadline:** TODO
-**Reversal evidence:** TODO
-
-## Customer-process alignment
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Sales stages
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Channels, content, and tools
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Conversion and timing
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Early-to-mature evolution
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Instrumentation and experiments
-
-<!-- Replace this prompt with evidence-backed analysis. Link raw evidence rather than pasting excessive notes. -->
-
-### Findings
-
-- TODO
-
-### Evidence
-
-| Claim | Type: fact/inference/assumption | Source and date | Confidence | Contradicting evidence |
-|---|---|---|---|---|
-| TODO | assumption | TODO | low | TODO |
-
-### Decision implications
-
-- TODO
-
-## Final decision
-
-**Decision:** TODO
-
-**Strongest supporting evidence:**
-
-- TODO
-
-**Strongest contradicting evidence:**
-
-- TODO
-
-**Critical unknowns:**
-
-- TODO
-
-## Next actions
-
-| Action | Owner | Due date | Evidence expected | Decision affected |
-|---|---|---|---|---|
-| TODO | TODO | TODO | TODO | TODO |
-
-## Change log
-
-| Date | Change | Reason/evidence | Author |
-|---|---|---|---|
-| {DATE} | Initial draft | Created from skill template | TODO |
+# Map the Sales Process
+
+The structured record is the source for the decision below. Do not replace missing research with invented results.
+
+<!-- venture-record:start -->
+```json
+{
+  "schema_version": 2,
+  "skill": "map-the-sales-process",
+  "stage": "draft",
+  "synthetic": false,
+  "venture": "{VENTURE_NAME}",
+  "owner": "TODO",
+  "date": "{DATE}",
+  "scope": {
+    "customer": "TODO",
+    "geography": "TODO",
+    "decision_horizon": "TODO"
+  },
+  "evidence": [],
+  "data": {
+    "sales_stages": [],
+    "bottlenecks": []
+  },
+  "research_plan": [],
+  "decision": "TODO",
+  "limitations": "TODO",
+  "next_actions": []
+}
+```
+<!-- venture-record:end -->
+
+## Output fields
+
+Each data table is an array of row objects. Every analysis row cites evidence IDs.
+
+### sales_stages
+
+| Field | Type |
+|---|---|
+| `stage` | text |
+| `customer_exit` | text |
+| `seller_action` | text |
+| `owner` | text |
+| `channel` | text |
+| `entered` | nonnegative_integer |
+| `converted` | nonnegative_integer |
+| `conversion_rate` | probability |
+| `elapsed_days` | nonnegative |
+| `cost` | nonnegative |
+| `evidence` | evidence |
+
+### bottlenecks
+
+| Field | Type |
+|---|---|
+| `stage` | text |
+| `hypothesis` | text |
+| `experiment` | text |
+| `metric` | text |
+| `owner` | text |
+| `evidence` | evidence |
+
+## Stage rules
+
+- `draft`: unfinished work; validate with `--allow-todo`.
+- `research-plan`: leave result tables empty; complete the research protocol and next actions.
+- `completed-analysis`: fill every result table with evidence-linked rows and check calculations.
+
+A research-plan row needs question, population, method, metric, threshold, owner, and due_date.
+A next-action row needs action, owner, due_date, and evidence_expected.
+Read the bundled record-format reference for evidence fields and a complete worked example.

@@ -1,0 +1,71 @@
+{
+  "skill": "identify-key-assumptions",
+  "title": "Identify Key Assumptions",
+  "not_for": "Turning verified facts into guesses or designing experiments before prioritizing the risk.",
+  "input_gate": "Start after founder discovery, not only after a full plan exists. Rank desirability, viability, feasibility, operational, and team uncertainties.",
+  "next_skills": [
+    "test-key-assumptions"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "assumptions": {
+      "id": "text",
+      "hypothesis": "text",
+      "category": "choice:desirability,viability,feasibility,operations,team,regulatory",
+      "impact": "positive_integer",
+      "uncertainty": "positive_integer",
+      "risk_score": "positive_integer",
+      "reversal_threshold": "text",
+      "evidence": "evidence"
+    },
+    "test_queue": {
+      "assumption_id": "text",
+      "priority": "positive_integer",
+      "dependency": "text",
+      "next_evidence": "text",
+      "owner": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "assumptions": [
+      {
+        "id": "A-001",
+        "hypothesis": "Owners will pay for draft preparation while retaining approval",
+        "category": "viability",
+        "impact": 5,
+        "uncertainty": 4,
+        "risk_score": 20,
+        "reversal_threshold": "No qualified prospect accepts an authorized paid pilot",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "test_queue": [
+      {
+        "assumption_id": "A-001",
+        "priority": 1,
+        "dependency": "Founder approves outreach scope",
+        "next_evidence": "Paid-pilot proposal decisions and objections",
+        "owner": "Founder",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "Use a 1-5 impact and uncertainty scale. A score of 20 prioritizes a test; it is not a probability or proof of risk.",
+  "failure_case": "Compound hypotheses, out-of-range ratings, incorrect risk multiplication, or queue references to missing assumptions fail the checks."
+}

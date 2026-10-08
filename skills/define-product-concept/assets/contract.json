@@ -1,0 +1,70 @@
+{
+  "skill": "define-product-concept",
+  "title": "Define the Product Concept",
+  "not_for": "A build-ready technical specification or a feature backlog.",
+  "input_gate": "A concept can be provisional, but define the customer outcome, storyboard, non-goals, and an unled comprehension test.",
+  "next_skills": [
+    "quantify-the-value-proposition",
+    "test-key-assumptions"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "storyboard": {
+      "step": "positive_integer",
+      "user_action": "text",
+      "input": "text",
+      "visible_output": "text",
+      "benefit": "text",
+      "non_goal": "text",
+      "evidence": "evidence"
+    },
+    "concept_test": {
+      "participant_id": "text",
+      "prompt": "text",
+      "observed_understanding": "text",
+      "revision": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": true,
+  "observed_tables": [
+    "concept_test"
+  ],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "storyboard": [
+      {
+        "step": 1,
+        "user_action": "Review imported hours before approving an invoice",
+        "input": "Approved time sheet",
+        "visible_output": "Invoice preview with highlighted differences",
+        "benefit": "Avoid retyping while retaining control",
+        "non_goal": "Automatic sending or bookkeeping advice",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "concept_test": [
+      {
+        "participant_id": "P-01",
+        "prompt": "Explain what you think happens after approval.",
+        "observed_understanding": "Participant expected a draft, not an automatically sent invoice",
+        "revision": "Label the action Create draft",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "A text storyboard is acceptable before mockups exist. Record the user's explanation rather than the presenter's explanation.",
+  "failure_case": "Missing visible outputs or unsourced claims that users understood the concept should remain a research plan."
+}

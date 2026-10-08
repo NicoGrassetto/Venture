@@ -1,0 +1,71 @@
+{
+  "skill": "validate-with-customers",
+  "title": "Validate with Customers",
+  "not_for": "A lead list, a sales pitch, or claiming that a sample size proves the whole market.",
+  "input_gate": "Research-plan mode covers recruitment only. Completed analysis needs qualified participants, observed behavior, cross-customer synthesis, and an explicit sample limitation.",
+  "next_skills": [
+    "select-a-beachhead-market",
+    "profile-the-persona",
+    "identify-key-assumptions"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "target_sample": "positive_integer"
+  },
+  "tables": {
+    "participants": {
+      "participant_id": "text",
+      "qualification": "text",
+      "method": "choice:interview,observation,transaction",
+      "current_behavior": "text",
+      "finding": "text",
+      "evidence": "evidence"
+    },
+    "synthesis": {
+      "observed_sample": "nonnegative_integer",
+      "pattern": "text",
+      "contradiction": "text",
+      "decision": "choice:proceed,revise,inconclusive",
+      "sample_limitation": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": true,
+  "observed_tables": [
+    "participants"
+  ],
+  "example_scope": {
+    "customer": "Owner-managed consultancies",
+    "geography": "Ireland",
+    "target_sample": 3
+  },
+  "example_data": {
+    "participants": [
+      {
+        "participant_id": "P-01",
+        "qualification": "Owner handles actual monthly invoices",
+        "method": "interview",
+        "current_behavior": "Reconciles time sheets manually",
+        "finding": "Accuracy matters more than fully automatic sending",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "synthesis": [
+      {
+        "observed_sample": 1,
+        "pattern": "Manual reconciliation may create avoidable effort",
+        "contradiction": "This participant prefers an approval step",
+        "decision": "inconclusive",
+        "sample_limitation": "Only one of three planned independent participants; recruit from another channel",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "A shortfall can produce an honest inconclusive analysis, but not a proceed decision. Set a justified sample target rather than applying a universal count.",
+  "failure_case": "Recruiting contacts alone are not completed interviews. A sample below the declared target cannot produce proceed or revise as if the target were met."
+}

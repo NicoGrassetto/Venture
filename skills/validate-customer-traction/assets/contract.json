@@ -1,0 +1,74 @@
+{
+  "skill": "validate-customer-traction",
+  "title": "Validate Customer Traction",
+  "not_for": "Sign-up totals, compliments, or declaring product-market fit from one cohort.",
+  "input_gate": "Completed analysis needs actual usage, payment, and cohort observations. A future instrumentation plan belongs in research-plan mode.",
+  "next_skills": [
+    "develop-a-product-plan",
+    "calculate-customer-lifetime-value"
+  ],
+  "scope": {
+    "customer": "text",
+    "cohort_window": "text",
+    "retention_period": "text"
+  },
+  "tables": {
+    "cohorts": {
+      "cohort": "text",
+      "acquired": "positive_integer",
+      "activated": "nonnegative_integer",
+      "paid": "nonnegative_integer",
+      "retained": "nonnegative_integer",
+      "retention_rate": "probability",
+      "customer_outcome": "text",
+      "evidence": "evidence"
+    },
+    "diagnosis": {
+      "cohort": "text",
+      "bottleneck": "text",
+      "contradiction": "text",
+      "decision": "choice:scale,iterate,pivot,stop",
+      "next_test": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": true,
+  "observed_tables": [
+    "cohorts"
+  ],
+  "example_scope": {
+    "customer": "Owner-managed practices",
+    "cohort_window": "January paid-pilot entrants",
+    "retention_period": "Second monthly billing cycle"
+  },
+  "example_data": {
+    "cohorts": [
+      {
+        "cohort": "January pilots",
+        "acquired": 10,
+        "activated": 8,
+        "paid": 6,
+        "retained": 4,
+        "retention_rate": 0.4,
+        "customer_outcome": "Four owners repeated the approved draft workflow",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "diagnosis": [
+      {
+        "cohort": "January pilots",
+        "bottleneck": "Second-cycle setup effort",
+        "contradiction": "Some paid users did not return",
+        "decision": "iterate",
+        "next_test": "Observe the second-cycle import with consent",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "Retention here uses acquired customers as its denominator, explicitly. Do not switch to paid or activated denominators to improve the reported percentage.",
+  "failure_case": "Impossible funnel counts, an incorrect retention denominator, or assumption-only traction data cannot pass."
+}

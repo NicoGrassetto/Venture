@@ -1,0 +1,100 @@
+{
+  "skill": "quantify-the-value-proposition",
+  "title": "Quantify the Value Proposition",
+  "not_for": "Vendor revenue, price selection, or monetizing every benefit without a defensible conversion.",
+  "input_gate": "Choose a customer-recognized baseline, consistent unit, and credible realization factor; record disputes and unknowns.",
+  "next_skills": [
+    "set-your-pricing-framework",
+    "define-product-concept"
+  ],
+  "scope": {
+    "customer": "text",
+    "input_unit": "text",
+    "value_unit": "text",
+    "horizon": "text"
+  },
+  "tables": {
+    "outcomes": {
+      "scenario": "choice:conservative,base,upside",
+      "baseline": "number",
+      "future": "number",
+      "direction": "choice:increase,decrease",
+      "unit_value": "nonnegative",
+      "frequency": "nonnegative",
+      "realization": "probability",
+      "realized_value": "number",
+      "evidence": "evidence"
+    },
+    "validation": {
+      "baseline_source": "text",
+      "customer_response": "text",
+      "disputed_input": "text",
+      "next_test": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer": "Practice owner",
+    "input_unit": "Hours per invoice cycle",
+    "value_unit": "EUR per year",
+    "horizon": "12 monthly cycles"
+  },
+  "example_data": {
+    "outcomes": [
+      {
+        "scenario": "conservative",
+        "baseline": 2,
+        "future": 0.5,
+        "direction": "decrease",
+        "unit_value": 50,
+        "frequency": 12,
+        "realization": 0.5,
+        "realized_value": 450.0,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "base",
+        "baseline": 2,
+        "future": 0.5,
+        "direction": "decrease",
+        "unit_value": 50,
+        "frequency": 12,
+        "realization": 0.75,
+        "realized_value": 675.0,
+        "evidence": [
+          "E-001"
+        ]
+      },
+      {
+        "scenario": "upside",
+        "baseline": 2,
+        "future": 0.5,
+        "direction": "decrease",
+        "unit_value": 50,
+        "frequency": 12,
+        "realization": 1.0,
+        "realized_value": 900.0,
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "validation": [
+      {
+        "baseline_source": "Synthetic owner walkthrough",
+        "customer_response": "Owner recognizes the current workflow but future savings are untested",
+        "disputed_input": "Realization depends on export quality",
+        "next_test": "Time a consented pilot cycle",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "The base case is 1.5 hours saved times EUR 50/hour times 12 cycles times 75% realization = EUR 675/year. It is a value hypothesis, not observed savings.",
+  "failure_case": "Incompatible units, a realization factor above one, or a result that disagrees with the explicit inputs fails the checks."
+}

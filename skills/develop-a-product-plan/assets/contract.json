@@ -1,0 +1,68 @@
+{
+  "skill": "develop-a-product-plan",
+  "title": "Develop a Product Plan",
+  "not_for": "A build specification or promising expansion without evidence gates.",
+  "input_gate": "Sequence customer outcomes and dependencies. If consumption evidence is missing, keep expansion conditional rather than claiming readiness.",
+  "next_skills": [
+    "plan-operations",
+    "build-financial-plan"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "roadmap": {
+      "initiative": "text",
+      "horizon": "choice:now,next,later",
+      "outcome": "text",
+      "dependency": "text",
+      "evidence_gate": "text",
+      "owner": "text",
+      "resource_limit": "text",
+      "evidence": "evidence"
+    },
+    "deferred": {
+      "opportunity": "text",
+      "reason": "text",
+      "revisit_trigger": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "roadmap": [
+      {
+        "initiative": "Reduce repeat import setup",
+        "horizon": "now",
+        "outcome": "Owners complete the second billing cycle",
+        "dependency": "Observe actual repeat workflow",
+        "evidence_gate": "Second-cycle retention improves without more founder hours",
+        "owner": "Product lead",
+        "resource_limit": "Two weeks before another integration",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "deferred": [
+      {
+        "opportunity": "Large-firm procurement integration",
+        "reason": "Different buying motion and support burden",
+        "revisit_trigger": "Reliable repeat use and positive contribution in the current segment",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "A roadmap remains useful before all hypotheses are proven if commitments are conditional and resources are bounded.",
+  "failure_case": "Features with no outcome, dependency, evidence gate, or owner fail completion."
+}

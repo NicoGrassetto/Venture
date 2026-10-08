@@ -1,0 +1,68 @@
+{
+  "skill": "map-customer-buying-process",
+  "title": "Map the Customer Buying Process",
+  "not_for": "The venture's marketing activities or CRM stage names.",
+  "input_gate": "Ground timing in actual comparable purchases when possible; distinguish observed timing from forecast assumptions.",
+  "next_skills": [
+    "map-the-sales-process",
+    "calculate-customer-acquisition-cost"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "buying_stages": {
+      "stage": "text",
+      "customer_owner": "text",
+      "entry_condition": "text",
+      "exit_evidence": "text",
+      "elapsed_days": "nonnegative",
+      "dependency": "text",
+      "evidence": "evidence"
+    },
+    "obstacles": {
+      "obstacle": "text",
+      "impact": "text",
+      "mitigation": "text",
+      "owner": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "buying_stages": [
+      {
+        "stage": "Approve paid pilot",
+        "customer_owner": "Practice owner",
+        "entry_condition": "Draft invoice matches a recent approved invoice",
+        "exit_evidence": "Signed paid-pilot acceptance",
+        "elapsed_days": 7,
+        "dependency": "Confirm accountant export format",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "obstacles": [
+      {
+        "obstacle": "Export format mismatch",
+        "impact": "Pilot cannot begin",
+        "mitigation": "Validate one sample file before quoting the pilot",
+        "owner": "Founder",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "A signed agreement, payment, and implementation readiness can occur at different times; represent each material delay.",
+  "failure_case": "Missing customer-side owners, exit evidence, or negative elapsed times fail validation."
+}

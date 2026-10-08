@@ -1,0 +1,70 @@
+{
+  "skill": "select-a-beachhead-market",
+  "title": "Select a Beachhead Market",
+  "not_for": "Generating segments from scratch or adding adjacent markets to the first product.",
+  "input_gate": "Compare explicit candidates. A provisional choice may use assumptions, but record exclusions and reversal conditions.",
+  "next_skills": [
+    "build-an-end-user-profile",
+    "calculate-beachhead-market-tam"
+  ],
+  "scope": {
+    "customer": "text",
+    "geography": "text",
+    "decision_horizon": "text"
+  },
+  "tables": {
+    "selection": {
+      "chosen_segment": "text",
+      "inclusions": "text",
+      "exclusions": "text",
+      "homogeneity": "text",
+      "reversal_trigger": "text",
+      "evidence": "evidence"
+    },
+    "scorecard": {
+      "candidate": "text",
+      "criterion": "text",
+      "weight": "probability",
+      "score": "probability",
+      "weighted_score": "nonnegative",
+      "rationale": "text",
+      "evidence": "evidence"
+    }
+  },
+  "observations_required": false,
+  "observed_tables": [],
+  "example_scope": {
+    "customer": "Small consulting teams",
+    "geography": "Ireland",
+    "decision_horizon": "Next 90 days"
+  },
+  "example_data": {
+    "selection": [
+      {
+        "chosen_segment": "Owner-managed consultancies",
+        "inclusions": "One owner approves invoices and buys software",
+        "exclusions": "Large firms requiring procurement integrations",
+        "homogeneity": "Monthly time-based invoicing and owner approval",
+        "reversal_trigger": "Qualified interviews show incompatible workflows",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ],
+    "scorecard": [
+      {
+        "candidate": "Owner-managed consultancies",
+        "criterion": "Access to qualified users",
+        "weight": 1.0,
+        "score": 0.8,
+        "weighted_score": 0.8,
+        "rationale": "A reachable local network; illustrative single criterion",
+        "evidence": [
+          "E-001"
+        ]
+      }
+    ]
+  },
+  "example_note": "Weights sum to one per candidate. Scores organize judgment; they are not proof of demand. Test whether plausible weight changes reverse the choice.",
+  "failure_case": "Multiple chosen segments, inconsistent weights, or a weighted score that is not weight times score are rejected."
+}
