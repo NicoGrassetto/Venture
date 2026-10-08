@@ -1,4 +1,4 @@
-# Entrepreneurship Skills
+# Venture
 
 Actionable [Agent Skills](https://agentskills.io/) inspired by the 24-step
 *Disciplined Entrepreneurship* framework by Bill Aulet. These skills teach an
