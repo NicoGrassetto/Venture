@@ -1,8 +1,21 @@
-![Golden Gate Bridge pixel art](.github/assets/golden-gate-pixel.gif)
+<p align="center">
+  <img src=".github/assets/golden-gate-pixel.gif" alt="Golden Gate Bridge pixel art" width="224" />
+</p>
 
-# Venture
+<p align="center">
+  <strong>Venture</strong><br />
+  Your bridge from idea to reality.
+</p>
 
-Your bridge from idea to reality.
+<p align="center">
+  <a href="#overview">Overview</a> &middot;
+  <a href="#structure">Structure</a> &middot;
+  <a href="#use">Use</a> &middot;
+  <a href="#skills">Skills</a> &middot;
+  <a href="#sources-and-attribution">Sources and attribution</a>
+</p>
+
+## Overview
 
 Actionable [Agent Skills](https://agentskills.io/) inspired by the 24-step
 *Disciplined Entrepreneurship* framework by Bill Aulet. These skills teach an
