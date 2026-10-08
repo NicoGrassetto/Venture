@@ -8,6 +8,7 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT license" /></a>
+  <a href="https://github.com/NicoGrassetto/entrepreneurship-skills/actions/workflows/validate-harness.yml"><img src="https://github.com/NicoGrassetto/entrepreneurship-skills/actions/workflows/validate-harness.yml/badge.svg" alt="Validate harness status" /></a>
 </p>
 
 <p align="center">
