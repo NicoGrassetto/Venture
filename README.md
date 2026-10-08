@@ -7,11 +7,16 @@
 </p>
 
 <p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT license" /></a>
+</p>
+
+<p align="center">
   <a href="#overview">Overview</a> &middot;
   <a href="#structure">Structure</a> &middot;
   <a href="#use">Use</a> &middot;
   <a href="#skills">Skills</a> &middot;
-  <a href="#sources-and-attribution">Sources and attribution</a>
+  <a href="#sources-and-attribution">Sources and attribution</a> &middot;
+  <a href="LICENSE">License</a>
 </p>
 
 ## Overview
@@ -119,3 +124,7 @@ books, courses, and official tools, see:
 - [Disciplined Entrepreneurship Toolbox](https://www.detoolbox.com/)
 - [Agent Skills specification](https://agentskills.io/specification)
 - [GitHub Copilot Agent Skills documentation](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills)
+
+## License
+
+Venture is available under the [MIT License](LICENSE).
