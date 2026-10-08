@@ -26,7 +26,30 @@ Collect what is available before starting:
 - Potential cofounders and evidence of prior collaboration
 - Non-negotiables such as geography, ethics, timing, or industry exclusions
 
-Do not block on missing inputs. Mark unknowns, state their decision impact, and turn the most consequential unknowns into research actions.
+Missing market evidence need not block exploration. Mark unknowns, state their
+decision impact, and turn the most consequential unknowns into research actions.
+Missing understanding of the founder's intent requires clarification, not
+invented answers.
+
+## Founder discovery
+
+Treat a one-sentence pitch as a starting point, not a complete venture brief.
+Read existing material first, then ask focused questions one at a time and
+follow up on the answers. Establish:
+
+- The target customer, problem, current workaround, and a concrete example
+- The intended solution, differentiation, payer, and business model hypothesis
+- The current stage, work already done, and evidence versus expectations
+- Founder motivation, capabilities, resources, constraints, and non-negotiables
+- The purpose of the plan, intended audience, and decision it must support
+
+Do not demand a fixed number of answers or repeat questions already resolved
+by supplied material. Explicitly record genuine unknowns and their next tests.
+Reflect the understanding back to the founder, invite corrections, and obtain
+explicit confirmation before calling the brief complete. Save the questions,
+answers, corrections, and confirmation source and date with the working
+artifact. If the founder is unavailable, leave the brief provisional and record
+the next question; do not simulate consent or claim the founder was interviewed.
 
 ## Workflow
 
@@ -74,6 +97,7 @@ Produce:
 
 The work is complete only when:
 
+- The founder has confirmed the reflected understanding of the intended venture.
 - The thesis names a customer context and problem, not only a product.
 - At least one founder has credible access to prospective users or domain evidence.
 - Team members have discussed commitment, roles, and conflict expectations explicitly.

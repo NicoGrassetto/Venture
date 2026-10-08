@@ -6,6 +6,11 @@
       "id": "venture-brief",
       "title": "Establish the venture thesis, constraints, and plan audience",
       "skills": ["getting-started"],
+      "discovery": {
+        "confirmed_by": "",
+        "confirmed_on": "",
+        "confirmation_source": ""
+      },
       "depends_on": [],
       "artifacts": ["brief.md"],
       "acceptance": [

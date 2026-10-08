@@ -27,14 +27,19 @@ complete.
 - Sharing permissions and the boundaries of authorized external work
 
 Collect what is available. Turn missing inputs into explicit assumptions or
-blocked work with an owner and a next test.
+blocked work with an owner and a next test. Do not use that allowance to skip
+founder discovery or substitute an invented venture for an unclear request.
 
 ## Workflow
 
-1. Read the repository [agent instructions](../AGENTS.md) and
-   [harness lifecycle](../docs/harness.md). Identify or initialize a workspace.
-2. Read its brief, task ledger, evidence register, and progress. Confirm the
-   audience and decision before selecting the plan's depth and time horizon.
+1. Read the repository [agent instructions](../../AGENTS.md) and
+   [harness lifecycle](../../docs/harness.md). Identify or initialize a workspace.
+2. Read its brief, task ledger, evidence register, and progress. Follow the
+   [founder discovery protocol](../../docs/harness.md#founder-discovery): ask
+   targeted follow-ups, understand the intended venture, and reflect it back
+   for correction and explicit founder confirmation. A one-line pitch is not
+   a completed brief. Confirm the audience and decision before selecting the
+   plan's depth and time horizon; keep unconfirmed work provisional.
 3. Pick one dependency-ready task. Use the routing map to select the relevant
    chapter skills; do not run every chapter mechanically.
 4. Gather authorized evidence, register material claims, and create chapter
@@ -53,7 +58,7 @@ blocked work with an owner and a next test.
    `review-ready`; otherwise hand off a clearly labeled draft or blocker.
 
 Paths above are relative to this skill directory. The commands below run from
-the repository root, one directory above it:
+the repository root, two directories above it:
 
 ```bash
 bash init.sh --venture "Venture name" --output ventures/example
@@ -69,7 +74,8 @@ Individual chapter skills remain usable independently.
 
 Produce:
 
-- A scoped founder and venture brief
+- A scoped founder and venture brief with a recorded discovery conversation
+  and explicit founder confirmation
 - A business plan with traceable claims and explicit uncertainties
 - An evidence register retaining contradictions and provenance
 - Task-level verification and a separate review record

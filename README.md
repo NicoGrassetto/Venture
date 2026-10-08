@@ -44,15 +44,15 @@ init.sh                         Workspace initialization
 docs/harness.md                 Lifecycle, routing, and state contracts
 scripts/venture.py              Initialization and completion checks
 templates/                      Venture brief, task, evidence, and progress templates
-create-business-plan/           Business-plan orchestration skill and template
+skills/                         Chapter skills and business-plan orchestration
 tests/                          Harness and chapter regression checks
 ventures/                       Private working copies (ignored by Git)
 ```
 
-Each chapter is a top-level, unnumbered skill directory:
+Each chapter is an unnumbered directory inside [skills/](skills/):
 
 ```text
-market-segmentation/
+skills/market-segmentation/
 |-- SKILL.md
 |-- assets/
 |   `-- workbook.md
@@ -79,8 +79,9 @@ resources load only when needed.
 
 ## How it works
 
-1. **Frame the decision.** Record the venture, audience, constraints, and
-   planning horizon in a dedicated workspace.
+1. **Understand the venture.** Ask targeted follow-up questions, record the
+   venture, audience, constraints, and planning horizon, then reflect the
+   understanding back for the founder to correct and confirm.
 2. **Select one task.** Read persistent state and load only the chapter skills
    needed for the current decision.
 3. **Gather evidence.** Distinguish facts, inferences, and assumptions; retain
@@ -115,6 +116,11 @@ Help me develop this venture into a business plan for an internal go/no-go
 decision. Start with the brief, label unknowns, and work on one task at a time.
 ```
 
+The agent should not jump from a one-line pitch to a finished plan. It first
+clarifies the customer, problem, solution, business model, current stage,
+founder constraints, and plan purpose. The brief cannot pass without a recorded
+founder confirmation. See the [discovery protocol](docs/harness.md#founder-discovery).
+
 Resume by reading the workspace's brief, tasks, evidence, and progress rather
 than initializing it again. Startup never overwrites an existing directory.
 Keep sensitive research in the ignored workspace and arrange private backups;
@@ -132,10 +138,11 @@ review scores. A review-ready plan is not the same as a validated business.
 
 ### Use individual skills
 
-Add the repository as a skills location in a compatible agent, or install an
-individual chapter directory. In GitHub Copilot CLI, use `/skills add` in an
-interactive session or `copilot skill add <DIRECTORY>` from the terminal, then
-reload skills.
+Add [skills/](skills/) as a skills location in a compatible agent, or install
+an individual chapter directory from it. In GitHub Copilot CLI, use
+`/skills add ./skills` in an interactive session or `copilot skill add ./skills`
+from the repository root, then reload skills. Update any previously registered
+paths that pointed at the old top-level skill directories.
 
 You can explicitly invoke a skill by name:
 
@@ -158,37 +165,37 @@ The validator intentionally fails while `TODO` placeholders remain. Use
 
 ## Skills
 
-Use [create-business-plan](create-business-plan/) to orchestrate the full
+Use [create-business-plan](skills/create-business-plan/) to orchestrate the full
 business-plan workflow. It requires the full repository; the chapter skills
 below remain independently usable.
 
 | Step | Skill |
 |---:|---|
-| 0 | [`getting-started`](getting-started/) |
-| 1 | [`market-segmentation`](market-segmentation/) |
-| 2 | [`select-a-beachhead-market`](select-a-beachhead-market/) |
-| 3 | [`build-an-end-user-profile`](build-an-end-user-profile/) |
-| 4 | [`calculate-beachhead-market-tam`](calculate-beachhead-market-tam/) |
-| 5 | [`profile-the-persona`](profile-the-persona/) |
-| 6 | [`full-life-cycle-use-case`](full-life-cycle-use-case/) |
-| 7 | [`high-level-product-specification`](high-level-product-specification/) |
-| 8 | [`quantify-the-value-proposition`](quantify-the-value-proposition/) |
-| 9 | [`identify-your-next-10-customers`](identify-your-next-10-customers/) |
-| 10 | [`define-your-core`](define-your-core/) |
-| 11 | [`chart-your-competitive-position`](chart-your-competitive-position/) |
-| 12 | [`determine-the-customer-dmu`](determine-the-customer-dmu/) |
-| 13 | [`map-the-customer-acquisition-process`](map-the-customer-acquisition-process/) |
-| 14 | [`calculate-follow-on-markets-tam`](calculate-follow-on-markets-tam/) |
-| 15 | [`design-a-business-model`](design-a-business-model/) |
-| 16 | [`set-your-pricing-framework`](set-your-pricing-framework/) |
-| 17 | [`calculate-customer-lifetime-value`](calculate-customer-lifetime-value/) |
-| 18 | [`map-the-sales-process`](map-the-sales-process/) |
-| 19 | [`calculate-customer-acquisition-cost`](calculate-customer-acquisition-cost/) |
-| 20 | [`identify-key-assumptions`](identify-key-assumptions/) |
-| 21 | [`test-key-assumptions`](test-key-assumptions/) |
-| 22 | [`define-the-minimum-viable-business-product`](define-the-minimum-viable-business-product/) |
-| 23 | [`show-that-the-dogs-will-eat-the-dog-food`](show-that-the-dogs-will-eat-the-dog-food/) |
-| 24 | [`develop-a-product-plan`](develop-a-product-plan/) |
+| 0 | [`getting-started`](skills/getting-started/) |
+| 1 | [`market-segmentation`](skills/market-segmentation/) |
+| 2 | [`select-a-beachhead-market`](skills/select-a-beachhead-market/) |
+| 3 | [`build-an-end-user-profile`](skills/build-an-end-user-profile/) |
+| 4 | [`calculate-beachhead-market-tam`](skills/calculate-beachhead-market-tam/) |
+| 5 | [`profile-the-persona`](skills/profile-the-persona/) |
+| 6 | [`full-life-cycle-use-case`](skills/full-life-cycle-use-case/) |
+| 7 | [`high-level-product-specification`](skills/high-level-product-specification/) |
+| 8 | [`quantify-the-value-proposition`](skills/quantify-the-value-proposition/) |
+| 9 | [`identify-your-next-10-customers`](skills/identify-your-next-10-customers/) |
+| 10 | [`define-your-core`](skills/define-your-core/) |
+| 11 | [`chart-your-competitive-position`](skills/chart-your-competitive-position/) |
+| 12 | [`determine-the-customer-dmu`](skills/determine-the-customer-dmu/) |
+| 13 | [`map-the-customer-acquisition-process`](skills/map-the-customer-acquisition-process/) |
+| 14 | [`calculate-follow-on-markets-tam`](skills/calculate-follow-on-markets-tam/) |
+| 15 | [`design-a-business-model`](skills/design-a-business-model/) |
+| 16 | [`set-your-pricing-framework`](skills/set-your-pricing-framework/) |
+| 17 | [`calculate-customer-lifetime-value`](skills/calculate-customer-lifetime-value/) |
+| 18 | [`map-the-sales-process`](skills/map-the-sales-process/) |
+| 19 | [`calculate-customer-acquisition-cost`](skills/calculate-customer-acquisition-cost/) |
+| 20 | [`identify-key-assumptions`](skills/identify-key-assumptions/) |
+| 21 | [`test-key-assumptions`](skills/test-key-assumptions/) |
+| 22 | [`define-the-minimum-viable-business-product`](skills/define-the-minimum-viable-business-product/) |
+| 23 | [`show-that-the-dogs-will-eat-the-dog-food`](skills/show-that-the-dogs-will-eat-the-dog-food/) |
+| 24 | [`develop-a-product-plan`](skills/develop-a-product-plan/) |
 
 ## Sources and attribution
 

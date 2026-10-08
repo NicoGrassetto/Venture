@@ -14,16 +14,36 @@ For venture work:
 2. Read its `brief.md`, `tasks.json`, and `progress.md`. Read `evidence.json`
    and the relevant sections of `business-plan.md` as needed.
 3. Run the draft check below. Fix structural errors before proceeding.
-4. Select one dependency-ready task. Mark it `in_progress`; keep at most one
-   task active. Load only the relevant skill and its references.
+4. Complete founder discovery before treating the venture brief as passing.
+   Then select one dependency-ready task. Mark it `in_progress`; keep at most
+   one task active. Load only the relevant skill and its references.
 5. For a business plan, follow
-   [create-business-plan/SKILL.md](create-business-plan/SKILL.md).
+   [skills/create-business-plan/SKILL.md](skills/create-business-plan/SKILL.md).
    For a narrower decision, use the routing map in
    [docs/harness.md](docs/harness.md).
 
 For harness maintenance rather than a real venture: inspect the working tree,
 preserve existing work, run the repository tests, and update directly related
 documentation. Do not create fictional venture evidence or progress records.
+
+## Understand the venture first
+
+A one-sentence pitch starts discovery; it does not complete it. Read existing
+material, then ask focused follow-up questions one at a time, adapting to each
+answer. Clarify the customer and problem, current alternatives, intended
+solution and differentiation, business model, stage and evidence, founder
+motivation and constraints, and the decision the plan must support.
+
+Ask for concrete examples and resolve ambiguous or contradictory answers.
+Do not repeatedly ask for information already supplied or demand certainty
+about untested markets. Reflect a substantive understanding back to the founder,
+separate known intent from assumptions, and invite corrections before asking
+for explicit confirmation. Record the exchange and confirmation locally.
+
+Do not infer confirmation from silence or an agent review. Without it, keep the
+brief `in_progress` or `blocked`; only do clearly provisional work. Follow the
+[discovery protocol](docs/harness.md#founder-discovery) and record the dated
+confirmation in the brief task before marking it `passing`.
 
 ## Commands
 
@@ -55,6 +75,7 @@ viability. Apply the review rubric as well.
   stable evidence IDs, sources, dates, confidence, and contradictory evidence.
   Never invent interviews, customers, commitments, revenue, or citations.
 - Missing inputs become explicit unknowns with an owner and a next test.
+  This is not permission to skip clarifying the founder's intent.
   Forecasts are assumptions, not observed results. Keep currencies, periods,
   customer units, cohorts, and scenarios consistent.
 - Use the existing chapter templates and validators. Save working copies under
@@ -74,7 +95,7 @@ viability. Apply the review rubric as well.
 ## Before handing off
 
 1. Review the result against the selected skill's completion contract and the
-   [business-plan review rubric](create-business-plan/references/method.md).
+   [business-plan review rubric](skills/create-business-plan/references/method.md).
    Use a separate review pass; seek a human review for consequential decisions.
 2. Run the relevant workbook validator and workspace check. Record the exact
    command, result, remaining limitations, reviewer, and review date.
@@ -88,7 +109,7 @@ viability. Apply the review rubric as well.
 ## Reference map
 
 - [Harness lifecycle, state format, and skill routing](docs/harness.md)
-- [Business-plan workflow](create-business-plan/SKILL.md)
-- [Plan template](create-business-plan/assets/workbook.md)
-- [Plan review and financial consistency rules](create-business-plan/references/method.md)
+- [Business-plan workflow](skills/create-business-plan/SKILL.md)
+- [Plan template](skills/create-business-plan/assets/workbook.md)
+- [Plan review and financial consistency rules](skills/create-business-plan/references/method.md)
 - [Chapter skill catalog](README.md#skills)

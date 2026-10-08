@@ -59,8 +59,66 @@ another output location, arrange equivalent protections yourself.
 
 At the start of each session, read the brief, tasks, and latest progress.
 Confirm the plan audience, decision, current constraints, and evidence gaps.
+If the founder has not confirmed the venture brief, start with discovery below.
 Choose one task whose dependencies are `passing`; load only its relevant
 skills, references, and evidence. Do not load all 25 workbooks by default.
+
+## Founder discovery
+
+A short pitch is an invitation to understand the venture, not permission to
+invent the rest of it. Begin with the founder's existing notes and documents,
+then ask focused follow-up questions one at a time. Adapt the next question to
+the answer instead of delivering a long generic questionnaire.
+
+Build enough shared understanding to cover:
+
+| Topic | Useful follow-up |
+|---|---|
+| Customer and problem | Who experiences the problem, in what concrete situation, and what do they do today? |
+| Solution and differentiation | What should change for that customer, and why might this approach be better than their workaround? |
+| Business model | Who could pay, for what, and which parts are still hypotheses? |
+| Stage and evidence | What exists now, what has been tried, and what has actually been observed? |
+| Founder context | Why this venture, what capabilities and access exist, and what are the limits on time, money, geography, and ambition? |
+| Plan purpose | Who will use the plan, for what decision, over what horizon? |
+
+Ask for concrete examples when answers are vague; surface contradictions
+rather than smoothing them over. Do not require a fixed interview length or
+ask again for answers already in supplied materials. A founder can be unsure:
+record the uncertainty, why it matters, and the next test instead of forcing a
+fictional answer.
+
+Write the understanding into the existing sections of `brief.md`, including
+what the founder intends, what is known, what is only an assumption, and what
+is explicitly out of scope. Reflect that understanding back to the founder
+and invite correction. After the founder explicitly confirms it, save a dated
+record of the questions, answers, corrections, and actual confirmation under
+`raw/`, and fill the venture-brief task's `discovery` object:
+
+- `confirmed_by`: the founder or authorized venture owner's name or role,
+  not the drafting agent or an unrelated reviewer.
+- `confirmed_on`: the actual confirmation date in `YYYY-MM-DD` format.
+- `confirmation_source`: the local path to that record, for example
+  `raw/founder-discovery.md`.
+
+Both validation modes reject a `passing` venture-brief task without those
+fields, an existing nonempty confirmation record, and a brief with substantive
+content in every required section and no unfinished placeholders. Since the
+remaining starter tasks depend on the brief, their progress cannot bypass
+this gate. Founder confirmation aligns intent; it is not market validation.
+The checker cannot authenticate a conversation or measure comprehension, so
+agents must never fabricate the exchange or infer approval from silence.
+
+If the founder is unavailable, leave the brief `in_progress` or `blocked`,
+record the next question, and label any useful research or outline provisional.
+Do not claim a finished business plan. When the intended venture changes,
+reconfirm the updated brief and reset affected downstream tasks.
+
+Existing workspaces stay in place when skills move into `skills/`. Legacy
+drafts without `discovery` still validate. Before restoring a legacy brief to
+`passing`, add the three discovery fields from
+[the task template](../templates/tasks.json), complete or confirm the brief,
+and record the actual exchange. Until then, reset that task and affected
+dependents to unfinished; do not reinitialize or overwrite the workspace.
 
 ## Skill routing
 
@@ -71,21 +129,21 @@ claim that those experiments or the associated chapter skills were completed.
 
 | Task | Skills to select as needed |
 |---|---|
-| Venture brief | [Getting started](../getting-started/SKILL.md) |
-| Market and customer | [Segmentation](../market-segmentation/SKILL.md), [beachhead](../select-a-beachhead-market/SKILL.md), [end-user profile](../build-an-end-user-profile/SKILL.md), [beachhead TAM](../calculate-beachhead-market-tam/SKILL.md), [persona](../profile-the-persona/SKILL.md), [next ten customers](../identify-your-next-10-customers/SKILL.md) |
-| Value and competition | [Life-cycle use case](../full-life-cycle-use-case/SKILL.md), [product specification](../high-level-product-specification/SKILL.md), [value proposition](../quantify-the-value-proposition/SKILL.md), [core](../define-your-core/SKILL.md), [competitive position](../chart-your-competitive-position/SKILL.md) |
-| Business model and sales | [Acquisition process](../map-the-customer-acquisition-process/SKILL.md), [decision-making unit](../determine-the-customer-dmu/SKILL.md), [business model](../design-a-business-model/SKILL.md), [pricing](../set-your-pricing-framework/SKILL.md), [LTV](../calculate-customer-lifetime-value/SKILL.md), [sales process](../map-the-sales-process/SKILL.md), [acquisition cost](../calculate-customer-acquisition-cost/SKILL.md) |
-| Validation and growth | [Follow-on markets](../calculate-follow-on-markets-tam/SKILL.md), [key assumptions](../identify-key-assumptions/SKILL.md), [experiments](../test-key-assumptions/SKILL.md), [MVBP](../define-the-minimum-viable-business-product/SKILL.md), [consumption evidence](../show-that-the-dogs-will-eat-the-dog-food/SKILL.md), [product plan](../develop-a-product-plan/SKILL.md) |
-| Business-plan synthesis | [Create a business plan](../create-business-plan/SKILL.md) |
+| Venture brief | [Getting started](../skills/getting-started/SKILL.md) |
+| Market and customer | [Segmentation](../skills/market-segmentation/SKILL.md), [beachhead](../skills/select-a-beachhead-market/SKILL.md), [end-user profile](../skills/build-an-end-user-profile/SKILL.md), [beachhead TAM](../skills/calculate-beachhead-market-tam/SKILL.md), [persona](../skills/profile-the-persona/SKILL.md), [next ten customers](../skills/identify-your-next-10-customers/SKILL.md) |
+| Value and competition | [Life-cycle use case](../skills/full-life-cycle-use-case/SKILL.md), [product specification](../skills/high-level-product-specification/SKILL.md), [value proposition](../skills/quantify-the-value-proposition/SKILL.md), [core](../skills/define-your-core/SKILL.md), [competitive position](../skills/chart-your-competitive-position/SKILL.md) |
+| Business model and sales | [Acquisition process](../skills/map-the-customer-acquisition-process/SKILL.md), [decision-making unit](../skills/determine-the-customer-dmu/SKILL.md), [business model](../skills/design-a-business-model/SKILL.md), [pricing](../skills/set-your-pricing-framework/SKILL.md), [LTV](../skills/calculate-customer-lifetime-value/SKILL.md), [sales process](../skills/map-the-sales-process/SKILL.md), [acquisition cost](../skills/calculate-customer-acquisition-cost/SKILL.md) |
+| Validation and growth | [Follow-on markets](../skills/calculate-follow-on-markets-tam/SKILL.md), [key assumptions](../skills/identify-key-assumptions/SKILL.md), [experiments](../skills/test-key-assumptions/SKILL.md), [MVBP](../skills/define-the-minimum-viable-business-product/SKILL.md), [consumption evidence](../skills/show-that-the-dogs-will-eat-the-dog-food/SKILL.md), [product plan](../skills/develop-a-product-plan/SKILL.md) |
+| Business-plan synthesis | [Create a business plan](../skills/create-business-plan/SKILL.md) |
 
 To use a chapter without changing its bundled template:
 
 ```bash
-python3 market-segmentation/scripts/create_workbook.py \
+python3 skills/market-segmentation/scripts/create_workbook.py \
   --venture "Example Venture" \
   --output ventures/example/workbooks/market-segmentation-workbook.md
 
-python3 market-segmentation/scripts/validate_workbook.py \
+python3 skills/market-segmentation/scripts/validate_workbook.py \
   ventures/example/workbooks/market-segmentation-workbook.md --allow-todo
 ```
 
@@ -183,7 +241,7 @@ fields or disguised facts.
 
 The checker cannot verify source truth, research quality, financial arithmetic,
 legal compliance, or a reviewer's identity. Apply the
-[review rubric](../create-business-plan/references/method.md), inspect source
+[review rubric](../skills/create-business-plan/references/method.md), inspect source
 material, and recompute important numbers. A structural pass is not an
 investment recommendation or a promise of business success.
 
@@ -198,8 +256,9 @@ handoff is a valid outcome when evidence is missing.
 python3 -m unittest discover -s tests -v
 ```
 
-The suite exercises startup and finalization, malformed state, evidence and
-dependency gates, and all existing chapter create/validate workflows.
+The suite exercises startup and finalization, malformed state, founder
+confirmation, evidence and dependency gates, and all existing chapter
+create/validate workflows under `skills/`.
 GitHub Actions runs the same suite. Add a regression case when a real agent
 failure exposes a missing guardrail; avoid adding instructions without an
 observed need.

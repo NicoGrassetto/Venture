@@ -14,6 +14,7 @@ from urllib.parse import unquote, urlsplit
 
 
 ROOT = Path(__file__).resolve().parent.parent
+SKILLS = ROOT / "skills"
 SCRIPT = ROOT / "scripts" / "venture.py"
 ENV = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
 
@@ -61,6 +62,11 @@ class VentureTests(unittest.TestCase):
 
     def finish_fixture(self) -> None:
         self.add_assumption()
+        (self.workspace / "raw" / "founder-discovery.md").write_text(
+            "Synthetic founder confirmation for automated tests only.\n"
+            "The test founder confirms the brief describes their intended venture.\n",
+            encoding="utf-8",
+        )
         for filename in ("brief.md", "business-plan.md", "progress.md"):
             path = self.workspace / filename
             content = path.read_text(encoding="utf-8").replace(
@@ -80,6 +86,12 @@ class VentureTests(unittest.TestCase):
             )
             if task["id"] == "business-plan":
                 task["review_scores"] = {dimension: 2 for dimension in task["review_scores"]}
+            if task["id"] == "venture-brief":
+                task["discovery"] = {
+                    "confirmed_by": "Synthetic founder",
+                    "confirmed_on": date.today().isoformat(),
+                    "confirmation_source": "raw/founder-discovery.md",
+                }
         self.save("tasks.json", data)
 
     def test_initialization_preserves_names_and_creates_empty_state(self) -> None:
@@ -136,6 +148,95 @@ class VentureTests(unittest.TestCase):
         result = self.run_cli("validate", self.workspace, "--final")
         self.assertIn("Review-ready structure valid: 6/6", result.stdout)
         self.assertIn("do not establish evidence truth", result.stdout)
+
+    def test_discovery_confirmation_is_required_before_brief_passes(self) -> None:
+        self.finish_fixture()
+        data = self.load("tasks.json")
+        del data["tasks"][0]["discovery"]
+        self.save("tasks.json", data)
+        for flags in ((), ("--final",)):
+            with self.subTest(flags=flags):
+                result = self.run_cli("validate", self.workspace, *flags, expected=1)
+                self.assertIn("discovery", result.stderr)
+
+    def test_discovery_requires_founder_date_and_confirmation_source(self) -> None:
+        self.finish_fixture()
+        original = self.load("tasks.json")
+        cases = (
+            ("confirmed_by", ""),
+            ("confirmed_by", "TODO"),
+            ("confirmed_by", True),
+            ("confirmed_on", ""),
+            ("confirmed_on", "not-a-date"),
+            ("confirmed_on", (date.today() + timedelta(days=1)).isoformat()),
+            ("confirmation_source", ""),
+            ("confirmation_source", "raw/missing.md"),
+            ("confirmation_source", "https://example.com/not-a-local-record"),
+        )
+        for key, value in cases:
+            with self.subTest(key=key, value=value):
+                data = copy.deepcopy(original)
+                data["tasks"][0]["discovery"][key] = value
+                self.save("tasks.json", data)
+                self.run_cli("validate", self.workspace, expected=1)
+
+    def test_discovery_record_cannot_be_empty_or_a_placeholder(self) -> None:
+        self.finish_fixture()
+        source = self.workspace / "raw" / "founder-discovery.md"
+        for content in ("", "# Discovery\n<!-- Awaiting founder. -->\n", "TODO: ask the founder."):
+            with self.subTest(content=content):
+                source.write_text(content, encoding="utf-8")
+                self.run_cli("validate", self.workspace, expected=1)
+
+    def test_discovery_record_cannot_escape_workspace(self) -> None:
+        self.finish_fixture()
+        outside = self.directory / "confirmation.md"
+        outside.write_text("Synthetic outside confirmation.\n", encoding="utf-8")
+        source = self.workspace / "raw" / "founder-discovery.md"
+        source.unlink()
+        source.symlink_to(outside)
+        self.assertIn("escapes", self.run_cli("validate", self.workspace, expected=1).stderr)
+
+    def test_discovery_rejects_a_one_sentence_brief_with_empty_sections(self) -> None:
+        self.finish_fixture()
+        path = self.workspace / "brief.md"
+        headings = re.findall(r"^## (.+)$", path.read_text(encoding="utf-8"), re.MULTILINE)
+        path.write_text(
+            "# Venture Brief\n\n"
+            + "\n\n".join(
+                f"## {heading}\n" + ("I want to build an AI app.\n" if heading == "Venture thesis" else "")
+                for heading in headings
+            ),
+            encoding="utf-8",
+        )
+        self.assertIn("empty section", self.run_cli("validate", self.workspace, expected=1).stderr)
+
+    def test_discovery_rejects_an_unfinished_brief_before_downstream_work(self) -> None:
+        self.finish_fixture()
+        path = self.workspace / "brief.md"
+        path.write_text(path.read_text(encoding="utf-8") + "\nTODO: understand the founder.\n", encoding="utf-8")
+        self.assertIn("unfinished", self.run_cli("validate", self.workspace, expected=1).stderr)
+
+    def test_discovery_allows_legacy_drafts_to_resume_without_confirmation(self) -> None:
+        data = self.load("tasks.json")
+        data["tasks"][0].pop("discovery", None)
+        data["tasks"][0]["status"] = "in_progress"
+        self.save("tasks.json", data)
+        result = self.run_cli("validate", self.workspace)
+        self.assertIn("0/6 tasks passing", result.stdout)
+
+    def test_discovery_unlocks_market_work_without_requiring_a_finished_plan(self) -> None:
+        self.finish_fixture()
+        data = self.load("tasks.json")
+        data["tasks"][1]["status"] = "in_progress"
+        for task in data["tasks"][2:]:
+            task["status"] = "not_started"
+        self.save("tasks.json", data)
+        (self.workspace / "business-plan.md").write_text(
+            (SKILLS / "create-business-plan" / "assets" / "workbook.md").read_text(encoding="utf-8"),
+            encoding="utf-8",
+        )
+        self.assertIn("1/6 tasks passing", self.run_cli("validate", self.workspace).stdout)
 
     def test_missing_document_and_heading_fail(self) -> None:
         path = self.workspace / "brief.md"
@@ -358,7 +459,7 @@ class VentureTests(unittest.TestCase):
         self.finish_fixture()
         workbook = self.workspace / "workbooks" / "market-segmentation-workbook.md"
         result = subprocess.run(
-            [sys.executable, str(ROOT / "market-segmentation" / "scripts" / "create_workbook.py"),
+            [sys.executable, str(SKILLS / "market-segmentation" / "scripts" / "create_workbook.py"),
              "--venture", "Synthetic fixture", "--output", str(workbook)],
             env=ENV, capture_output=True, text=True, check=False,
         )
@@ -381,7 +482,7 @@ class VentureTests(unittest.TestCase):
         self.finish_fixture()
         path = self.workspace / "workbooks" / "research" / "getting-started-workbook.md"
         path.parent.mkdir()
-        template = (ROOT / "getting-started" / "assets" / "workbook.md").read_text(encoding="utf-8")
+        template = (SKILLS / "getting-started" / "assets" / "workbook.md").read_text(encoding="utf-8")
         path.write_text(
             template.replace("{VENTURE_NAME}", "Synthetic fixture").replace("{DATE}", date.today().isoformat()),
             encoding="utf-8",
@@ -392,7 +493,7 @@ class VentureTests(unittest.TestCase):
     def test_final_rejects_other_workbook_placeholders(self) -> None:
         self.finish_fixture()
         path = self.workspace / "workbooks" / "getting-started-workbook.md"
-        template = (ROOT / "getting-started" / "assets" / "workbook.md").read_text(encoding="utf-8")
+        template = (SKILLS / "getting-started" / "assets" / "workbook.md").read_text(encoding="utf-8")
         template = template.replace("{VENTURE_NAME}", "Synthetic fixture").replace("{DATE}", date.today().isoformat())
         for placeholder in ("TBD", "FIXME"):
             with self.subTest(placeholder=placeholder):
@@ -404,7 +505,9 @@ class RepositoryTests(unittest.TestCase):
     def test_every_skill_is_routed(self) -> None:
         data = json.loads((ROOT / "templates" / "tasks.json").read_text(encoding="utf-8"))
         routed = {skill for task in data["tasks"] for skill in task["skills"]}
-        available = {path.parent.name for path in ROOT.glob("*/SKILL.md")}
+        available = {path.parent.name for path in SKILLS.glob("*/SKILL.md")}
+        self.assertEqual(len(available), 26)
+        self.assertEqual(list(ROOT.glob("*/SKILL.md")), [])
         self.assertEqual(routed, available)
 
     def test_agent_adapters_reference_canonical_instructions(self) -> None:
@@ -417,8 +520,7 @@ class RepositoryTests(unittest.TestCase):
             ROOT / "README.md", ROOT / "AGENTS.md", ROOT / "CLAUDE.md",
             ROOT / ".github" / "copilot-instructions.md",
             ROOT / "docs" / "harness.md",
-            ROOT / "create-business-plan" / "SKILL.md",
-            ROOT / "create-business-plan" / "references" / "method.md",
+            *sorted(SKILLS.rglob("*.md")),
         ]
         for document in documents:
             content = document.read_text(encoding="utf-8")
@@ -440,7 +542,7 @@ class RepositoryTests(unittest.TestCase):
                         self.assertIn(parsed.fragment, anchors)
 
     def test_all_existing_chapter_workflows_still_work(self) -> None:
-        creators = sorted(ROOT.glob("*/scripts/create_workbook.py"))
+        creators = sorted(SKILLS.glob("*/scripts/create_workbook.py"))
         self.assertEqual(len(creators), 25)
         with tempfile.TemporaryDirectory(prefix="venture-chapter-test-") as temporary:
             for creator in creators:

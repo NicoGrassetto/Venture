@@ -5,10 +5,14 @@
 
 ## Venture thesis
 
-<!-- Describe the customer problem and proposed approach. Label an untested
-thesis as a hypothesis, not an observed market opportunity. -->
+<!-- Complete this through founder discovery, not by expanding a one-line pitch
+with invented details. Reflect the venture back to the founder for correction
+and confirmation. Keep market hypotheses separate from the founder's intent. -->
 
-TODO
+**Understanding reflected back to the founder:** TODO
+**Problem and current workaround:** TODO
+**Proposed solution and differentiation:** TODO
+**Business model hypothesis:** TODO
 
 ## Founder constraints
 
@@ -20,7 +24,8 @@ TODO
 ## Target customer
 
 <!-- Identify the provisional segment, geography, end user, payer, and existing
-alternatives. Note which parts are unknown. -->
+alternatives. Ask for a concrete customer situation and why it matters. Note
+which parts are unknown instead of inventing a persona. -->
 
 TODO
 
@@ -33,10 +38,12 @@ TODO
 
 ## Resources and boundaries
 
-<!-- List existing evidence, research permissions, privacy requirements,
-approved tools, spending limits, and actions that require further approval. -->
+<!-- Distinguish what exists today from plans. List existing evidence, research
+permissions, privacy requirements, approved tools, spending limits, and actions
+that require further approval. -->
 
-TODO
+**Current stage and evidence:** TODO
+**Authorized resources and boundaries:** TODO
 
 ## Unknowns and next tests
 

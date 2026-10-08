@@ -14,10 +14,11 @@ from urllib.parse import urlsplit
 
 
 ROOT = Path(__file__).resolve().parent.parent
+SKILLS = ROOT / "skills"
 TEMPLATES = ROOT / "templates"
 DOCUMENTS = {
     "brief.md": TEMPLATES / "brief.md",
-    "business-plan.md": ROOT / "create-business-plan" / "assets" / "workbook.md",
+    "business-plan.md": SKILLS / "create-business-plan" / "assets" / "workbook.md",
     "progress.md": TEMPLATES / "progress.md",
 }
 STATES = {"not_started", "in_progress", "blocked", "passing"}
@@ -168,6 +169,16 @@ def has_content(section: str) -> bool:
     return False
 
 
+def check_complete_document(filename: str, document: str) -> None:
+    if UNFINISHED.search(document):
+        raise ValueError(f"{filename}: unfinished placeholder")
+    headings = list(re.finditer(r"^## (.+)$", document, re.MULTILINE))
+    for index, heading in enumerate(headings):
+        end = headings[index + 1].start() if index + 1 < len(headings) else len(document)
+        if not has_content(document[heading.end():end]):
+            raise ValueError(f"{filename}: empty section '{heading.group(1)}'")
+
+
 def validate_documents(workspace: Path, evidence: set[str], final: bool) -> None:
     for filename, template in DOCUMENTS.items():
         document = workspace_path(workspace, filename).read_text(encoding="utf-8")
@@ -181,17 +192,42 @@ def validate_documents(workspace: Path, evidence: set[str], final: bool) -> None
         if unknown:
             raise ValueError(f"{filename}: unknown evidence IDs: {', '.join(sorted(unknown))}")
         if final:
-            if UNFINISHED.search(document):
-                raise ValueError(f"{filename}: unfinished placeholder")
-            for index, heading in enumerate(headings):
-                end = headings[index + 1].start() if index + 1 < len(headings) else len(document)
-                if not has_content(document[heading.end():end]):
-                    raise ValueError(f"{filename}: empty section '{heading.group(1)}'")
+            check_complete_document(filename, document)
             if filename == "business-plan.md":
                 if not re.search(r"^\*\*Status:\*\* review-ready\s*$", document, re.MULTILINE):
                     raise ValueError("business-plan.md: final status must be review-ready")
                 if not CLAIM_ID.search(document):
                     raise ValueError("business-plan.md: cite registered evidence IDs in the plan")
+
+
+def validate_discovery(workspace: Path, task: dict[str, object], passing: bool) -> None:
+    label = "venture-brief.discovery"
+    if "discovery" not in task:
+        if passing:
+            raise ValueError(
+                f"{label}: founder confirmation is required before passing; "
+                "add the discovery fields from templates/tasks.json and complete founder discovery"
+            )
+        return
+    discovery = as_object(task["discovery"], label)
+    values = {
+        field: text(discovery, field, label, allow_empty=not passing)
+        for field in ("confirmed_by", "confirmed_on", "confirmation_source")
+    }
+    if passing and any(UNFINISHED.search(value) for value in values.values()):
+        raise ValueError(f"{label}: unfinished founder confirmation")
+    if values["confirmed_on"]:
+        check_date(values["confirmed_on"], f"{label}.confirmed_on")
+    if values["confirmation_source"]:
+        source = values["confirmation_source"]
+        if urlsplit(source).scheme or urlsplit(source).netloc:
+            raise ValueError(f"{label}: confirmation_source must be a local workspace file")
+        record = workspace_path(workspace, source).read_text(encoding="utf-8")
+        if passing and (UNFINISHED.search(record) or not has_content(record)):
+            raise ValueError(f"{label}: confirmation record is empty or unfinished")
+    if passing:
+        brief = workspace_path(workspace, "brief.md").read_text(encoding="utf-8")
+        check_complete_document("brief.md", brief)
 
 
 def validate_review(task: dict[str, object], passing: bool) -> None:
@@ -258,7 +294,7 @@ def validate_tasks(workspace: Path, evidence: set[str], final: bool) -> tuple[in
         dependencies[task_id] = strings(task, "depends_on", task_id, allow_empty=True)
         strings(task, "acceptance", task_id)
         for skill in strings(task, "skills", task_id):
-            if not re.fullmatch(r"[a-z][a-z0-9-]*", skill) or not (ROOT / skill / "SKILL.md").is_file():
+            if not re.fullmatch(r"[a-z][a-z0-9-]*", skill) or not (SKILLS / skill / "SKILL.md").is_file():
                 raise ValueError(f"{task_id}: unknown skill {skill}")
         if task_id in seed:
             for field in SEED_FIELDS:
@@ -278,6 +314,8 @@ def validate_tasks(workspace: Path, evidence: set[str], final: bool) -> tuple[in
                 check_date(value, f"{task_id}.{field}")
         if status == "passing" and not references:
             raise ValueError(f"{task_id}: passing requires recorded evidence")
+        if task_id == "venture-brief":
+            validate_discovery(workspace, task, status == "passing")
         if task_id == "business-plan":
             validate_review(task, status == "passing")
     missing = set(seed) - set(states)
@@ -304,7 +342,7 @@ def validate_workbooks(workspace: Path, final: bool) -> None:
         if not workbook.name.endswith(suffix):
             raise ValueError(f"Use <skill-name>-workbook.md for chapter workbooks: {workbook.name}")
         skill = workbook.name[:-len(suffix)]
-        validator = ROOT / skill / "scripts" / "validate_workbook.py"
+        validator = SKILLS / skill / "scripts" / "validate_workbook.py"
         if not validator.is_file():
             raise ValueError(f"No chapter validator for {workbook.name}")
         command = [sys.executable, str(validator), str(workbook)]
