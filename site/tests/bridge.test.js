@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
-import { createBridgeGeometry } from '../src/bridge.js';
+import { BRIDGE_COLOR, createBridgeGeometry } from '../src/bridge.js';
 
 test('the particle sculpture has bounded, finite geometry and matching attributes', () => {
   const geometry = createBridgeGeometry();
@@ -56,4 +57,33 @@ test('geometry is deterministic across reloads', () => {
   }
   first.dispose();
   second.dispose();
+});
+
+test('bridge color follows the district paint specification across 3D and SVG assets', async () => {
+  const channels = [0, 0.69, 1].map((component) => Math.round(255 * (1 - component) * (1 - 0.06)));
+  const expected = `#${channels.map((channel) => channel.toString(16).padStart(2, '0')).join('')}`;
+  assert.equal(BRIDGE_COLOR, expected);
+  for (const asset of ['bridge.svg', 'favicon.svg']) {
+    const svg = await readFile(new URL(`../public/${asset}`, import.meta.url), 'utf8');
+    const strokes = Array.from(svg.matchAll(/stroke="(#[0-9a-f]{6})"/g), (match) => match[1]);
+    assert.ok(strokes.length > 0, `${asset} must contain bridge strokes`);
+    assert.ok(strokes.every((stroke) => stroke === BRIDGE_COLOR), `${asset} must use International Orange`);
+  }
+});
+
+test('the hero is dark-only and omits the removed labels, icons, and controls', async () => {
+  const [html, css, main] = await Promise.all([
+    readFile(new URL('../index.html', import.meta.url), 'utf8'),
+    readFile(new URL('../src/tokens.css', import.meta.url), 'utf8'),
+    readFile(new URL('../src/main.js', import.meta.url), 'utf8'),
+  ]);
+  assert.doesNotMatch(html, /data-(theme|motion)-toggle|open-source-mark|scene-label|scene-meta|data-scene-status/);
+  assert.doesNotMatch(html, /A study in possibility|point-cloud study|GOLDEN GATE, SF|37\.8199|122\.4783|Small steps\. Real progress\./i);
+  const wordmark = html.match(/<a class="wordmark"[\s\S]*?<\/a>/);
+  assert.ok(wordmark, 'The Venture wordmark must remain');
+  assert.doesNotMatch(wordmark[0], /<svg|<img/);
+  assert.match(css, /color-scheme:\s*dark/);
+  assert.doesNotMatch(css, /data-theme|color-scheme:\s*light/);
+  assert.doesNotMatch(main, /theme-toggle|motion-toggle|setTheme/);
+  assert.match(html, /data-scene-error[^>]*hidden/);
 });

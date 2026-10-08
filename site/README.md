@@ -10,8 +10,14 @@ site code or artwork is included.
 
 - An asymmetric split screen: a Golden Gate Bridge point cloud on the left,
   the message "Your bridge from idea to reality" on the right.
-- A restrained charcoal/ivory palette, a warm bridge accent, and a small green
-  open-source marker. The theme button also offers a light palette.
+- A dark-only charcoal/ivory palette with a text-only Venture wordmark and
+  an uncluttered bridge scene: no study labels, coordinates, badges, or
+  theme/motion controls.
+- The bridge uses International Orange (`#f04a00`), an sRGB approximation of
+  the bridge district's published CMYK 0/69/100/6
+  [paint specification](https://www.goldengate.org/bridge/history-research/bridge-features/color-art-deco-styling/).
+  The static illustration and favicon use the same color; water and mist stay
+  neutral. On-screen colors approximate paint and vary with displays and lighting.
 - Slow movement, rippling particle water, and gentle mouse parallax rather than
   a freely rotating model. The two towers and suspension cables stay readable.
 - A primary quick-start link, a GitHub link, three harness principles, and
@@ -82,17 +88,19 @@ The page uses semantic HTML, keyboard focus indicators, a skip link, live
 copy/error status, and a scrollable, keyboard-focusable command block.
 The message and primary actions precede the decorative scene in reading and
 keyboard order, including on mobile.
-Reduced-motion preferences start the scene paused; visitors can also pause
-it manually. Rendering stops while the scene is offscreen or the tab is
+The animation respects system reduced-motion preferences without on-page
+controls. Rendering also stops while the scene is offscreen or the tab is
 hidden. The device pixel ratio is capped to bound GPU work.
 
 An original static SVG stays visible without JavaScript, if Three.js cannot
 load, if WebGL cannot start, or after WebGL context loss. The rest of the
-page remains usable. Failures show a status and log their cause; clipboard
-failures provide manual-copy instructions.
+page remains usable. A scene error notice appears only if the animation fails,
+and logs retain the cause; clipboard failures provide manual-copy instructions.
 
 `npm test` checks geometry bounds, finite/matching attributes, both towers,
-the central deck, separate water/mist regions, and deterministic generation.
+the central deck, separate water/mist regions, deterministic generation,
+consistent International Orange assets, and the absence of removed hero UI.
 For visual checks, preview the production build at desktop and narrow mobile
-widths; test both themes, reduced motion, pause/play, copy, and unavailable
-WebGL. The harness's existing Python test suite remains separate.
+widths; verify dark-only rendering under both system color preferences,
+automatic reduced motion, copy, and unavailable WebGL. The harness's existing
+Python test suite remains separate.

@@ -9,12 +9,14 @@ import {
   WebGLRenderer,
 } from 'three';
 
+// sRGB approximation of the bridge district's CMYK 0/69/100/6 paint specification.
+export const BRIDGE_COLOR = '#f04a00';
+
 export function createBridgeGeometry() {
   const positions = [];
   const opacities = [];
   const sizes = [];
   const regions = [];
-  const tones = [];
   let seed = 8199;
   const random = () => {
     seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
@@ -26,7 +28,6 @@ export function createBridgeGeometry() {
     opacities.push(opacity * (0.65 + random() * 0.35));
     sizes.push(0.9 + random() * 1.2);
     regions.push(region);
-    tones.push(region === 0 && random() > 0.88 ? 0.55 : 0.025);
   }
 
   function line(from, to, opacity = 0.8, spacing = 0.045) {
@@ -126,7 +127,6 @@ export function createBridgeGeometry() {
   geometry.setAttribute('aOpacity', new Float32BufferAttribute(opacities, 1));
   geometry.setAttribute('aSize', new Float32BufferAttribute(sizes, 1));
   geometry.setAttribute('aRegion', new Float32BufferAttribute(regions, 1));
-  geometry.setAttribute('aTone', new Float32BufferAttribute(tones, 1));
   geometry.computeBoundingSphere();
   return geometry;
 }
@@ -137,9 +137,8 @@ const vertexShader = `
   attribute float aOpacity;
   attribute float aSize;
   attribute float aRegion;
-  attribute float aTone;
   varying float vOpacity;
-  varying float vTone;
+  varying float vRegion;
 
   void main() {
     vec3 p = position;
@@ -150,29 +149,30 @@ const vertexShader = `
       p.y += cos(uTime * 0.15 + p.x) * 0.08;
     }
     vOpacity = aOpacity * (0.88 + 0.12 * sin(position.x * 2.0 + uTime * 0.45));
-    vTone = aTone;
+    vRegion = aRegion;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
     gl_PointSize = aSize * uPixelRatio;
   }
 `;
 
 const fragmentShader = `
-  uniform vec3 uColor;
-  uniform vec3 uAccent;
+  uniform vec3 uBridgeColor;
+  uniform vec3 uAtmosphereColor;
   varying float vOpacity;
-  varying float vTone;
+  varying float vRegion;
 
   void main() {
     float distanceToCenter = length(gl_PointCoord - vec2(0.5));
     float alpha = (1.0 - smoothstep(0.2, 0.5, distanceToCenter)) * vOpacity;
     if (alpha < 0.015) discard;
-    gl_FragColor = vec4(mix(uColor, uAccent, vTone), alpha);
+    vec3 color = mix(uBridgeColor, uAtmosphereColor, step(0.5, vRegion));
+    gl_FragColor = vec4(color, alpha);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
   }
 `;
 
-export function mountBridge(host, { theme, paused, onError }) {
+export function mountBridge(host, { paused, onError }) {
   const renderer = new WebGLRenderer({ alpha: true, antialias: false, powerPreference: 'low-power' });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setClearColor(0x000000, 0);
@@ -182,8 +182,8 @@ export function mountBridge(host, { theme, paused, onError }) {
     uniforms: {
       uTime: { value: 0 },
       uPixelRatio: { value: renderer.getPixelRatio() },
-      uColor: { value: new Color() },
-      uAccent: { value: new Color() },
+      uBridgeColor: { value: new Color(BRIDGE_COLOR) },
+      uAtmosphereColor: { value: new Color('#a7afa0') },
     },
     vertexShader,
     fragmentShader,
@@ -259,12 +259,6 @@ export function mountBridge(host, { theme, paused, onError }) {
     pointerY = 0;
   }
 
-  function setTheme(nextTheme) {
-    material.uniforms.uColor.value.set(nextTheme === 'light' ? '#41483b' : '#deded4');
-    material.uniforms.uAccent.value.set(nextTheme === 'light' ? '#90553f' : '#d2a28a');
-    render();
-  }
-
   function contextLost(event) {
     event.preventDefault();
     dispose();
@@ -298,12 +292,10 @@ export function mountBridge(host, { theme, paused, onError }) {
   document.addEventListener('visibilitychange', updateLoop);
   resizeObserver.observe(host);
   visibilityObserver.observe(host);
-  setTheme(theme);
   resize();
   updateLoop();
 
   return {
-    setTheme,
     setPaused(value) {
       paused = value;
       updateLoop();
