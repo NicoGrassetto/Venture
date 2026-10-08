@@ -3,7 +3,6 @@
 </p>
 
 <p align="center">
-  <strong>Venture</strong><br />
   Your bridge from idea to reality.
 </p>
 
