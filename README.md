@@ -1,3 +1,5 @@
+![Golden Gate Bridge pixel art](.github/assets/golden-gate-pixel.gif)
+
 # Venture
 
 Your bridge from idea to reality.
