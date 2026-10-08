@@ -32,18 +32,10 @@ together to deliver an evidence-backed business plan. Think of it as a startup
 factory—a system that helps founders move from idea to informed action, so they
 can spend their time iterating, experimenting, and building.
 
-Actionable [Agent Skills](https://agentskills.io/) teach an agent how to make
-venture decisions, gather evidence, create decision artifacts, and validate
-the results.
-
 For setup and detailed operating guidance, see the [harness guide](docs/harness.md).
 
 The catalog includes 28 skills with task-specific workbooks, explicit research
-stages, worked examples, and financial and operational checks. Existing venture
-workspaces can be upgraded with the [v2 migration](docs/harness.md#upgrading-an-existing-workspace).
-
-For the public landing-page proposal, local preview, and GitHub Pages publishing
-steps, see [the website guide](site/README.md).
+stages, worked examples, and financial and operational checks.
 
 ## Architecture
 
