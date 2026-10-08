@@ -112,9 +112,9 @@ viability. Apply the review rubric as well.
 
 ## Reference map
 
-- [Harness lifecycle, state format, and skill routing](docs/harness.md)
+- [Harness structure, usage, lifecycle, and state format](docs/harness.md)
 - [Client discovery, tested versions, and optional completion guard](docs/compatibility.md)
 - [Business-plan workflow](skills/create-business-plan/SKILL.md)
 - [Plan template](skills/create-business-plan/assets/workbook.md)
 - [Plan review and financial consistency rules](skills/create-business-plan/references/method.md)
-- [Skill catalog](README.md#skills)
+- [Skill catalog and routing](docs/harness.md#skill-routing)

@@ -23,6 +23,56 @@ versions, and the opt-in completion guard.
 The instruction entry points share one canonical contract instead of maintaining
 three independent copies. Other agents can be explicitly told to read it.
 
+## Repository structure
+
+The harness connects the individual skills without replacing them:
+
+```text
+AGENTS.md                       Shared agent instructions
+CLAUDE.md                       Claude Code entry point
+.github/copilot-instructions.md GitHub Copilot entry point
+.agents/skills/                 Generated discovery adapters for shared clients
+.claude/skills/                 Generated Claude-compatible discovery adapters
+.claude/settings.json           Opt-in, workspace-scoped completion hook
+init.sh                         Workspace initialization
+docs/harness.md                 Lifecycle, routing, and state contracts
+scripts/venture.py              Initialization and completion checks
+scripts/sync_skills.py          Adapter generation and consistency checks
+scripts/check_clients.py        Offline native client discovery checks
+templates/                      Venture brief, task, evidence, and progress templates
+skills/                         Venture skills and business-plan orchestration
+tests/                          Harness and skill regression checks
+ventures/                       Private working copies (ignored by Git)
+```
+
+Each skill has its own directory inside [skills/](../skills/):
+
+```text
+skills/market-segmentation/
+|-- SKILL.md
+|-- assets/
+|   `-- workbook.md
+|-- references/
+|   `-- method.md
+`-- scripts/
+    |-- create_workbook.py
+    `-- validate_workbook.py
+```
+
+- `SKILL.md` contains routing metadata, the operating workflow, evidence rules,
+  completion gates, and handoff instructions.
+- `references/method.md` provides decision rules, analytical methods, and a
+  quality rubric.
+- `assets/workbook.md` is a reusable evidence-and-decision template.
+- `scripts/create_workbook.py` creates a dated working copy without external
+  dependencies.
+- `scripts/validate_workbook.py` checks required sections and unfinished
+  placeholders.
+
+This follows the Agent Skills progressive-disclosure model: metadata is used
+for discovery, the concise skill instructions load when activated, and detailed
+resources load only when needed.
+
 ## Create and resume a venture
 
 From the repository root:
@@ -120,6 +170,10 @@ dependents to unfinished; do not reinitialize or overwrite the workspace.
 
 ## Skill routing
 
+Use [create-business-plan](../skills/create-business-plan/SKILL.md) to orchestrate
+the full business-plan workflow. It requires the full repository; the other
+skills below remain independently usable.
+
 The starter task ledger groups related decisions, not mandatory research
 ceremonies. Revisit earlier decisions when evidence changes. A review-ready
 plan can describe untested assumptions and future experiments; it must not
@@ -133,6 +187,22 @@ claim that those experiments or the associated skills were completed.
 | Business model and sales | [Acquisition process](../skills/map-the-customer-acquisition-process/SKILL.md), [decision-making unit](../skills/determine-the-customer-dmu/SKILL.md), [business model](../skills/design-a-business-model/SKILL.md), [pricing](../skills/set-your-pricing-framework/SKILL.md), [LTV](../skills/calculate-customer-lifetime-value/SKILL.md), [sales process](../skills/map-the-sales-process/SKILL.md), [acquisition cost](../skills/calculate-customer-acquisition-cost/SKILL.md) |
 | Validation and growth | [Follow-on markets](../skills/calculate-follow-on-markets-tam/SKILL.md), [key assumptions](../skills/identify-key-assumptions/SKILL.md), [experiments](../skills/test-key-assumptions/SKILL.md), [MVBP](../skills/define-the-minimum-viable-business-product/SKILL.md), [consumption evidence](../skills/show-that-the-dogs-will-eat-the-dog-food/SKILL.md), [product plan](../skills/develop-a-product-plan/SKILL.md) |
 | Business-plan synthesis | [Create a business plan](../skills/create-business-plan/SKILL.md) |
+
+### Use individual skills
+
+The full checkout exposes the bundled skills through its native adapters.
+For standalone use, install the canonical skill directory from
+[skills/](../skills/), not a generated adapter. In GitHub Copilot CLI, for example,
+use `copilot skill add ./skills/market-segmentation` from the repository root,
+then reload skills. Remove obsolete custom registrations if they duplicate
+or shadow skills already discovered through the adapters. See
+[client compatibility](compatibility.md#native-discovery) for discovery details.
+
+You can explicitly invoke a skill by name:
+
+```text
+Use the market-segmentation skill to identify and research possible markets for this idea.
+```
 
 To use a skill without changing its bundled template:
 
