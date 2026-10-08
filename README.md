@@ -42,6 +42,9 @@ The catalog includes 28 skills with task-specific workbooks, explicit research
 stages, worked examples, and financial and operational checks. Existing venture
 workspaces can be upgraded with the [v2 migration](docs/harness.md#upgrading-an-existing-workspace).
 
+For the public landing-page proposal, local preview, and GitHub Pages publishing
+steps, see [the website guide](site/README.md).
+
 ## Architecture
 
 Venture develops a plan through a repeating cycle, not a single prompt. The

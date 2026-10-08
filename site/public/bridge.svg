@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" fill="none">
+  <defs>
+    <pattern id="water" width="13" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-12)">
+      <circle cx="3" cy="4" r=".65" fill="#a7afa0" opacity=".32"/>
+    </pattern>
+    <radialGradient id="fade">
+      <stop offset=".15" stop-color="white"/>
+      <stop offset="1" stop-color="black"/>
+    </radialGradient>
+    <mask id="sea-fade">
+      <ellipse cx="450" cy="451" rx="390" ry="136" fill="url(#fade)"/>
+    </mask>
+  </defs>
+  <path d="M40 308h820v300H40z" fill="url(#water)" mask="url(#sea-fade)"/>
+  <g stroke="#cbcfc1" stroke-linecap="round" stroke-dasharray=".5 3.1" stroke-width="1.5">
+    <path d="m78 444 724-178m-724 188 724-178M85 465l719-177M90 474l716-177"/>
+    <path d="M285 470V188l15-4v283m15-5V181l15-4v282M562 393V147l11-3v246m15-5V139l11-3v247"/>
+    <path d="m285 200 45-11m-45 28 45-11m-45 57 45-11m-45 16 45-11m-45 58 45-11m-45 16 45-11"/>
+    <path d="m562 160 37-9m-37 18 37-9m-37 48 37-9m-37 15 37-9m-37 48 37-9m-37 15 37-9"/>
+    <path d="M78 444q126-78 222-252 130 243 273-39 111 106 229 113"/>
+    <path d="M90 456q123-88 232-275 130 241 271-39 108 102 213 134"/>
+    <path d="m119 415 0 20m32-43v35m33-66v58m34-99v91m34-143v135m100-138v113m35-75v66m35-55v46m35-43v35m35-53v44m35-105v96m88-150v128m35-100v91m35-72v64m35-48v40m35-23v14"/>
+    <path d="m315 225-29 35m1-26 43 24m258-83-25 30m1-21 34 21"/>
+  </g>
+  <g stroke="#c59c84" stroke-linecap="round" stroke-dasharray=".6 4" stroke-width="1.5" opacity=".65">
+    <path d="M300 467V184m30 276V177M573 390V144m26 239V136M78 449l724-178"/>
+  </g>
+</svg>
